@@ -24,6 +24,20 @@
     box-shadow: 0 6px 24px var(--section-shadow);
 }
 
+/* The homepage New Arrivals rail gets a little more breathing room without changing the other product sections. */
+.new-arrivals-wrapper--new {
+    padding-top: 46px;
+    padding-bottom: 46px;
+}
+
+.new-arrivals-wrapper--new .new-arrivals {
+    padding: 40px;
+}
+
+.new-arrivals-wrapper--new .image-container {
+    height: 250px;
+}
+
 /* Each product rail gets a calm, retail-ready surface while retaining the same layout and type. */
 .new-arrivals-wrapper--trending {
     --section-shell: linear-gradient(135deg, #f3f7fc 0%, #e9f2fb 54%, #f4f7fb 100%);
@@ -471,6 +485,15 @@
         padding: 20px 14px;
     }
 
+    .new-arrivals-wrapper--new {
+        padding-top: 34px;
+        padding-bottom: 34px;
+    }
+
+    .new-arrivals-wrapper--new .new-arrivals {
+        padding: 30px 14px;
+    }
+
     .heading-container {
         align-items: flex-start;
         margin-bottom: 24px;
@@ -486,6 +509,10 @@
 
     .image-container {
         height: clamp(150px, 45vw, 220px);
+    }
+
+    .new-arrivals-wrapper--new .image-container {
+        height: clamp(180px, 52vw, 240px);
     }
 
     .product-details {

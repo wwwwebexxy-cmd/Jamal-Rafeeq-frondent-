@@ -1,24 +1,24 @@
 import { useNavigate } from "react-router-dom";
 import '../styles/About.css';
 
-import AboutFirstimage from "../../../assets/About-first-img.png";
-import AboutSecondimage from "../../../assets/About-second-img.png";
+import AboutFirstimage from "../../../assets/automotive-parts-workshop.png";
+import AboutSecondimage from "../../../assets/dubai-our-promise-bg.png";
 
 const About = () => {
     const navigate = useNavigate();
 
     const pillars = [
         {
-            title: "Curated with Care",
-            text: "Every item in our collection is handpicked. We test, we use, and we love the products we sell. If it's not good enough for us, it won't make it to you."
+            title: "Fitment First",
+            text: "We focus on the parts that match the vehicle, the application, and the road ahead. Clear guidance matters as much as the product itself."
         },
         {
-            title: "A Personal Touch",
-            text: "We're a team of real people who love technology and beautiful design. When you shop with us, you're not just an order number—you're our guest."
+            title: "Dependable Supply",
+            text: "Our range is built around dependable brands and practical availability, helping drivers and workshops spend less time waiting."
         },
         {
-            title: "Quality Over Quantity",
-            text: "We don't want to sell you everything. We just want to sell you the right thing. Products that last, inspire, and bring joy to your everyday life."
+            title: "Local, Human Support",
+            text: "From a quick compatibility question to a larger workshop requirement, our team is close by and ready to help."
         }
     ];
 
@@ -28,22 +28,21 @@ const About = () => {
             {/* Hero Section */}
             <section className="about-modern-hero about-fade">
                 <div className="hero-text-content">
-                    <span className="hero-eyebrow">THE JAMAL RAFEEQ STANDARD</span>
+                    <span className="hero-eyebrow">JAMAL RAFEEQ · AUTO PARTS TRADING LLC</span>
                     <h1 className="hero-display">
-                        We Don't Just Sell Tech.<br />
-                        <span className="hero-italic">We Curate Lifestyles.</span>
+                        The right part.<br />
+                        <span className="hero-italic">The right fit. Every journey.</span>
                     </h1>
                     <p className="hero-subtext">
-                        Welcome to a new era of e-commerce. A place where high-performance 
-                        electronics meet the elegance of modern living. No clutter, just the best.
+                        We help drivers, workshops, and businesses across Dubai find dependable automotive parts with practical guidance and service that keeps moving.
                     </p>
                     <button className="hero-modern-btn" onClick={() => navigate('/shop')}>
-                        Explore the Collection <span className="arrow">→</span>
+                        Explore auto parts <span className="arrow">→</span>
                     </button>
                 </div>
                 <div className="hero-image-content">
                     <div className="image-frame">
-                        <img src={AboutFirstimage} alt="Modern Tech Workspace" />
+                        <img src={AboutFirstimage} alt="Organized automotive parts showroom in Dubai" />
                     </div>
                 </div>
             </section>
@@ -52,40 +51,37 @@ const About = () => {
             <section className="about-modern-story about-fade">
                 <div className="story-left">
                     <div className="story-sticky">
-                        <h2>Born out of a desire for <i>better</i>.</h2>
+                        <h2>Built around the way <i>Dubai moves</i>.</h2>
                         <p>
-                            We grew tired of the endless scroll. The chaotic marketplaces filled with 
-                            subpar products. Eehook was built to be different—an oasis of quality in 
-                            a sea of quantity. 
+                            Dubai roads demand parts that can handle heat, traffic, and long working days. Jamal Rafeeq was built to make finding those parts clearer, quicker, and more dependable.
                         </p>
                         <p>
-                            Every laptop, every fragrance, every accessory on our platform has been 
-                            meticulously chosen because we believe you deserve nothing but excellence.
+                            We bring together trusted automotive brands, useful product information, and a responsive team so every enquiry starts with confidence.
                         </p>
 
                         <div className="story-highlights">
                             <div className="highlight-box">
-                                <span className="highlight-title">No Endless Scrolling</span>
-                                <span className="highlight-text">We've done the hard work of finding the best products so you don't have to.</span>
+                                <span className="highlight-title">Clearer choices</span>
+                                <span className="highlight-text">Search the range with a real team behind it, ready to help you narrow down the right option.</span>
                             </div>
                             <div className="highlight-box">
-                                <span className="highlight-title">Built on Trust</span>
-                                <span className="highlight-text">Every brand we partner with shares our commitment to craftsmanship and honesty.</span>
+                                <span className="highlight-title">Ready for the road</span>
+                                <span className="highlight-text">Our promise is simple: dependable products, honest support, and a smoother route from enquiry to fitment.</span>
                             </div>
                         </div>
 
                     </div>
                 </div>
                 <div className="story-right">
-                    <img src={AboutSecondimage} alt="Lifestyle Vibe" className="story-vibe-img" />
+                    <img src={AboutSecondimage} alt="Dubai skyline and road at sunset" className="story-vibe-img" />
                 </div>
             </section>
 
             {/* Values / Pillars - Humanized Grid */}
             <section className="about-human-values about-fade">
                 <div className="values-header">
-                    <h2>Our Philosophy</h2>
-                    <p>What drives us every single day.</p>
+                    <h2>What drives us</h2>
+                    <p>Reliable parts. Useful advice. Better journeys.</p>
                 </div>
                 <div className="values-grid">
                     {pillars.map((pillar, index) => (
@@ -100,10 +96,9 @@ const About = () => {
             {/* Editorial Quote */}
             <section className="about-modern-quote about-fade">
                 <blockquote>
-                    "Technology should elevate your life, not complicate it. 
-                    Design should inspire, not just function. This is the heart of Jamal Rafeeq."
+                    "A confident drive starts with the right part, the right advice, and a team that stays close."
                 </blockquote>
-                <div className="quote-author">— The Eehook Team</div>
+                <div className="quote-author">— Jamal Rafeeq Auto Parts Trading LLC</div>
             </section>
 
         </div>

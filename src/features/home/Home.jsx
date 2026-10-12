@@ -11,8 +11,9 @@ import Offer_poster from "../../hooks/offers/page/Offer_poster";
 import ContactUs from "../../components/Contact";
 import vedio1 from "../../assets/eehook-video-one.mp4";
 import vedio2 from "../../assets/eehook-video-two.mp4";
-import videoOnePoster from "../../assets/eehook_hero_tech.png";
-import videoTwoPoster from "../../assets/eehook_lifestyle_vibe.png";
+import videoOnePoster from "../../assets/automotive-hero-workshop.png";
+import videoTwoPoster from "../../assets/dubai-our-promise-bg.png";
+import automotiveWorkshopPoster from "../../assets/automotive-parts-workshop.png";
 
 const asArray = (value) => {
     if (Array.isArray(value)) return value;
@@ -105,7 +106,10 @@ function Home() {
     }
 
     const heroBanners = asArray(homepageData.hero_banners);
-    const newArrivals = homepageData.new_arrivals;
+    const hasHomepageNewArrivals = Array.isArray(homepageData.new_arrivals)
+        || Array.isArray(homepageData.new_arrivals?.results)
+        || Array.isArray(homepageData.new_arrivals?.items);
+    const newArrivals = hasHomepageNewArrivals ? asArray(homepageData.new_arrivals) : undefined;
     const topDeals = homepageData.top_deals;
     const bestSellers = homepageData.best_sellers;
     const shopByBrand = homepageBrands.length ? homepageBrands : brandsFromProducts(brandProducts);
@@ -113,25 +117,28 @@ function Home() {
         <main className="homepage-discovery">
             <Heropage heroBanners={heroBanners} />
 
-            <New_Arrival_Home products={asArray(newArrivals)} totalCount={newArrivals?.count} showNewBadge tone="new" />
+            <New_Arrival_Home products={newArrivals} totalCount={homepageData.new_arrivals?.count} showNewBadge tone="new" />
             <Offer_poster />
             <HomepageProductSection title="Top deals" eyebrow="Best value" section={topDeals} tone="deals" />
             <HomepageProductSection title="Best sellers" eyebrow="Customer favourites" section={bestSellers} tone="bestsellers" />
 
-            <HomepageBrandSection brands={shopByBrand} video={<DeferredHeritageVideo source={vedio1} poster={videoOnePoster} label="Jamal Rafeeq automotive parts showcase" />} />
+            <HomepageBrandSection
+                brands={shopByBrand}
+                video={<DeferredHeritageVideo source={vedio1} poster={automotiveWorkshopPoster} label="Jamal Rafeeq automotive parts showcase" />}
+            />
 
             <HomepageTrustBenefits benefits={asArray(homepageData.trust_benefits)} />
 
             <section className="section-heritage">
                 <div className="section-heritage-text">
                     <span className="heritage-tag">OUR PROMISE</span>
-                    <h2>Parts, service, and support for every journey</h2>
-                    <p>Jamal Rafeeq Auto Parts Trading LLC helps drivers and workshops find dependable automotive parts and accessories selected for quality, fit, and everyday performance.</p>
-                    <p>Explore products, ask the team about vehicle compatibility, or contact us directly for service and business enquiries.</p>
+                    <h2>Our promise is confidence on every road.</h2>
+                    <p>Jamal Rafeeq Auto Parts Trading LLC helps drivers and workshops in Dubai find dependable parts selected for quality, fit, and everyday performance.</p>
+                    <p>From the first search to the final fit, our team is here with practical guidance, reliable supply, and support you can reach when you need it.</p>
                 </div>
 
                 <div className="section-heritage-gallery">
-                    <DeferredHeritageVideo source={vedio1} poster={videoOnePoster} label="Technology collection preview" />
+                    <DeferredHeritageVideo source={vedio1} poster={videoOnePoster} label="Jamal Rafeeq automotive parts showcase" />
                     <DeferredHeritageVideo source={vedio2} poster={videoTwoPoster} label="Lifestyle collection preview" />
                 </div>
             </section>

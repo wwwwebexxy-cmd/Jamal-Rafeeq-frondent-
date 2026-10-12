@@ -7,10 +7,34 @@
 .about-modern-wrapper {
     width: 100%;
     min-width: 0;
+    position: relative;
+    isolation: isolate;
     background-color: var(--background);
+    background-image: linear-gradient(rgba(250, 250, 250, .96), rgba(250, 250, 250, .96)), url("../../../assets/dubai-our-promise-bg.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     color: #1A1A1A;
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
+}
+
+.about-modern-wrapper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: url("../../../assets/jamal-rafeeq-logo-transparent.png");
+    background-position: center 34%;
+    background-repeat: no-repeat;
+    background-size: min(620px, 60vw);
+    opacity: .025;
+    pointer-events: none;
+}
+
+.about-modern-wrapper > * {
+    position: relative;
+    z-index: 1;
 }
 
 /* Animations */
@@ -153,11 +177,8 @@
     content: "";
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-image: url("../../../assets/navbar-logo.png");
-    background-size: 250px;
-    background-repeat: repeat;
-    background-position: center;
-    opacity: 0.04;
+    background-image: none;
+    opacity: 0;
     z-index: -1;
     pointer-events: none;
 }
@@ -259,11 +280,8 @@
     content: "";
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-image: url("../../../assets/navbar-logo.png");
-    background-size: 250px;
-    background-repeat: repeat;
-    background-position: center;
-    opacity: 0.04;
+    background-image: none;
+    opacity: 0;
     z-index: -1;
     pointer-events: none;
 }

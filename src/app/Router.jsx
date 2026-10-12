@@ -5,19 +5,11 @@ import Single_product from '../features/single product/page/Single_product'
 import Offer_poster from '../hooks/offers/page/Offer_poster'
 import OrderDashboard from '../features/Dasboard/page/OrderDashboard'
 import About from '../features/About/page/About'
-import Profile from '../features/Profile/page/Profile'
-
-import MyOrder from '../features/myOrders/page/My_orders'
 import ContactUs from '../components/Contact'
 
-import Login from '../features/auth/page/Login'
 import AdminLogin from '../features/auth/page/AdminLogin'
-import Signup from '../features/auth/page/SignUp'
 import AdminRoute from '../features/Dasboard/page/AdminRoute'
-import ForgotPassword from '../features/auth/page/ForgotPassord'
-import ResetPassword from '../features/auth/page/ResetPassword'
 import Invoice from '../features/Dasboard/page/InvoicePrint'
-import ProtectedRoute from '../features/auth/page/ProtectedRoute'
 import Unauthorized from '../features/auth/page/Unauthorized'
 function LegacyOrderDetailsRedirect() {
     const { id } = useParams();
@@ -46,29 +38,17 @@ function Router() {
                 <Route path='products' element={<LegacyFindProductsRedirect />} />
                 <Route path='/about' element={<About />} />
 
-                <Route path='profile' element={
-                    <ProtectedRoute>
-                        <Profile />
-                    </ProtectedRoute>
-                } />
+                <Route path='profile' element={<Navigate to="/" replace />} />
 
                 <Route path="/single/:id" element={<Single_product />} />
 
                 <Route path="/offers" element={<Offer_poster />} />
 
-                <Route path='myorders' element={
-                    <ProtectedRoute>
-                        <MyOrder />
-                    </ProtectedRoute>
-                } />
+                <Route path='myorders' element={<Navigate to="/" replace />} />
 
-                <Route path='login' element={<Login />} />
                 <Route path='admin-login' element={<AdminLogin />} />
                 <Route path='eehook-dashboard/admin-login' element={<AdminLogin />} />
                 <Route path='unauthorized' element={<Unauthorized />} />
-                <Route path='signup' element={<Signup />} />
-                <Route path='forgot-password' element={<ForgotPassword />} />
-                <Route path="/reset-password/:uidb64/:token" element={<ResetPassword />} />
 
 
                 <Route path="eehook-dashboard" element={

@@ -6,8 +6,8 @@ import { getImageUrl } from "../../../utils/imageUrl";
 import Hero_Query from "../queries/Hero_Query";
 import PromoBanners_Query from "../queries/PromoBanners_Query";
 import HeroSideBanner_Query from "../queries/HeroSideBanner_Query";
-import defaultHeroImage from "../../../assets/eehook_hero_tech.png";
-import defaultHeroSideImage from "../../../assets/eehook_lifestyle_vibe.png";
+import defaultHeroImage from "../../../assets/automotive-hero-workshop.png";
+import defaultHeroSideImage from "../../../assets/automotive-parts-workshop.png";
 
 const DEFAULT_HERO_SLIDES = [
   {
@@ -43,7 +43,9 @@ const Heropage = ({ heroBanners, promoBanners: providedPromoBanners, heroSideBan
 
   const hasPromoBanners = Array.isArray(providedPromoBanners);
   const { data: rawPromoBanners } = PromoBanners_Query({ enabled: !hasPromoBanners });
-  const promoBanners = hasPromoBanners ? providedPromoBanners : (Array.isArray(rawPromoBanners) ? rawPromoBanners : []);
+  const promoBanners = hasPromoBanners
+    ? providedPromoBanners
+    : (Array.isArray(rawPromoBanners) ? rawPromoBanners : []);
 
   const hasSideBanner = providedSideBanner !== undefined;
   const { data: queriedSideBanner } = HeroSideBanner_Query({ enabled: !hasSideBanner });
@@ -52,6 +54,7 @@ const Heropage = ({ heroBanners, promoBanners: providedPromoBanners, heroSideBan
     : (queriedSideBanner?.image ? queriedSideBanner : DEFAULT_SIDE_BANNER);
 
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentPromo, setCurrentPromo] = useState(0);
 
   // Auto Slide
   useEffect(() => {
@@ -70,15 +73,13 @@ const Heropage = ({ heroBanners, promoBanners: providedPromoBanners, heroSideBan
 
   }, [heroSlides.length]);
 
-  // Top Promo Carousel Logic
-  const [currentPromo, setCurrentPromo] = useState(0);
-
   useEffect(() => {
-    if (promoBanners.length === 0) return;
+    if (promoBanners.length === 0) return undefined;
 
     const promoTimer = setInterval(() => {
       setCurrentPromo((prev) => (prev === promoBanners.length - 1 ? 0 : prev + 1));
     }, 4000);
+
     return () => clearInterval(promoTimer);
   }, [promoBanners.length]);
 
@@ -95,37 +96,28 @@ const Heropage = ({ heroBanners, promoBanners: providedPromoBanners, heroSideBan
 
   return (
     <div className="hero-page-wrapper">
-      
-      {/* Top Promo Carousel (Visa Banner Equivalent) */}
-      {promoBanners.length > 0 && <div className="top-promo-carousel">
-        <button className="promo-nav-btn left" onClick={prevPromo}>‹</button>
-        
+
+      {promoBanners.length > 0 && <div className="top-promo-carousel" aria-label="Promotions">
+        <button className="promo-nav-btn left" onClick={prevPromo} aria-label="Previous promotion">‹</button>
+
         <div className="promo-slides">
           {promoBanners.map((promo, index) => (
-            <div 
-              key={promo.id} 
+            <div
+              key={promo.id || `promo-${index}`}
               className={`promo-slide ${currentPromo === index ? "active" : ""}`}
             >
               {promo.link ? (
-                <a href={promo.link} target="_blank" rel="noopener noreferrer" style={{ display: 'block', width: '100%', height: '100%' }}>
-                  <img 
-                    src={getImageUrl(promo.image)} 
-                    alt="Promo Banner" 
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }} 
-                  />
+                <a href={promo.link} target="_blank" rel="noopener noreferrer" style={{ display: "block", width: "100%", height: "100%" }}>
+                  <img src={getImageUrl(promo.image)} alt={promo.title || "Promotional banner"} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </a>
               ) : (
-                <img 
-                  src={getImageUrl(promo.image)} 
-                  alt="Promo Banner" 
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }} 
-                />
+                <img src={getImageUrl(promo.image)} alt={promo.title || "Promotional banner"} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               )}
             </div>
           ))}
         </div>
 
-        <button className="promo-nav-btn right" onClick={nextPromo}>›</button>
+        <button className="promo-nav-btn right" onClick={nextPromo} aria-label="Next promotion">›</button>
       </div>}
 
       <section className={`hero-split-layout ${heroSideBanner?.image ? "" : "single"}`}>
@@ -175,10 +167,10 @@ const Heropage = ({ heroBanners, promoBanners: providedPromoBanners, heroSideBan
           ))}
           
           {/* Navigation Arrows */}
-          <button className="carousel-nav-btn prev-btn" onClick={prevSlide}>
+          <button className="carousel-nav-btn prev-btn" onClick={prevSlide} aria-label="Previous hero slide">
             ‹
           </button>
-          <button className="carousel-nav-btn next-btn" onClick={nextSlide}>
+          <button className="carousel-nav-btn next-btn" onClick={nextSlide} aria-label="Next hero slide">
             ›
           </button>
 

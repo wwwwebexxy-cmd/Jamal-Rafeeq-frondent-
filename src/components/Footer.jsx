@@ -54,9 +54,9 @@ function Footer() {
                         <h3>Customer Care</h3>
 
                         <ul>
-                            <li><Link to="/profile">My Account</Link></li>
-                            <li><Link to="/myorders">Track Order</Link></li>
-                            <li><Link to="/myorders">Shipping &amp; Delivery</Link></li>
+                            <li><Link to="/find-products">Find Parts</Link></li>
+                            <li><Link to="/contact">Business Support</Link></li>
+                            <li><Link to="/contact">Shipping &amp; Delivery</Link></li>
 
                         </ul>
                     </div>

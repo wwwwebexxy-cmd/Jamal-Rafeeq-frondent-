@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { CgProfile } from "react-icons/cg";
 import { IoClose, IoMenu, IoSearch } from "react-icons/io5";
 
 import navbarlogo from "../assets/jamal-rafeeq-logo-transparent.png";
@@ -69,7 +68,6 @@ function Navbar() {
                             <button type="button" className="input-search-button input_search_icon" onClick={() => searchOpen && searchText.trim() ? goToSearch() : setSearchOpen(true)} aria-label={searchOpen ? "Submit product search" : "Open product search"}><IoSearch size={22} /></button>
                             {searchOpen && debouncedSearch.length >= 2 && <div className="search-suggestions" role="listbox" aria-label="Product suggestions">{suggestionsLoading && <p>Searching…</p>}{!suggestionsLoading && suggestions.length === 0 && <p>No matching products</p>}{suggestions.map((product) => <button type="button" role="option" key={product.id} onClick={() => { navigate(`/single/${product.id}`); closeSearch(); }}>{product.name}</button>)}<button type="button" className="search-suggestion-all" onClick={() => goToSearch()}>See all results for “{debouncedSearch}”</button></div>}
                         </div>
-                        <NavLink to="/profile" className="nav-icon-button" aria-label="Profile"><CgProfile size={24} /></NavLink>
                     </div>
                 </div>
             </div>
