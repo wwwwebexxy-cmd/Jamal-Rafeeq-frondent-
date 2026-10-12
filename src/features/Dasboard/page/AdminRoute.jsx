@@ -9,7 +9,7 @@ export default function AdminRoute({ children }) {
         is_superuser: adminUser.is_superuser ?? getAuthValue("is_superuser"),
         role: adminUser.role || getAuthValue("role"),
     });
-    if (!hasAuthSession()) return <Navigate to="/eehook-dashboard/admin-login" state={{ from: location }} replace />;
-    if (!isSuperAdmin) return <Navigate to="/eehook-dashboard/admin-login" state={{ from: location, accessDenied: true }} replace />;
+    if (!hasAuthSession()) return <Navigate to="/automotive-dashboard/admin-login" state={{ from: location }} replace />;
+    if (!isSuperAdmin) return <Navigate to="/automotive-dashboard/admin-login" state={{ from: location, accessDenied: true }} replace />;
     return children;
 }

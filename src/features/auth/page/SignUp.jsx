@@ -105,7 +105,7 @@ function Signup() {
 
             if (isSuperAdminUser(user)) {
 
-                navigate("/eehook-dashboard");
+                navigate("/automotive-dashboard");
 
             } else {
 

@@ -28,11 +28,11 @@ export default function AdminLogin() {
             saveAuthSession(response.data);
             const requestedPath = location.state?.from;
             const requestedPathname = requestedPath?.pathname || "";
-            const isDashboardPath = /^\/(?:eehook-dashboard|order-dashboard|orderDashboard)(?:\/|$)/i.test(requestedPathname);
+            const isDashboardPath = /^\/(?:automotive-dashboard|eehook-dashboard|order-dashboard|orderDashboard)(?:\/|$)/i.test(requestedPathname);
             const isAdminLoginPath = /\/admin-login$/i.test(requestedPathname);
             const destination = isDashboardPath && !isAdminLoginPath
                 ? `${requestedPathname}${requestedPath.search || ""}${requestedPath.hash || ""}`
-                : "/eehook-dashboard";
+                : "/automotive-dashboard";
             navigate(destination, { replace: true });
         } catch (requestError) {
             if (requestError.response?.status === 429) {

@@ -39,7 +39,7 @@ function App() {
     if (!authReady) return <div aria-live="polite" className="app-loading">Loading...</div>;
 
     const normalizedPath = location.pathname.toLowerCase();
-    const isAdminPage = normalizedPath.startsWith("/eehook-dashboard") || normalizedPath.startsWith("/orderdashboard") || normalizedPath.startsWith("/order-dashboard");
+    const isAdminPage = normalizedPath.startsWith("/automotive-dashboard") || normalizedPath.startsWith("/eehook-dashboard") || normalizedPath.startsWith("/orderdashboard") || normalizedPath.startsWith("/order-dashboard");
 
     return (
         <>

@@ -2,7 +2,6 @@
     width: 100%;
     min-width: 0;
 }
-
 /* The inline category section has horizontal padding. Keep that padding within
    the viewport instead of making the page wider than the browser window. */
 .category-section-wrapper {
@@ -286,6 +285,7 @@
     padding: 42px 0;
 }
 
+
 .homepage-category-heading,
 .homepage-section-heading {
     display: flex;
@@ -425,7 +425,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 18px;
+    gap: 0;
     margin-bottom: 18px;
     text-align: center;
 }
@@ -455,6 +455,10 @@
     margin: 9px 0 10px;
     font: 600 clamp(2.2rem, 5vw, 4.5rem) / .98 "Playfair Display", Georgia, serif;
     letter-spacing: -.04em;
+}
+
+.brand-showcase-header h2 {
+    margin-bottom: 0;
 }
 
 .brand-showcase-copy {
@@ -672,9 +676,10 @@
     width: 100%;
     margin: 0;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, .2);
+    border: 1px solid #dfe7ea;
     border-radius: 10px;
-    background: rgba(0, 0, 0, .22);
+    background: #fff;
+    box-shadow: 0 8px 18px rgba(15, 38, 44, .12);
 }
 
 .homepage-brand-carousel-viewport {
@@ -703,9 +708,9 @@
     gap: 12px;
     padding: 0 16px;
     border: 0;
-    border-right: 1px solid rgba(255, 255, 255, .14);
-    background: transparent;
-    color: #fff;
+    border-right: 1px solid #e7edef;
+    background: #fff;
+    color: var(--brand-black-soft);
     cursor: pointer;
     font: inherit;
 }
@@ -713,7 +718,7 @@
 .homepage-brand-carousel-item:focus-visible {
     position: relative;
     z-index: 1;
-    outline: 2px solid #ffc76e;
+    outline: 2px solid var(--brand-red);
     outline-offset: -3px;
 }
 
@@ -734,11 +739,45 @@
     flex: 0 0 30px;
     place-items: center;
     border-radius: 50%;
-    background: #fff;
-    color: #173c43;
+    background: #142c33;
+    color: #fff;
     font-size: .58rem;
     font-weight: 900;
     letter-spacing: -.04em;
+}
+
+.homepage-brand-carousel-mark--benz {
+    background: #111b1f;
+    color: #d9e8ec;
+    font-size: 1.05rem;
+}
+
+.homepage-brand-carousel-mark--volkswagen {
+    background: #1b4c74;
+    font-size: .57rem;
+}
+
+.homepage-brand-carousel-mark--toyota {
+    background: #c51f2b;
+    font-size: 1.08rem;
+}
+
+.homepage-brand-carousel-mark--bmw {
+    background: conic-gradient(#1592d0 0 25%, #fff 25% 50%, #1592d0 50% 75%, #fff 75%);
+    color: #17232a;
+    font-size: .48rem;
+    letter-spacing: -.08em;
+}
+
+.homepage-brand-carousel-mark--audi {
+    background: #2f3436;
+    font-size: .55rem;
+    letter-spacing: -.16em;
+}
+
+.homepage-brand-carousel-mark--nissan {
+    background: #92999d;
+    font-size: .95rem;
 }
 
 .homepage-brand-carousel-item span {

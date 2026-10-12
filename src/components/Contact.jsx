@@ -1,13 +1,17 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import "./../Contact.css"
 import { getAuthValue } from "../features/auth/authUtils";
 
 const ContactUs = () => {
+    const [searchParams] = useSearchParams();
+    const topic = searchParams.get("topic");
+    const initialSubject = topic === "car-sales" ? "Car Sales" : topic === "services" ? "Service Enquiry" : "";
     const [formData, setFormData] = useState(() => ({
         name: getAuthValue("first_name"),
         email: getAuthValue("email"),
         phone: "",
-        subject: "",
+        subject: initialSubject,
         message: "",
     }));
 
@@ -192,6 +196,14 @@ Thank you.`;
 
                             <option>
                                 Product Enquiry
+                            </option>
+
+                            <option>
+                                Car Sales
+                            </option>
+
+                            <option>
+                                Service Enquiry
                             </option>
 
                             <option>

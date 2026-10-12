@@ -10,7 +10,7 @@ import "../Navbar.css";
 const links = [
     { name: "Home", path: "/" },
     { name: "Find Products", path: "/find-products" },
-    { name: "New Arrivals", path: "/find-products?sort=new" },
+    { name: "New Arrivals", path: "/new-arrivals" },
     { name: "About", path: "/about" },
 ];
 

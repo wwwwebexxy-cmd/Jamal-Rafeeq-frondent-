@@ -104,7 +104,7 @@ export default function WelcomeBonusEditor() {
             if (editing) await updateResource("welcome-bonuses", id, payload);
             else await createResource("welcome-bonuses", payload);
             toast.success(editing ? "Welcome Bonus updated" : "Welcome Bonus created");
-            navigate("/eehook-dashboard/welcome-bonuses");
+            navigate("/automotive-dashboard/welcome-bonuses");
         } catch (error) {
             const serverErrors = error?.response?.data;
             if (serverErrors && typeof serverErrors === "object") setErrors(Object.fromEntries(Object.entries(serverErrors).map(([key, value]) => [key, Array.isArray(value) ? value.join(", ") : String(value)])));
@@ -119,7 +119,7 @@ export default function WelcomeBonusEditor() {
     const targetError = values.applicability_type === "PRODUCT" ? errors.product : errors.category;
     const discountError = values.discount_type === "PERCENTAGE" ? errors.discount_percentage : errors.fixed_amount;
     return <div className="hero-banner-editor-page welcome-bonus-editor-page">
-        <div className="hero-editor-heading"><div><button type="button" className="hero-back-link" onClick={() => navigate("/eehook-dashboard/welcome-bonuses")}><FiArrowLeft /> Welcome Bonuses</button><h2>{editing ? "Edit Welcome Bonus" : "Add Welcome Bonus"}</h2></div><div className="hero-breadcrumb">Dashboard&nbsp; / &nbsp;Welcome Bonuses&nbsp; / &nbsp;{editing ? "Edit" : "Add"}</div></div>
+        <div className="hero-editor-heading"><div><button type="button" className="hero-back-link" onClick={() => navigate("/automotive-dashboard/welcome-bonuses")}><FiArrowLeft /> Welcome Bonuses</button><h2>{editing ? "Edit Welcome Bonus" : "Add Welcome Bonus"}</h2></div><div className="hero-breadcrumb">Dashboard&nbsp; / &nbsp;Welcome Bonuses&nbsp; / &nbsp;{editing ? "Edit" : "Add"}</div></div>
         <div className="hero-editor-layout"><section className="hero-editor-card"><form className="hero-editor-form" onSubmit={save} noValidate>
             <label className={`hero-editor-field ${errors.name ? "has-error" : ""}`}><span>Name <em>*</em></span><input autoFocus type="text" value={values.name} onChange={(event) => setValue("name", event.target.value)} placeholder="e.g. New customer welcome offer" />{errors.name && <small>{errors.name}</small>}</label>
             <fieldset className="coupon-choice-field"><legend>Apply To <em>*</em></legend><label><input type="radio" name="welcome_apply_to" checked={values.applicability_type === "PRODUCT"} onChange={() => setApplyTo("PRODUCT")} /> Product Wise</label><label><input type="radio" name="welcome_apply_to" checked={values.applicability_type === "CATEGORY"} onChange={() => setApplyTo("CATEGORY")} /> Category Wise</label></fieldset>
@@ -130,7 +130,7 @@ export default function WelcomeBonusEditor() {
             <label className={`hero-editor-field ${errors.end_date ? "has-error" : ""}`}><span>End Date <em>*</em></span><input type="datetime-local" value={values.end_date} onChange={(event) => setValue("end_date", event.target.value)} />{errors.end_date && <small>{errors.end_date}</small>}</label>
             <label className="hero-editor-field welcome-bonus-active"><span>Active</span><input type="checkbox" checked={Boolean(values.is_active)} onChange={(event) => setValue("is_active", event.target.checked)} /><small className="hero-field-help">Inactive bonuses are not assigned to new eligible users.</small></label>
             {requestError && <p className="hero-editor-error" role="alert">{requestError}</p>}
-            <div className="coupon-form-actions"><button type="button" className="hero-secondary-button" onClick={() => navigate("/eehook-dashboard/welcome-bonuses")} disabled={saving}>Cancel</button><button type="submit" className="hero-save-button" disabled={saving}><FiSave /> {saving ? "Saving..." : "Save Welcome Bonus"}</button></div>
+            <div className="coupon-form-actions"><button type="button" className="hero-secondary-button" onClick={() => navigate("/automotive-dashboard/welcome-bonuses")} disabled={saving}>Cancel</button><button type="submit" className="hero-save-button" disabled={saving}><FiSave /> {saving ? "Saving..." : "Save Welcome Bonus"}</button></div>
         </form></section></div>
     </div>;
 }

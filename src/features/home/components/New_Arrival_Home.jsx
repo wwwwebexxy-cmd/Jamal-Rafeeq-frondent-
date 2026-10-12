@@ -33,7 +33,7 @@ function New_Arrival_Home({
     totalCount,
     title = "New Arrivals",
     subtitle = "The latest parts and accessories for your vehicle.",
-    viewAllTo = "/find-products?sort=new",
+    viewAllTo = "/new-arrivals",
     showNewBadge = false,
     tone = "new",
 }) {

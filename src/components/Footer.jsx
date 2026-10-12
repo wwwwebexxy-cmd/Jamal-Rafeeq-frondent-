@@ -44,6 +44,7 @@ function Footer() {
                         <ul>
                             <li><Link to="/">Home</Link></li>
                             <li><Link to="/find-products">Find Products</Link></li>
+                            <li><Link to="/new-arrivals">New Arrivals</Link></li>
                             <li><Link to="/find-products?offer=true">Offers</Link></li>
                             <li><Link to="/about">About Us</Link></li>
                             <li><Link to="/contact">Contact Us</Link></li>

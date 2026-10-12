@@ -4,6 +4,9 @@
 .page_title { margin: 0 0 8px; color: var(--brand-black-soft); font: 600 clamp(2.1rem, 5vw, 4rem) / 1.1 "Playfair Display", Georgia, serif; }
 .title_description { max-width: 640px; margin: 0; color: var(--text-secondary); line-height: 1.7; }
 .mobile-filter-toggle { display: none; }
+.find-products-shortcuts { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 28px; }
+.find-products-shortcuts a { display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border: 1px solid #dfe7e2; border-radius: 999px; background: #fff; color: var(--brand-black-soft); font-size: .78rem; font-weight: 700; text-decoration: none; transition: border-color .2s ease, background .2s ease, color .2s ease; }
+.find-products-shortcuts a:hover, .find-products-shortcuts a:focus-visible { border-color: var(--brand-red); background: var(--brand-red); color: #fff; outline: none; }
 .find-products-layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 30px; align-items: start; }
 .find-products-sidebar { position: sticky; top: 96px; padding: 20px; border: 1px solid #E2E6E0; border-radius: 14px; background: var(--background); }
 .find-products-sidebar-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
@@ -13,7 +16,11 @@
 .find-products-filter input, .find-products-filter select, .find-products-toolbar select { width: 100%; min-height: 42px; padding: 0 10px; border: 1px solid #E2E6E0; border-radius: 8px; background: #fff; color: #26363c; font: inherit; }
 .find-products-results { min-width: 0; }
 .find-products-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 4px; color: var(--brand-black-soft); }
+.find-products-toolbar-actions { display: flex; align-items: center; justify-content: flex-end; gap: 16px; }
 .find-products-toolbar label { display: inline-flex; align-items: center; gap: 8px; font-size: .8rem; font-weight: 700; }
+.find-products-inline-search { min-width: min(100%, 260px); }
+.find-products-inline-search input { width: min(260px, 100%); min-height: 42px; padding: 0 10px; border: 1px solid #E2E6E0; border-radius: 8px; background: #fff; color: #26363c; font: inherit; }
+.find-products-sort-note { color: var(--text-secondary); font-size: .78rem; font-weight: 700; white-space: nowrap; }
 .find-products-toolbar select { width: 170px; }
 .find-products-results .catalog-container { padding: 14px 0 0; }
 .find-products-results .products { gap: 20px; }
@@ -29,6 +36,6 @@
     .salePage-main { width: min(100% - 24px, 1440px); padding-top: 92px; }
     .page_header { align-items: start; }
     .title_description { font-size: .9rem; }
-    .find-products-toolbar { align-items: start; flex-direction: column; }
-    .find-products-toolbar label, .find-products-toolbar select { width: 100%; }
+    .find-products-toolbar, .find-products-toolbar-actions { align-items: start; flex-direction: column; width: 100%; }
+    .find-products-toolbar label, .find-products-toolbar select, .find-products-inline-search, .find-products-inline-search input { width: 100%; }
 }
