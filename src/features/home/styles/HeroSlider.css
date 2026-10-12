@@ -13,7 +13,7 @@
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: #4B636D;
+  background-color: var(--brand-black-soft);
   color: #FFFFFF;
   display: flex;
   align-items: center;
@@ -46,7 +46,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to right, #4B636D 15%, transparent 70%);
+  background: linear-gradient(to right, var(--brand-black-soft) 15%, transparent 70%);
 }
 
 /* Elegant Text Overlay (Using your old styles) */
@@ -91,7 +91,7 @@
 
 .text-outlined {
   color: transparent;
-  -webkit-text-stroke: 1px #F8F9F3;
+  -webkit-text-stroke: 1px var(--background);
 }
 
 .hero-description {
@@ -199,7 +199,7 @@
     left: 0;
   }
 
-  /* Remove the #4B636D gradient side shade and use a standard dimming dark tint instead */
+  /* Remove the var(--brand-black-soft) gradient side shade and use a standard dimming dark tint instead */
   .hero-overlay {
     background: rgba(0, 0, 0, 0.65);
     /* Keeps text readable over full-width image */

@@ -19,7 +19,7 @@
     margin-bottom: 8px;
     font-size: .95rem;
     font-weight: 500;
-    color: #4B636D;
+    color: var(--brand-black-soft);
 }
 
 
@@ -42,8 +42,8 @@
     border: 1px solid #E2E6E0;
     border-radius: 10px;
 
-    background: #F8F9F3;
-    color: #4B636D;
+    background: var(--background);
+    color: var(--brand-black-soft);
 
     font-size: .95rem;
     cursor: pointer;
@@ -65,7 +65,7 @@
 /* Arrow */
 .arrow {
     font-size: 18px;
-    color: #8A9DA6;
+    color: var(--text-muted);
     transition: transform .25s ease;
 }
 
@@ -87,7 +87,7 @@
 
     list-style: none;
 
-    background: #F8F9F3;
+    background: var(--background);
 
     border: 1px solid #ececec;
     border-radius: 10px;
@@ -104,7 +104,7 @@
 /* Option */
 .select-option {
     padding: 12px 14px;
-    color: #4B636D;
+    color: var(--brand-black-soft);
     cursor: pointer;
     transition: .2s;
 }
@@ -130,7 +130,7 @@
 }
 
 .select-options::-webkit-scrollbar-track {
-    background: #F8F9F3;
+    background: var(--background);
 }
 
 .select-options::-webkit-scrollbar-thumb {

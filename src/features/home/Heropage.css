@@ -80,7 +80,7 @@
 /* ---------------- Split Layout ---------------- */
 .hero-split-layout {
     width: 100%;
-    height: clamp(190px, 12vw, 260px);
+    height: clamp(230px, 19vw, 360px);
     display: flex;
     gap: 0; /* no gap */
     padding: 0; /* padding moved to wrapper */
@@ -267,8 +267,8 @@
 }
 
 .shop-btn-premium:hover {
-    background: #ff9000;
-    border-color: #ff9000;
+    background: var(--brand-red);
+    border-color: var(--brand-red);
     color: #fff;
     transform: translateY(-2px);
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
@@ -355,7 +355,7 @@
 
 @media(max-width:768px){
 .hero-split-layout {
-    height: clamp(180px, 31vw, 240px);
+    height: clamp(220px, 40vw, 320px);
 }
 
 .hero-carousel-section {
@@ -409,7 +409,7 @@
 }
 
 .hero-split-layout {
-    height: clamp(160px, 48vw, 220px);
+    height: clamp(200px, 58vw, 290px);
 }
 
 .hero-carousel-section {
@@ -466,7 +466,7 @@
 }
 
 .hero-split-layout {
-    height: 160px;
+    height: 200px;
 }
 
 .hero-carousel-section {

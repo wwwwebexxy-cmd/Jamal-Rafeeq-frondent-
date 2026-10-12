@@ -1,12 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import '../styles/About.css';
 
-import heroImg from "../../../assets/eehook_hero_tech.png";
-import vibeImg from "../../../assets/eehook_lifestyle_vibe.png";
 import AboutFirstimage from "../../../assets/About-first-img.png";
 import AboutSecondimage from "../../../assets/About-second-img.png";
-
-import { useNavigate } from "react-router-dom";
 
 const About = () => {
     const navigate = useNavigate();
@@ -32,7 +28,7 @@ const About = () => {
             {/* Hero Section */}
             <section className="about-modern-hero about-fade">
                 <div className="hero-text-content">
-                    <span className="hero-eyebrow">THE EEHOOK MANIFESTO</span>
+                    <span className="hero-eyebrow">THE JAMAL RAFEEQ STANDARD</span>
                     <h1 className="hero-display">
                         We Don't Just Sell Tech.<br />
                         <span className="hero-italic">We Curate Lifestyles.</span>
@@ -105,7 +101,7 @@ const About = () => {
             <section className="about-modern-quote about-fade">
                 <blockquote>
                     "Technology should elevate your life, not complicate it. 
-                    Design should inspire, not just function. This is the heart of eehook."
+                    Design should inspire, not just function. This is the heart of Jamal Rafeeq."
                 </blockquote>
                 <div className="quote-author">— The Eehook Team</div>
             </section>

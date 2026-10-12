@@ -3,8 +3,8 @@
     margin:40px auto;
     padding:0 20px;
     font-family:"Poppins",sans-serif;
-    color:#4B636D;
-    background:#F8F9F3;
+    color:var(--brand-black-soft);
+    background:var(--background);
 }
 
 .invoice-page .invoice-loading,
@@ -36,7 +36,7 @@
 
 .invoice-page .invoice-back-btn{
     background:#ececec;
-    color:#4B636D;
+    color:var(--brand-black-soft);
 }
 
 .invoice-page .invoice-back-btn:hover{
@@ -44,12 +44,12 @@
 }
 
 .invoice-page .invoice-print-btn{
-    background:#4B636D;
+    background:var(--brand-black-soft);
     color: #FFFFFF;
 }
 
 .invoice-page .invoice-print-btn:hover{
-    background:#4B636D;
+    background:var(--brand-black-soft);
 }
 
 /* Keep invoice navigation aligned with the Order Dashboard action system. */
@@ -84,7 +84,7 @@
     border-color: #f28a13;
     background: #f28a13;
     color: #fff;
-    box-shadow: 0 7px 15px rgba(242, 138, 19, .18);
+    box-shadow: 0 7px 15px rgba(237, 28, 36, .18);
 }
 
 .invoice-page .invoice-print-btn:hover {
@@ -96,12 +96,12 @@
 
 .invoice-page .invoice-back-btn:focus-visible,
 .invoice-page .invoice-print-btn:focus-visible {
-    outline: 3px solid rgba(255, 144, 0, .28);
+    outline: 3px solid rgba(237, 28, 36, .28);
     outline-offset: 2px;
 }
 
 .invoice-page .invoice-container{
-    background: #F8F9F3;
+    background: var(--background);
     border:1px solid #e8e8e8;
     border-radius:10px;
     padding:50px;
@@ -133,7 +133,7 @@
 
 .invoice-page .invoice-company p{
     margin:6px 0;
-    color:#4B636D;
+    color:var(--brand-black-soft);
     font-size:15px;
 }
 
@@ -161,7 +161,7 @@
 }
 
 .invoice-page .invoice-detail-row span{
-    color:#4B636D;
+    color:var(--brand-black-soft);
     font-size:15px;
 }
 
@@ -196,7 +196,7 @@
 
 .invoice-page .invoice-address-box p{
     margin:8px 0;
-    color:#4B636D;
+    color:var(--brand-black-soft);
     line-height:1.7;
     font-size:15px;
 }
@@ -213,11 +213,11 @@
 .invoice-page .invoice-table{
     width:100%;
     border-collapse:collapse;
-    background: #F8F9F3;
+    background: var(--background);
 }
 
 .invoice-page .invoice-table thead{
-    background: #F8F9F3;
+    background: var(--background);
 }
 
 .invoice-page .invoice-table th{
@@ -225,7 +225,7 @@
     border:1px solid #e8e8e8;
     font-size:15px;
     font-weight:600;
-    color:#4B636D;
+    color:var(--brand-black-soft);
     text-align:left;
 }
 
@@ -257,7 +257,7 @@
 }
 
 .invoice-page .invoice-table tbody tr:hover{
-    background:#F8F9F3;
+    background:var(--background);
 }
 
 /* ===========================
@@ -301,11 +301,11 @@
 }
 
 .invoice-page .invoice-payment-row span{
-    color:#4B636D;
+    color:var(--brand-black-soft);
 }
 
 .invoice-page .invoice-payment-row strong{
-    color:#4B636D;
+    color:var(--brand-black-soft);
     font-weight:600;
 }
 
@@ -314,7 +314,7 @@
     border:1px solid #ececec;
     border-radius:8px;
     padding:25px;
-    background:#F8F9F3;
+    background:var(--background);
 }
 
 .invoice-page .invoice-summary-row{
@@ -326,7 +326,7 @@
 }
 
 .invoice-page .invoice-summary-row span:first-child{
-    color:#4B636D;
+    color:var(--brand-black-soft);
 }
 
 .invoice-page .invoice-summary-total{
@@ -373,7 +373,7 @@
 
 .invoice-page .invoice-footer-left p{
     margin:8px 0;
-    color:#4B636D;
+    color:var(--brand-black-soft);
     line-height:1.8;
     font-size:15px;
 }
@@ -387,13 +387,13 @@
 .invoice-page .invoice-signature{
     width:220px;
     padding-top:70px;
-    border-top:1px solid #4B636D;
+    border-top:1px solid var(--brand-black-soft);
     text-align:center;
 }
 
 .invoice-page .invoice-signature span{
     font-size:14px;
-    color:#4B636D;
+    color:var(--brand-black-soft);
 }
 
 /* ===========================
@@ -497,7 +497,7 @@
 
     html,
     body{
-        background: #F8F9F3;
+        background: var(--background);
         margin:0;
         padding:0;
     }
@@ -506,7 +506,7 @@
         max-width:100%;
         margin:0;
         padding:0;
-        background: #F8F9F3;
+        background: var(--background);
     }
 
     .invoice-page .invoice-top-actions{

@@ -11,7 +11,7 @@
 .payment-success-card{
     width:100%;
     max-width:560px;
-    background: #FF9000;
+    background: var(--brand-red);
     border-radius:24px;
     padding:55px 45px;
     text-align:center;
@@ -25,14 +25,14 @@
     margin:0 auto 30px;
     border-radius:50%;
     border:5px solid #ececec;
-    border-top:5px solid #4B636D;
+    border-top:5px solid var(--brand-black-soft);
     animation:spin 1s linear infinite;
 }
 
 .payment-title{
     font-size:34px;
     font-weight:700;
-    color:#4B636D;
+    color:var(--brand-black-soft);
     margin-bottom:15px;
 }
 
@@ -107,7 +107,7 @@
 }
 
 .info-row strong{
-    color:#4B636D;
+    color:var(--brand-black-soft);
     font-weight:600;
 }
 
@@ -115,7 +115,7 @@
     width:100%;
     border:none;
     border-radius:14px;
-    background:#4B636D;
+    background:var(--brand-black-soft);
     color: #FFFFFF;
     padding:16px;
     font-size:16px;
@@ -125,14 +125,14 @@
 }
 
 .orders-btn:hover{
-    background:#4B636D;
+    background:var(--brand-black-soft);
     transform:translateY(-2px);
 }
 
 .continue-shopping{
     display:inline-block;
     margin-top:22px;
-    color:#4B636D;
+    color:var(--brand-black-soft);
     text-decoration:none;
     font-size:15px;
     font-weight:500;
@@ -140,7 +140,7 @@
 }
 
 .continue-shopping:hover{
-    color: #4B636D;
+    color: var(--brand-black-soft);
 }
 
 .redirect-text{

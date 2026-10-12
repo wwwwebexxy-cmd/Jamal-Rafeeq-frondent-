@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "./Home.css";
 import Heropage from "./components/Heropage";
-import Shop_by_category from "./components/Shop_by_category";
 import New_Arrival_Home from "./components/New_Arrival_Home";
 import HomepageProductSection from "./components/HomepageProductSection";
 import HomepageBrandSection from "./components/HomepageBrandSection";
@@ -81,7 +80,7 @@ function DeferredHeritageVideo({ source, poster, label }) {
         });
     }, [shouldLoad]);
 
-    return <video ref={videoRef} className="heritage-video" muted loop playsInline preload="none" poster={poster} aria-label={label}>
+    return <video ref={videoRef} className="heritage-video" autoPlay muted loop playsInline preload="metadata" poster={poster} aria-label={label}>
         {shouldLoad && <source src={source} type="video/mp4" />}
     </video>;
 }
@@ -105,44 +104,30 @@ function Home() {
         );
     }
 
-    const categories = asArray(homepageData.categories);
     const heroBanners = asArray(homepageData.hero_banners);
     const newArrivals = homepageData.new_arrivals;
-    const trendingNow = homepageData.trending_now;
     const topDeals = homepageData.top_deals;
     const bestSellers = homepageData.best_sellers;
-    const justForYou = homepageData.just_for_you;
-    const recentlyViewed = homepageData.recently_viewed;
     const shopByBrand = homepageBrands.length ? homepageBrands : brandsFromProducts(brandProducts);
     return (
         <main className="homepage-discovery">
             <Heropage heroBanners={heroBanners} />
 
-            {categories.length > 0 && (
-                <div className="category-section-wrapper" style={{ background: "#fbfbf6", padding: "14px 15px 28px" }}>
-                    <Shop_by_category categories={categories} />
-                </div>
-            )}
-
             <New_Arrival_Home products={asArray(newArrivals)} totalCount={newArrivals?.count} showNewBadge tone="new" />
             <Offer_poster />
-            <HomepageProductSection title="Trending now" eyebrow="Popular right now" section={trendingNow} tone="trending" />
             <HomepageProductSection title="Top deals" eyebrow="Best value" section={topDeals} tone="deals" />
             <HomepageProductSection title="Best sellers" eyebrow="Customer favourites" section={bestSellers} tone="bestsellers" />
-            <HomepageProductSection title="Just for you" eyebrow="Picked for your next find" section={justForYou} tone="personal" />
 
-            <HomepageBrandSection brands={shopByBrand} />
-
-            <HomepageProductSection title="Recently viewed" eyebrow="Pick up where you left off" section={recentlyViewed} tone="recent" />
+            <HomepageBrandSection brands={shopByBrand} video={<DeferredHeritageVideo source={vedio1} poster={videoOnePoster} label="Jamal Rafeeq automotive parts showcase" />} />
 
             <HomepageTrustBenefits benefits={asArray(homepageData.trust_benefits)} />
 
             <section className="section-heritage">
                 <div className="section-heritage-text">
                     <span className="heritage-tag">OUR PROMISE</span>
-                    <h2>Innovation Meets Premium Lifestyle</h2>
-                    <p>At eehook, every product is selected with a focus on quality, performance, and modern design. From powerful electronics to top-tier cosmetics, our collections are thoughtfully curated for customers who value excellence.</p>
-                    <p>Blending the latest tech trends with lifestyle essentials, we create a shopping experience that elevates your everyday life.</p>
+                    <h2>Parts, service, and support for every journey</h2>
+                    <p>Jamal Rafeeq Auto Parts Trading LLC helps drivers and workshops find dependable automotive parts and accessories selected for quality, fit, and everyday performance.</p>
+                    <p>Explore products, ask the team about vehicle compatibility, or contact us directly for service and business enquiries.</p>
                 </div>
 
                 <div className="section-heritage-gallery">

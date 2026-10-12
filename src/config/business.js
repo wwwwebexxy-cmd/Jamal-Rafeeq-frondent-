@@ -1,0 +1,25 @@
+const configuredWhatsappNumber = String(import.meta.env.VITE_WHATSAPP_NUMBER || "")
+    .replace(/[^0-9]/g, "");
+
+export const WHATSAPP_NUMBER = configuredWhatsappNumber;
+export const ORDER_CURRENCY = String(import.meta.env.VITE_ORDER_CURRENCY || "AED").trim().toUpperCase();
+
+export function getWhatsappUrl(message) {
+    if (!WHATSAPP_NUMBER) return "";
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}
+
+export function getProductWhatsappUrl(product, productId) {
+    const productUrl = typeof window === "undefined"
+        ? `/single/${productId}`
+        : `${window.location.origin}/single/${productId}`;
+    const message = [
+        "Hello, I would like to enquire about this product.",
+        "",
+        `Product: ${product?.name || "Automotive product"}`,
+        `Product link: ${productUrl}`,
+        "",
+        "Please confirm availability and pricing.",
+    ].join("\n");
+    return getWhatsappUrl(message);
+}

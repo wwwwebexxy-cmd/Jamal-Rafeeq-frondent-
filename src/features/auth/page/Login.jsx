@@ -145,7 +145,7 @@ function Login() {
 
                         <h1>Welcome Back</h1>
 
-                        <p>Login to your eehook account to continue shopping.</p>
+                        <p>Login to your Jamal Rafeeq account to continue shopping.</p>
 
                         {errorMessage && <p className="admin-login-error" role="alert">{errorMessage}</p>}
 

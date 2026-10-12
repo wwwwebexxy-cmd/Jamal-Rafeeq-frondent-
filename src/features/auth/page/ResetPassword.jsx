@@ -83,7 +83,7 @@ function ResetPassword() {
                     <h1>Reset Password</h1>
 
                     <p>
-                        Create a strong new password to secure your eehook account.
+                        Create a strong new password to secure your Jamal Rafeeq account.
                     </p>
 
                 </div>

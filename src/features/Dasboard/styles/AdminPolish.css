@@ -1,6 +1,6 @@
 /* Shared dashboard design layer: calm surfaces, strong hierarchy, and keyboard-first controls. */
 :root {
-    --admin-focus: rgba(255, 144, 0, .28);
+    --admin-focus: rgba(237, 28, 36, .28);
     --admin-radius-sm: 8px;
     --admin-radius-md: 14px;
     --admin-radius-lg: 18px;
@@ -50,7 +50,7 @@
 }
 
 .admin-brand-mark {
-    box-shadow: 0 7px 15px rgba(255, 144, 0, .18);
+    box-shadow: 0 7px 15px rgba(237, 28, 36, .18);
 }
 
 .admin-nav-item,
@@ -124,7 +124,7 @@
 }
 
 .admin-button.primary {
-    box-shadow: 0 7px 14px rgba(255, 144, 0, .17);
+    box-shadow: 0 7px 14px rgba(237, 28, 36, .17);
 }
 
 .admin-button.primary:hover,
@@ -443,7 +443,7 @@
 
 .hero-save-button {
     background: var(--admin-brand);
-    box-shadow: 0 7px 14px rgba(255, 144, 0, .17);
+    box-shadow: 0 7px 14px rgba(237, 28, 36, .17);
 }
 
 .hero-save-button:hover {
@@ -620,6 +620,106 @@
         transition-duration: .001ms !important;
     }
 }
+
+/* Jamal Rafeeq admin brand lockup. Keep the supplied logo transparent and
+   contained so the red/black mark remains legible at every sidebar width. */
+.admin-app {
+    --admin-brand: var(--brand-red, #ed1c24);
+    --admin-brand-dark: var(--brand-red-hover, #c9161d);
+    --admin-ink: var(--brand-black-soft, #252525);
+    --admin-bg: #fafafa;
+}
+
+.admin-brand {
+    min-height: 96px;
+    height: auto;
+    padding: 14px 18px;
+    align-items: center;
+}
+
+.admin-brand-logo {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    flex: 0 0 58px;
+    border-radius: 12px;
+    background: transparent;
+    box-shadow: none;
+}
+
+.admin-brand-logo img {
+    position: static;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: contain;
+}
+
+.admin-brand-copy {
+    min-width: 0;
+}
+
+.admin-brand-copy strong {
+    display: block;
+    color: var(--brand-black, #111);
+    font-size: 15px;
+    line-height: 1.15;
+    letter-spacing: -.02em;
+}
+
+.admin-brand-copy small,
+.admin-brand-copy span {
+    display: block;
+    color: var(--admin-muted, #70818a);
+    line-height: 1.35;
+}
+
+.admin-brand-copy small {
+    margin-top: 3px;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.admin-brand-copy span {
+    margin-top: 5px;
+    font-size: 10px;
+}
+
+.admin-nav-item.active,
+.admin-nav-item:hover {
+    background: rgba(237, 28, 36, .08);
+    color: var(--admin-brand-dark);
+}
+
+.admin-button.primary,
+.admin-app .hero-save-button {
+    background: var(--admin-brand);
+    border-color: var(--admin-brand);
+}
+
+.admin-button.primary:hover,
+.admin-app .hero-save-button:hover {
+    background: var(--admin-brand-dark);
+    border-color: var(--admin-brand-dark);
+}
+
+@media (max-width: 760px) {
+    .admin-brand {
+        min-height: 82px;
+        padding: 12px 16px;
+    }
+
+    .admin-brand-logo {
+        width: 50px;
+        height: 50px;
+        flex-basis: 50px;
+    }
+}
 .admin-brand-logo{width:62px;height:54px;display:block;position:relative;overflow:hidden;flex:0 0 62px}
 .admin-brand-logo img{position:absolute;display:block;width:316px;max-width:none;height:auto;left:-14px;top:-22px}
 .admin-form-field input[readonly],.admin-form-field textarea[readonly],.admin-form-field input:disabled,.admin-form-field select:disabled{background:#f6f8f7;color:#607178;cursor:not-allowed}
@@ -677,7 +777,7 @@
     background: var(--admin-button-brand);
     border-color: var(--admin-button-brand);
     color: #fff;
-    box-shadow: 0 7px 15px rgba(242, 138, 19, .18);
+    box-shadow: 0 7px 15px rgba(237, 28, 36, .18);
 }
 
 .admin-app .admin-button.primary:hover,
@@ -1056,6 +1156,102 @@
     }
 }
 
+/* Final brand overrides: the supplied transparent mark is shown as a
+   contained square logo, never as the former wide cropped wordmark. */
+.admin-app {
+    --admin-brand: var(--brand-red, #ed1c24);
+    --admin-brand-dark: var(--brand-red-hover, #c9161d);
+    --admin-button-brand: var(--brand-red, #ed1c24);
+    --admin-button-brand-hover: var(--brand-red-hover, #c9161d);
+    --admin-ink: var(--brand-black-soft, #252525);
+    --admin-bg: #fafafa;
+}
+
+.admin-app .admin-brand {
+    min-height: 96px;
+    height: auto;
+    padding: 14px 18px;
+    align-items: center;
+}
+
+.admin-app .admin-brand-logo {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    flex: 0 0 58px;
+    border-radius: 12px;
+    background: transparent;
+    box-shadow: none;
+}
+
+.admin-app .admin-brand-logo img {
+    position: static;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: contain;
+}
+
+.admin-app .admin-brand-copy {
+    min-width: 0;
+}
+
+.admin-app .admin-brand-copy strong {
+    display: block;
+    color: var(--brand-black, #111);
+    font-size: 15px;
+    line-height: 1.15;
+    letter-spacing: -.02em;
+}
+
+.admin-app .admin-brand-copy small,
+.admin-app .admin-brand-copy span {
+    display: block;
+    color: var(--admin-muted, #70818a);
+    line-height: 1.35;
+}
+
+.admin-app .admin-brand-copy small {
+    margin-top: 3px;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.admin-app .admin-brand-copy span {
+    margin-top: 5px;
+    font-size: 10px;
+}
+
+.admin-app .admin-button.primary,
+.admin-app .hero-save-button {
+    background: var(--admin-button-brand);
+    border-color: var(--admin-button-brand);
+}
+
+.admin-app .admin-button.primary:hover,
+.admin-app .hero-save-button:hover {
+    background: var(--admin-button-brand-hover);
+    border-color: var(--admin-button-brand-hover);
+}
+
+@media (max-width: 760px) {
+    .admin-app .admin-brand {
+        min-height: 82px;
+        padding: 12px 16px;
+    }
+
+    .admin-app .admin-brand-logo {
+        width: 50px;
+        height: 50px;
+        flex-basis: 50px;
+    }
+}
+
 .admin-form-field .field-hint {
     display: block;
     margin-top: 6px;
@@ -1093,9 +1289,8 @@
     }
 }
 
-/* The sidebar brand uses a deliberate crop of the wide eehook logo. The
-   generic responsive image rule above must not shrink that crop back to the
-   62px container, otherwise the artwork is positioned entirely out of view. */
+/* Legacy sizing block retained for older dashboard variants; the final brand
+   overrides below replace it with the contained transparent logo lockup. */
 .admin-app .admin-brand-logo {
     width: 190px;
     height: 60px;
@@ -1154,3 +1349,98 @@
     }
 }
 
+/* Final brand overrides: the supplied transparent mark is shown as a
+   contained square logo, never as the former wide cropped wordmark. */
+.admin-app {
+    --admin-brand: var(--brand-red, #ed1c24);
+    --admin-brand-dark: var(--brand-red-hover, #c9161d);
+    --admin-button-brand: var(--brand-red, #ed1c24);
+    --admin-button-brand-hover: var(--brand-red-hover, #c9161d);
+    --admin-ink: var(--brand-black-soft, #252525);
+    --admin-bg: #fafafa;
+}
+
+.admin-app .admin-brand {
+    min-height: 96px;
+    height: auto;
+    padding: 14px 18px;
+    align-items: center;
+}
+
+.admin-app .admin-brand-logo {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    flex: 0 0 58px;
+    border-radius: 12px;
+    background: transparent;
+    box-shadow: none;
+}
+
+.admin-app .admin-brand-logo img {
+    position: static;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: contain;
+}
+
+.admin-app .admin-brand-copy {
+    min-width: 0;
+}
+
+.admin-app .admin-brand-copy strong {
+    display: block;
+    color: var(--brand-black, #111);
+    font-size: 15px;
+    line-height: 1.15;
+    letter-spacing: -.02em;
+}
+
+.admin-app .admin-brand-copy small,
+.admin-app .admin-brand-copy span {
+    display: block;
+    color: var(--admin-muted, #70818a);
+    line-height: 1.35;
+}
+
+.admin-app .admin-brand-copy small {
+    margin-top: 3px;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.admin-app .admin-brand-copy span {
+    margin-top: 5px;
+    font-size: 10px;
+}
+
+.admin-app .admin-button.primary,
+.admin-app .hero-save-button {
+    background: var(--admin-button-brand);
+    border-color: var(--admin-button-brand);
+}
+
+.admin-app .admin-button.primary:hover,
+.admin-app .hero-save-button:hover {
+    background: var(--admin-button-brand-hover);
+    border-color: var(--admin-button-brand-hover);
+}
+
+@media (max-width: 760px) {
+    .admin-app .admin-brand {
+        min-height: 82px;
+        padding: 12px 16px;
+    }
+
+    .admin-app .admin-brand-logo {
+        width: 50px;
+        height: 50px;
+        flex-basis: 50px;
+    }
+}

@@ -1,39 +1,44 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap');
 
 :root {
-  /* ===== EEHOOK BRAND DESIGN TOKENS ===== */
+  /* ===== JAMAL RAFEEQ BRAND DESIGN TOKENS ===== */
 
   /* Primary Colors */
-  --primary-orange: #FF9000;
-  --primary-orange-hover: #D97F00;
-  --primary-orange-light: #FFF3E0;
-  --primary-orange-bg: rgba(255, 144, 0, 0.08);
+  --brand-red: #ed1c24;
+  --brand-red-hover: #c9161d;
+  --brand-red-light: #fff0f1;
+  --brand-black: #111111;
+  --brand-black-soft: #252525;
+  --primary-orange: var(--brand-red);
+  --primary-orange-hover: var(--brand-red-hover);
+  --primary-orange-light: var(--brand-red-light);
+  --primary-orange-bg: rgba(237, 28, 36, 0.08);
 
   /* Slate Colors */
-  --primary-slate: #4B636D;
-  --primary-slate-hover: #3A4F58;
-  --primary-slate-light: #6B8490;
-  --primary-slate-muted: #8A9DA6;
+  --primary-slate: var(--brand-black-soft);
+  --primary-slate-hover: var(--brand-black);
+  --primary-slate-light: #666666;
+  --primary-slate-muted: #8a8a8a;
 
   /* Background & Surfaces */
-  --background: #F8F9F3;
+  --background: #fafafa;
   --surface-card: #FFFFFF;
   --surface-elevated: #FFFFFF;
 
   /* Text */
-  --text-primary: #4B636D;
-  --text-secondary: #6B8490;
-  --text-muted: #8A9DA6;
+  --text-primary: var(--brand-black-soft);
+  --text-secondary: #666666;
+  --text-muted: #8a8a8a;
   --text-on-dark: #FFFFFF;
 
   /* Borders */
-  --border-color: #E2E6E0;
-  --border-light: #EEEFE9;
+  --border-color: #e5e5e5;
+  --border-light: #f0f0f0;
 
   /* Misc */
-  --shadow-sm: 0 2px 8px rgba(75, 99, 109, 0.06);
-  --shadow-md: 0 8px 24px rgba(75, 99, 109, 0.08);
-  --shadow-lg: 0 16px 40px rgba(75, 99, 109, 0.10);
+  --shadow-sm: 0 2px 8px rgba(17, 17, 17, 0.06);
+  --shadow-md: 0 8px 24px rgba(17, 17, 17, 0.08);
+  --shadow-lg: 0 16px 40px rgba(17, 17, 17, 0.10);
 }
 
 body {
@@ -58,8 +63,8 @@ html {
 
 /* Selection highlight using brand color */
 ::selection {
-  background: rgba(255, 144, 0, 0.2);
-  color: #4B636D;
+  background: rgba(237, 28, 36, 0.2);
+  color: var(--brand-black);
 }
 
 /* --- Global Skeleton Loading --- */

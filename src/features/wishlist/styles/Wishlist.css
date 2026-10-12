@@ -59,7 +59,7 @@ body {
 
 .clear-btn {
     padding: 12px 22px;
-    background: #F8F9F3;
+    background: var(--background);
     border: 1px solid #d7cfcf;
     border-radius: 8px;
     cursor: pointer;
@@ -86,7 +86,7 @@ body {
     justify-items: center;
     gap: 12px;
     padding: 56px 20px;
-    color: #4b636d;
+    color: var(--brand-black-soft);
     text-align: center;
 }
 
@@ -95,7 +95,7 @@ body {
     border: 0;
     border-radius: 999px;
     padding: 10px 18px;
-    background: #4b636d;
+    background: var(--brand-black-soft);
     color: #fff;
     cursor: pointer;
     text-decoration: none;
@@ -114,7 +114,7 @@ body {
 
 .wishlist-card {
     min-width: 0;
-    background: #F8F9F3;
+    background: var(--background);
     border-radius: 14px;
     overflow: hidden;
     position: relative;
@@ -142,7 +142,7 @@ body {
     width: 34px;
     height: 34px;
     border-radius: 50%;
-    background: #F8F9F3;
+    background: var(--background);
     border: none;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
     cursor: pointer;
@@ -164,7 +164,7 @@ body {
     text-transform: uppercase;
     letter-spacing: 1.2px;
     font-size: 13px;
-    color: #4B636D;
+    color: var(--brand-black-soft);
     /* Dark Wine Text color */
     font-weight: 700;
     margin-bottom: 5px;
@@ -244,7 +244,7 @@ body {
     width: min(290px, 100%);
     max-width: 100%;
     min-width: 0;
-    background: #F8F9F3;
+    background: var(--background);
     border-radius: 12px;
     overflow: hidden;
     padding-bottom: 16px;
@@ -276,7 +276,7 @@ body {
     position:absolute;
     top:15px;
     left:15px;
-    background:#4B636D;
+    background:var(--brand-black-soft);
     color: #FFFFFF;
     padding:6px 12px;
     border-radius:20px;
@@ -300,7 +300,7 @@ body {
 .wishlist-new-price{
     font-size:22px;
     font-weight:700;
-    color:#4B636D;
+    color:var(--brand-black-soft);
 }
 
 /* Tablet */

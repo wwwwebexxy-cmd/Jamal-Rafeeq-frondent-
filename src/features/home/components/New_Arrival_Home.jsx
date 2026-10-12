@@ -4,15 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getImageUrl } from "../../../utils/imageUrl";
 import Product_Query from "../../sale/queries/Product_Query";
-import WishlistQuery from "../../wishlist/queries/WishlistQuery";
-import { Wishlist_delete, Wishlist_post } from "../../wishlist/api/Wishlisht_Api";
-import showToast from "../../../utils/toast";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { hasAuthSession } from "../../auth/authUtils";
 import DirhamAmount from "../../../components/DirhamAmount";
 import { getHomepageProductPricing } from "../utils/productPricing";
+import { getProductWhatsappUrl } from "../../../config/business";
 
-const MAX_PRODUCTS_PER_SECTION = 16;
+const MAX_PRODUCTS_PER_SECTION = 9;
 const hasValue = (value) => value !== null && value !== undefined && value !== "";
 
 function getProductSelection(product) {
@@ -36,8 +32,8 @@ function New_Arrival_Home({
     products,
     totalCount,
     title = "New Arrivals",
-    subtitle = "The latest curated collection for the modern lifestyle.",
-    viewAllTo = "/shop?sort=new",
+    subtitle = "The latest parts and accessories for your vehicle.",
+    viewAllTo = "/find-products?sort=new",
     showNewBadge = false,
     tone = "new",
 }) {
@@ -49,8 +45,6 @@ function New_Arrival_Home({
     const shopData = hasProvidedProducts ? [] : (rawShopData?.results || []);
     const isLoading = !hasProvidedProducts && (newArrivalsLoading || shopLoading);
     const error = hasProvidedProducts ? null : newArrivalsError;
-    const { data: rawWishlist = [], refetch: refetchWishlist } = WishlistQuery();
-    const wishlist = Array.isArray(rawWishlist) ? rawWishlist : rawWishlist?.results || [];
     const [showLoader, setShowLoader] = useState(true);
 
     useEffect(() => {
@@ -68,35 +62,6 @@ function New_Arrival_Home({
     const showViewAll = availableCount > MAX_PRODUCTS_PER_SECTION || data.length > MAX_PRODUCTS_PER_SECTION;
 
     if (hasProvidedProducts && !data.length) return null;
-
-    const addToWishlist = async (product, event) => {
-        event.stopPropagation();
-        if (!hasAuthSession()) {
-            showToast.info("Please login to continue");
-            navigate("/login");
-            return;
-        }
-
-        const { variant, size } = getProductSelection(product);
-        if (!variant || (variant.price_type !== "single" && !size)) {
-            showToast.error("Variant not available");
-            return;
-        }
-
-        const wishlistItem = wishlist.find((item) => String(item.variant) === String(variant.id) && String(item.variant_size ?? "") === String(size?.id ?? ""));
-        try {
-            if (wishlistItem) {
-                await Wishlist_delete(wishlistItem.id);
-                showToast.success("Product removed from wishlist");
-            } else {
-                await Wishlist_post({ variant: variant.id, variant_size: size?.id ?? null });
-                showToast.success("Product added to wishlist");
-            }
-            await refetchWishlist();
-        } catch (requestError) {
-            showToast.error(requestError?.response?.data?.detail || "Could not update wishlist");
-        }
-    };
 
     if (isLoading || showLoader) {
         return (
@@ -131,10 +96,10 @@ function New_Arrival_Home({
                 <div className="grid-container">
                     <div className="new-arrivals-grid">
                         {displayData.map((item) => {
-                            const { variant, size } = getProductSelection(item);
-                            const isWishlisted = wishlist.some((wishlistItem) => String(wishlistItem.variant) === String(variant?.id) && String(wishlistItem.variant_size ?? "") === String(size?.id ?? ""));
+                            const { variant } = getProductSelection(item);
                             const image = getProductImage(item);
                             const { currentPrice, originalPrice, discountPercentage, hasOffer } = getHomepageProductPricing(item, variant);
+                            const whatsappUrl = getProductWhatsappUrl(item, item.id);
 
                             return (
                                 <article key={item.id} className="new-product-card">
@@ -142,12 +107,11 @@ function New_Arrival_Home({
                                         <img src={image ? getImageUrl(image) : undefined} alt={item.name} className="product-img" />
                                         {hasOffer && <span className="badge-offer">{discountPercentage}% OFF</span>}
                                         {showNewBadge && item.is_active && <span className="badge-new">NEW</span>}
-                                        <button type="button" className={`wishlist-btn ${isWishlisted ? "is-wishlisted" : ""}`} onClick={(event) => addToWishlist(item, event)} aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}>{isWishlisted ? <FaHeart className="heart-icon" /> : <FaRegHeart className="heart-icon" />}</button>
                                         <button type="button" className="quick-add-btn" onClick={(event) => { event.stopPropagation(); navigate(`/single/${item.id}`); }}>VIEW PRODUCT</button>
                                     </div>
 
                                     <div className="product-details">
-                                        <span className="product-tag">{item.category?.name || item.brand?.name || "EXCLUSIVE"}</span>
+                                        <span className="product-tag">{item.brand?.name || "AUTOMOTIVE PRODUCT"}</span>
                                         <h3 className="newHome-product-title">{item.description || item.name}</h3>
                                         <div className="product-meta">
                                             <div className="price-area">
@@ -155,6 +119,7 @@ function New_Arrival_Home({
                                                 <span className="product-price"><DirhamAmount value={currentPrice} fallback="Price unavailable" /></span>
                                             </div>
                                         </div>
+                                        {whatsappUrl ? <a className="whatsapp-home-product-btn" href={whatsappUrl} target="_blank" rel="noopener noreferrer" onClick={(event) => event.stopPropagation()}>Order via WhatsApp</a> : <span className="whatsapp-home-product-disabled">WhatsApp enquiry unavailable</span>}
                                     </div>
                                 </article>
                             );

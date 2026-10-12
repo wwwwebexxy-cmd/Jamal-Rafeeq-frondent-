@@ -7,7 +7,7 @@
 body{
     background:#fdf8fa;
     font-family:"Poppins",sans-serif;
-    color:#4B636D;
+    color:var(--brand-black-soft);
 }
 
 .admin-order-page{
@@ -32,7 +32,7 @@ body{
     align-items:center;
     margin-bottom:35px;
     padding:28px 35px;
-    background:linear-gradient(135deg,#F8F9F3,#fff7f9);
+    background:linear-gradient(135deg,var(--background),#fff7f9);
     border-radius:18px;
     border:1px solid #f2d9e1;
     box-shadow:0 8px 25px rgba(139,30,63,.12);
@@ -46,7 +46,7 @@ body{
 
 .admin-order-header p{
     margin-top:8px;
-    color: #8A9DA6;
+    color: var(--text-muted);
     font-size:15px;
 }
 
@@ -94,7 +94,7 @@ body{
     margin-bottom:30px;
 }
 .admin-order-card{
-    background: #F8F9F3;
+    background: var(--background);
     border:1px solid #f1d7df;
     border-radius:18px;
     padding:28px;
@@ -130,7 +130,7 @@ body{
 }
 
 .admin-detail-row span{
-    color: #8A9DA6;
+    color: var(--text-muted);
     font-size:15px;
     font-weight:500;
 }
@@ -144,7 +144,7 @@ body{
 }
 
 .admin-order-card p{
-    color:#4B636D;
+    color:var(--brand-black-soft);
     line-height:1.8;
     font-size:15px;
     margin-bottom:8px;
@@ -160,7 +160,7 @@ body{
 
     background:linear-gradient(
         180deg,
-        #F8F9F3,
+        var(--background),
         #fff8fa
     );
 
@@ -172,7 +172,7 @@ body{
 
     background:linear-gradient(
         180deg,
-        #F8F9F3,
+        var(--background),
         #fff6f8
     );
 
@@ -184,7 +184,7 @@ body{
 
     background:linear-gradient(
         180deg,
-        #F8F9F3,
+        var(--background),
         #fff5f7
     );
 
@@ -198,7 +198,7 @@ body{
 
 .admin-order-card span{
 
-    color:#4B636D;
+    color:var(--brand-black-soft);
 
 }
 .admin-order-table{
@@ -211,7 +211,7 @@ body{
     width:100%;
     border-collapse:collapse;
     min-width:850px;
-    background: #F8F9F3;
+    background: var(--background);
 }
 
 .admin-order-table thead{
@@ -234,7 +234,7 @@ body{
 .admin-order-table td{
     padding:18px 15px;
     border-bottom:1px solid #f4dce4;
-    color:#4B636D;
+    color:var(--brand-black-soft);
     font-size:15px;
     vertical-align:middle;
 }
@@ -253,7 +253,7 @@ body{
     object-fit:cover;
     border-radius:12px;
     border:2px solid #f2d9e1;
-    background: #F8F9F3;
+    background: var(--background);
     padding:4px;
 }
 
@@ -281,8 +281,8 @@ body{
     font-size:15px;
     margin-top:15px;
     margin-bottom:20px;
-    background: #F8F9F3;
-    color:#4B636D;
+    background: var(--background);
+    color:var(--brand-black-soft);
     transition:.3s;
 }
 
@@ -439,7 +439,7 @@ body{
 
     body{
 
-        background: #F8F9F3 !important;
+        background: var(--background) !important;
 
     }
 
@@ -459,7 +459,7 @@ body{
 
     .admin-order-header{
 
-        background: #F8F9F3;
+        background: var(--background);
         border:none;
         box-shadow:none;
         padding:0 0 20px;
@@ -469,14 +469,14 @@ body{
 
     .admin-order-header h2{
 
-        color:#4B636D;
+        color:var(--brand-black-soft);
         font-size:30px;
 
     }
 
     .admin-order-header p{
 
-        color:#4B636D;
+        color:var(--brand-black-soft);
 
     }
 
@@ -491,7 +491,7 @@ body{
 
         border:1px solid #ccc;
         box-shadow:none;
-        background: #F8F9F3;
+        background: var(--background);
         border-radius:8px;
         page-break-inside:avoid;
 
@@ -505,7 +505,7 @@ body{
 
     .admin-order-card h3{
 
-        color:#4B636D;
+        color:var(--brand-black-soft);
         border-bottom:1px solid #ccc;
 
     }
@@ -518,7 +518,7 @@ body{
 
     .admin-detail-row strong{
 
-        color:#4B636D;
+        color:var(--brand-black-soft);
 
     }
 
@@ -543,7 +543,7 @@ body{
 
     .admin-order-table th{
 
-        color:#4B636D;
+        color:var(--brand-black-soft);
         border:1px solid #999;
         background:#eee !important;
 
@@ -588,13 +588,13 @@ body{
     .invoice-footer h3{
 
         font-size:22px;
-        color:#4B636D;
+        color:var(--brand-black-soft);
 
     }
 
     .invoice-footer p{
 
-        color:#4B636D;
+        color:var(--brand-black-soft);
         margin-top:10px;
 
     }

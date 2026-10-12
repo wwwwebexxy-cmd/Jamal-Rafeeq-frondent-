@@ -2,15 +2,12 @@ import { Routes, Route, Navigate, useLocation, useParams } from 'react-router-do
 import Home from '../features/home/Home'
 import Sale from '../features/sale/page/Sale'
 import Single_product from '../features/single product/page/Single_product'
-import Cart_page from '../features/cart/page/Cart_Page'
-import Wishlist from '../features/wishlist/page/Wishlist'
 import Offer_poster from '../hooks/offers/page/Offer_poster'
 import OrderDashboard from '../features/Dasboard/page/OrderDashboard'
 import About from '../features/About/page/About'
 import Profile from '../features/Profile/page/Profile'
 
 import MyOrder from '../features/myOrders/page/My_orders'
-import PaymentSuccess from '../features/cart/page/PaymentSuccess'
 import ContactUs from '../components/Contact'
 
 import Login from '../features/auth/page/Login'
@@ -19,7 +16,6 @@ import Signup from '../features/auth/page/SignUp'
 import AdminRoute from '../features/Dasboard/page/AdminRoute'
 import ForgotPassword from '../features/auth/page/ForgotPassord'
 import ResetPassword from '../features/auth/page/ResetPassword'
-import Checkout from '../features/cart/page/CheckOut'
 import Invoice from '../features/Dasboard/page/InvoicePrint'
 import ProtectedRoute from '../features/auth/page/ProtectedRoute'
 import Unauthorized from '../features/auth/page/Unauthorized'
@@ -34,14 +30,20 @@ function LegacyDashboardPathRedirect() {
     return <Navigate to={`${nextPath}${location.search}${location.hash}`} replace />;
 }
 
+function LegacyFindProductsRedirect() {
+    const location = useLocation();
+    return <Navigate to={`/find-products${location.search}${location.hash}`} replace />;
+}
+
 function Router() {
     return (
         <div>
 
             <Routes>
                 <Route path='/' element={<Home />} />
-                <Route path='shop' element={<Sale />} />
-                <Route path='products' element={<Sale />} />
+                <Route path='find-products' element={<Sale />} />
+                <Route path='shop' element={<LegacyFindProductsRedirect />} />
+                <Route path='products' element={<LegacyFindProductsRedirect />} />
                 <Route path='/about' element={<About />} />
 
                 <Route path='profile' element={
@@ -51,22 +53,6 @@ function Router() {
                 } />
 
                 <Route path="/single/:id" element={<Single_product />} />
-
-                <Route path="checkout" element={
-                    <ProtectedRoute>
-                        <Cart_page />
-                    </ProtectedRoute>
-                } />
-                <Route path="wishlist" element={
-                    <ProtectedRoute>
-                        <Wishlist />
-                    </ProtectedRoute>
-                } />
-                <Route path="checkoutpage" element={
-                    <ProtectedRoute>
-                        <Checkout />
-                    </ProtectedRoute>
-                } />
 
                 <Route path="/offers" element={<Offer_poster />} />
 
@@ -140,10 +126,6 @@ function Router() {
                 <Route path="order-dashboard/*" element={<LegacyDashboardPathRedirect />} />
                 <Route path="orderDashboard" element={<LegacyDashboardPathRedirect />} />
                 <Route path="orderDashboard/*" element={<LegacyDashboardPathRedirect />} />
-                <Route
-                    path="/payment-success"
-                    element={<PaymentSuccess />}
-                />
                 <Route path='contact' element={<ContactUs />} />
 
             </Routes>

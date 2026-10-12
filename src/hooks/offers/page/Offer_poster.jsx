@@ -45,7 +45,7 @@ if (error) {
               <span className="offer-tag">LIMITED TIME COLLECTION</span>
               <h1 className="offer-title">{offer.title}</h1>
               <p className="offer-description">{offer.description}</p>
-              <button className="offer-btn" onClick={() => window.location.href = `/shop?offer=true`}>
+              <button className="offer-btn" onClick={() => window.location.href = `/find-products?offer=true`}>
                 EXPLORE OFFERS
               </button>
             </div>

@@ -2,13 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { getImageUrl } from "../../../utils/imageUrl";
 import defaultImage from "../../../assets/image_not_available.png";
 
-function HomepageBrandSection({ brands }) {
+function HomepageBrandSection({ brands, video = null }) {
     const navigate = useNavigate();
     const visibleBrands = Array.isArray(brands)
         ? brands.filter((brand) => brand?.id !== null && brand?.id !== undefined)
         : [];
 
-    if (!visibleBrands.length) return null;
+    if (!visibleBrands.length && !video) return null;
 
     return (
         <section className="brand-showcase" aria-labelledby="homepage-shop-by-brand">
@@ -21,7 +21,9 @@ function HomepageBrandSection({ brands }) {
                 <p className="brand-showcase-count"><strong>{visibleBrands.length}</strong> {visibleBrands.length === 1 ? "brand collection" : "brand collections"}</p>
             </header>
 
-            <div className={`brand-showcase-grid ${visibleBrands.length === 1 ? "is-single" : ""}`}>
+            {video && <div className="brand-showcase-video" aria-label="Shop by Brand video showcase">{video}</div>}
+
+            {visibleBrands.length > 0 && <div className={`brand-showcase-grid ${visibleBrands.length === 1 ? "is-single" : ""}`}>
                 {visibleBrands.map((brand) => {
                     const productCount = Number(brand.product_count || 0);
                     const brandName = brand.name || "Brand";
@@ -31,7 +33,7 @@ function HomepageBrandSection({ brands }) {
                         className="brand-showcase-card"
                         key={brand.id}
                         aria-label={`Shop ${brandName}`}
-                        onClick={() => navigate(`/products/?brand=${encodeURIComponent(brand.slug || brand.id)}`)}
+                        onClick={() => navigate(`/find-products?brand=${encodeURIComponent(brand.slug || brand.id)}`)}
                     >
                         <div className="brand-showcase-visual">
                             <span className="brand-showcase-orb" aria-hidden="true" />
@@ -47,10 +49,9 @@ function HomepageBrandSection({ brands }) {
                     </button>
                     );
                 })}
-            </div>
+            </div>}
         </section>
     );
 }
 
 export default HomepageBrandSection;
-

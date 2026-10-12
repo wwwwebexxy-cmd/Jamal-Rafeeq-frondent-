@@ -27,7 +27,7 @@ align-items:center;
 width:100%;
 min-width:0;
 max-width:430px;
-background: #F8F9F3;
+background: var(--background);
 padding:28px;
 border-radius:20px;
 box-shadow:0 12px 35px rgba(0,0,0,0.08);
@@ -53,7 +53,7 @@ margin-bottom:6px;
 
 .auth-header p{
 font-size:14px;
-color: #8A9DA6;
+color: var(--text-muted);
 line-height:1.5;
 }
 
@@ -67,7 +67,7 @@ margin-bottom:16px;
 font-size:14px;
 font-weight:500;
 margin-bottom:8px;
-color:#4B636D;
+color:var(--brand-black-soft);
 }
 
 .input-group input{
@@ -79,7 +79,7 @@ border-radius:12px;
 font-size:15px;
 outline:none;
 transition:.3s;
-background: #F8F9F3;
+background: var(--background);
 }
 
 .input-group input:focus{
@@ -138,7 +138,7 @@ width:100%;
 height:48px;
 border:none;
 border-radius:12px;
-background:#FF9000;
+background:var(--brand-red);
 color: #FFFFFF;
 font-size:16px;
 font-weight:600;
@@ -148,7 +148,7 @@ margin-top:5px;
 }
 
 .signup-btn:hover{
-background:#D97700;
+background:var(--brand-red-hover);
 transform:translateY(-1px);
 }
 
@@ -177,8 +177,8 @@ background:#e5e5e5;
 padding:0 15px;
 font-size:13px;
 font-weight:500;
-color: #8A9DA6;
-background: #F8F9F3;
+color: var(--text-muted);
+background: var(--background);
 }
 
 .google-section{
@@ -211,7 +211,7 @@ justify-content:center;
 margin-top:18px;
 text-align:center;
 font-size:14px;
-color:#4B636D;
+color:var(--brand-black-soft);
 }
 
 .signup-link a{
@@ -233,8 +233,8 @@ color:#b5b5b5;
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus{
--webkit-box-shadow:0 0 0px 1000px #F8F9F3 inset;
--webkit-text-fill-color:#4B636D;
+-webkit-box-shadow:0 0 0px 1000px var(--background) inset;
+-webkit-text-fill-color:var(--brand-black-soft);
 transition:background-color 5000s ease-in-out 0s;
 }
 

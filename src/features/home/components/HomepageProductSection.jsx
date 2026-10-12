@@ -24,7 +24,7 @@ function getSectionCount(section, products) {
     return Number.isFinite(count) ? count : products.length;
 }
 
-function HomepageProductSection({ title, eyebrow, section, viewAllTo = "/shop", tone }) {
+function HomepageProductSection({ title, eyebrow, section, viewAllTo = "/find-products", tone }) {
     const allProducts = uniqueProducts(getSectionProducts(section));
     const products = allProducts.slice(0, MAX_PRODUCTS_PER_SECTION);
     if (!products.length) return null;

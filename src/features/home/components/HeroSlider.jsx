@@ -77,7 +77,7 @@ export default function HeroSlider() {
                 <p className="hero-description">{currentSlide.description}</p>
 
                 {/* Call to Action Button */}
-                <NavLink to='/shop'>
+                <NavLink to='/find-products'>
                     <div className="hero-cta">
                         <span className="cta-text">Buy the Latest Trend</span>
                         <div className="cta-circle-arrow">

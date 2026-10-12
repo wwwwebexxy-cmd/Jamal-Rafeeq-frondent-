@@ -1,8 +1,9 @@
 .footer {
     width: 100%;
-    background: #4B636D;
+    background: var(--surface-card);
     padding: 50px 8%;
-    color: #FFFFFF;
+    color: var(--brand-black-soft);
+    border-top: 1px solid var(--border-light);
 }
 
 .footer-container {
@@ -18,18 +19,34 @@
 }
 
 .footer-logo {
-    width: 170px;
+    display: block;
+    width: min(190px, 100%);
+    height: 150px;
+    object-fit: contain;
+    object-position: left center;
+    background: transparent;
     margin-bottom: 18px;
 }
 
+.footer-brand-name {
+    max-width: 220px;
+    margin: -6px 0 0;
+    color: rgba(37, 37, 37, 0.78);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
 .brand p {
-    color: rgba(255,255,255,0.75);
+    color: rgba(37,37,37,0.75);
     line-height: 1.7;
     margin-bottom: 18px;
 }
 
 .footer-column h3 {
-    color: #FF9000;
+    color: var(--brand-red);
     margin-bottom: 18px;
     font-size: 18px;
     text-transform: uppercase;
@@ -43,7 +60,7 @@
 
 .footer-column ul li {
     margin-bottom: 12px;
-    color: rgba(255,255,255,0.7);
+    color: rgba(37,37,37,0.7);
     transition: .3s;
     display: flex;
     align-items: center;
@@ -51,20 +68,20 @@
 }
 
 .footer-column ul li:hover {
-    color: #FF9000;
+    color: var(--brand-red);
 }
 .footer-column a:hover {
-    color: #FF9000;
+    color: var(--brand-red);
 }
 .footer-column a{
-    color: rgba(255,255,255,0.7);
+    color: rgba(37,37,37,0.7);
     display: inline-flex;
     align-items: center;
     gap: 10px;
 }
 
 .footer-column a:focus-visible {
-    outline: 2px solid #FF9000;
+    outline: 2px solid var(--brand-red);
     outline-offset: 3px;
     border-radius: 2px;
 }
@@ -73,10 +90,10 @@
     display: flex;
     gap: 18px;
     font-size: 20px;
-    color: #FF9000;
+    color: var(--brand-red);
 }
 .social-icons a{
-    color: #FF9000;
+    color: var(--brand-red);
 }
 
 .social-icons a {
@@ -104,7 +121,7 @@
 }
 
 .copyright {
-    background: #3A4F58;
+    background: var(--brand-black);
     color: rgba(255,255,255,0.85);
     height: 40px;
     display: flex;
@@ -122,7 +139,9 @@
     }
 
     .footer-logo {
-        width: 100%;
+        width: min(190px, 100%);
+        height: 150px;
+        object-position: center;
     }
 
 
@@ -211,7 +230,9 @@
     }
 
     .footer-logo {
-        width: min(170px, 100%);
+        width: min(190px, 100%);
+        height: 150px;
+        object-position: center;
     }
 
     .footer-column h3 {

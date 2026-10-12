@@ -24,7 +24,7 @@
 .hero-editor-field .coupon-product-search input { padding-left: 36px; }
 .hero-editor-field .coupon-product-search input::placeholder { color: #9aa9ac; }
 .hero-editor-field .coupon-product-search input:focus,
-.hero-editor-field .coupon-product-picker select:focus { outline: none; border-color: #f0b45f; box-shadow: 0 0 0 3px rgba(255, 144, 0, .16); }
+.hero-editor-field .coupon-product-picker select:focus { outline: none; border-color: #f0b45f; box-shadow: 0 0 0 3px rgba(237, 28, 36, .16); }
 .coupon-product-picker select { cursor: pointer; }
 .coupon-add-product { width: 42px; height: 42px; display: inline-grid; place-items: center; box-sizing: border-box; border: 1px solid #cbdcd5; border-radius: 9px; background: #f7fbf9; color: #58a51c; cursor: pointer; padding: 0; transition: background-color .18s ease, border-color .18s ease, color .18s ease, transform .18s ease; }
 .coupon-add-product svg { font-size: 21px; flex: 0 0 auto; }

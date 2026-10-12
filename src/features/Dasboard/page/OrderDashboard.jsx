@@ -17,7 +17,7 @@ import CouponUsageEditor from "./CouponUsageEditor";
 import WelcomeBonusEditor from "./WelcomeBonusEditor";
 import WelcomeBonusPage from "./WelcomeBonusPage";
 import TokenBlacklistPage from "./TokenBlacklistPage";
-import navbarLogo from "../../../assets/navbar-logo.png";
+import navbarLogo from "../../../assets/jamal-rafeeq-logo-transparent.png";
 import { getImageUrl } from "../../../utils/imageUrl";
 import { logoutSession } from "../../../lib/ApiClient";
 import { getPasswordPolicyError } from "../../auth/passwordPolicy";
@@ -60,8 +60,8 @@ const resources = {
 const navGroups = [
     { title: "Workspace", items: [{ key: "overview", label: "Overview", icon: FiGrid }] },
     { title: "Orders", items: [{ key: "orders", label: "Orders", icon: FiShoppingBag }, { key: "order-items", label: "Order Items", icon: FiClipboard }] },
-    { title: "Catalog", items: ["categories", "subcategories", "brands", "products", "colors", "unit-types", "units", "offers"].map((key) => ({ key, label: key === "products" ? "Products & Variants" : resources[key].label, icon: key === "products" ? FiPackage : FiLayers })) },
-    { title: "Customers", items: ["users", "user-profiles", "addresses", "wishlists", "carts"].map((key) => ({ key, label: resources[key].label, icon: key === "users" ? FiUsers : FiArchive })) },
+    { title: "Catalog", items: ["brands", "products", "colors", "unit-types", "units", "offers"].map((key) => ({ key, label: key === "products" ? "Products & Variants" : resources[key].label, icon: key === "products" ? FiPackage : FiLayers })) },
+    { title: "Customers", items: ["users", "user-profiles", "addresses"].map((key) => ({ key, label: resources[key].label, icon: key === "users" ? FiUsers : FiArchive })) },
     { title: "Dashboard", items: ["coupons", "welcome-bonuses"].map((key) => ({ key, label: resources[key].label, icon: FiTag })) },
     { title: "Token Blacklist", items: [{ key: "token-blacklist/outstanding-tokens", label: "Outstanding Tokens", icon: FiShield }, { key: "token-blacklist/blacklisted-tokens", label: "Blacklisted Tokens", icon: FiArchive }] },
     { title: "Marketing", items: ["hero-banners", "promo-banners", "hero-side-banners", "trust-benefits", "coupon-usages"].map((key) => ({ key, label: resources[key].label, icon: key === "trust-benefits" ? FiShield : key.includes("banner") ? FiImage : FiTag })) },
@@ -313,16 +313,16 @@ export default function OrderDashboard() {
     const go = (key) => { setSidebarOpen(false); navigate(key === "overview" ? "/eehook-dashboard" : `/eehook-dashboard/${key}`); };
     const logout = async () => { await logoutSession(); navigate("/login", { replace: true }); };
     const refreshDashboard = () => { if (refreshing) return; setRefreshing(true); window.setTimeout(() => window.location.reload(), 220); };
-    const currentTitle = pathKey === "overview" ? "Overview" : resources[pathKey]?.label || "Admin Dashboard";
+    const currentTitle = pathKey === "overview" ? "Overview" : resources[pathKey]?.label || "Jamal Rafeeq Admin";
 
     return <div className="admin-app">
         <aside className={`admin-sidebar ${sidebarOpen ? "open" : ""}`}>
-            <div className="admin-brand"><span className="admin-brand-logo" aria-label="eehook"><img src={navbarLogo} alt="" /></span><button type="button" className="admin-close" onClick={() => setSidebarOpen(false)} aria-label="Close navigation"><FiX aria-hidden="true" /></button></div>
+            <div className="admin-brand"><span className="admin-brand-logo"><img src={navbarLogo} alt="Jamal Rafeeq Auto Parts Trading LLC" /></span><div className="admin-brand-copy"><strong>Jamal Rafeeq</strong><small>Auto Parts Trading LLC</small><span>Admin workspace</span></div><button type="button" className="admin-close" onClick={() => setSidebarOpen(false)} aria-label="Close navigation"><FiX aria-hidden="true" /></button></div>
             <nav className="admin-nav">{navGroups.map((group) => <div key={group.title}><p className="admin-nav-label">{group.title}</p>{group.items.map(({ key, label, icon: Icon }) => <button key={key} className={`admin-nav-item ${pathKey === key ? "active" : ""}`} onClick={() => go(key)}><Icon /><span>{label}</span></button>)}</div>)}</nav>
             <div className="admin-sidebar-footer"><div className="admin-user"><span>{(getAuthValue("first_name") || "S").slice(0, 1).toUpperCase()}</span><div><strong>{getAuthValue("first_name") || "Super Admin"}</strong><small>Super Admin</small></div></div><button className="admin-nav-item admin-logout-button" onClick={logout}><FiLogOut /><span>Sign out</span></button></div>
         </aside>
         {sidebarOpen && <button className="admin-scrim" onClick={() => setSidebarOpen(false)} aria-label="Close menu" />}
-        <main className="admin-content"><header className="admin-topbar"><button type="button" className="admin-menu" onClick={() => setSidebarOpen(true)} aria-label="Open navigation"><FiMenu /></button><div><p className="admin-eyebrow">SUPER ADMIN / {currentTitle.toUpperCase()}</p><h1>{currentTitle}</h1></div><div className="admin-top-actions"><button type="button" className={`admin-button secondary refresh-action ${refreshing ? "is-refreshing" : ""}`} onClick={refreshDashboard} disabled={refreshing} aria-label="Refresh dashboard"><FiRefreshCw aria-hidden="true" /> <span>{refreshing ? "Refreshing..." : "Refresh"}</span></button><FiActivity className="admin-live" title="Live admin workspace" aria-label="Live admin workspace" /></div></header>{forbidden && <div className="admin-access-alert" role="alert"><FiSettings /><span><strong>Super Admin access required</strong><small>Your account does not have permission to access this resource.</small></span><button type="button" onClick={() => setForbidden(false)} aria-label="Dismiss access alert"><FiX /></button></div>}{isProductEditor ? <ProductEditor /> : isProductView ? <ProductView /> : isHeroBannerEditor ? <HeroBannerEditor schema={schema} /> : isPromoBannerEditor ? <PromoBannerEditor /> : isHeroSideBannerEditor ? <HeroSideBannerEditor /> : isCouponEditor ? <CouponEditor /> : isCouponUsageEditor ? <CouponUsageEditor /> : isWelcomeBonusEditor ? <WelcomeBonusEditor /> : isTrustBenefitEditor ? <ResourceEditorPage resource={pathKey} id={isEditRoute ? detailId : undefined} schema={schema} /> : isWelcomeBonusView ? <WelcomeBonusPage /> : isOrderEditor ? <OrderEditPage id={detailId} /> : detailId && pathKey === "orders" ? <OrderDetail id={detailId} /> : isGenericEditPage ? <ResourceEditorPage resource={pathKey} id={detailId} schema={schema} /> : isReadOnlyResourceView ? <ReadOnlyResourcePage resource={pathKey} id={detailId} schema={schema} /> : pathKey === "overview" ? <Overview data={overview} loading={overviewLoading} /> : pathKey === "welcome-bonuses" ? <WelcomeBonusPage /> : pathKey === "token-blacklist/outstanding-tokens" ? <TokenBlacklistPage type="outstanding" /> : pathKey === "token-blacklist/blacklisted-tokens" ? <TokenBlacklistPage type="blacklisted" /> : resources[pathKey] ? <ResourcePage key={pathKey} resource={pathKey} schema={schema} /> : <Overview data={overview} loading={overviewLoading} />}</main>
+        <main className="admin-content"><header className="admin-topbar"><button type="button" className="admin-menu" onClick={() => setSidebarOpen(true)} aria-label="Open navigation"><FiMenu /></button><div><p className="admin-eyebrow">JAMAL RAFEEQ / {currentTitle.toUpperCase()}</p><h1>{currentTitle}</h1></div><div className="admin-top-actions"><button type="button" className={`admin-button secondary refresh-action ${refreshing ? "is-refreshing" : ""}`} onClick={refreshDashboard} disabled={refreshing} aria-label="Refresh dashboard"><FiRefreshCw aria-hidden="true" /> <span>{refreshing ? "Refreshing..." : "Refresh"}</span></button><FiActivity className="admin-live" title="Live admin workspace" aria-label="Live admin workspace" /></div></header>{forbidden && <div className="admin-access-alert" role="alert"><FiSettings /><span><strong>Super Admin access required</strong><small>Your account does not have permission to access this resource.</small></span><button type="button" onClick={() => setForbidden(false)} aria-label="Dismiss access alert"><FiX /></button></div>}{isProductEditor ? <ProductEditor /> : isProductView ? <ProductView /> : isHeroBannerEditor ? <HeroBannerEditor schema={schema} /> : isPromoBannerEditor ? <PromoBannerEditor /> : isHeroSideBannerEditor ? <HeroSideBannerEditor /> : isCouponEditor ? <CouponEditor /> : isCouponUsageEditor ? <CouponUsageEditor /> : isWelcomeBonusEditor ? <WelcomeBonusEditor /> : isTrustBenefitEditor ? <ResourceEditorPage resource={pathKey} id={isEditRoute ? detailId : undefined} schema={schema} /> : isWelcomeBonusView ? <WelcomeBonusPage /> : isOrderEditor ? <OrderEditPage id={detailId} /> : detailId && pathKey === "orders" ? <OrderDetail id={detailId} /> : isGenericEditPage ? <ResourceEditorPage resource={pathKey} id={detailId} schema={schema} /> : isReadOnlyResourceView ? <ReadOnlyResourcePage resource={pathKey} id={detailId} schema={schema} /> : pathKey === "overview" ? <Overview data={overview} loading={overviewLoading} /> : pathKey === "welcome-bonuses" ? <WelcomeBonusPage /> : pathKey === "token-blacklist/outstanding-tokens" ? <TokenBlacklistPage type="outstanding" /> : pathKey === "token-blacklist/blacklisted-tokens" ? <TokenBlacklistPage type="blacklisted" /> : resources[pathKey] ? <ResourcePage key={pathKey} resource={pathKey} schema={schema} /> : <Overview data={overview} loading={overviewLoading} />}</main>
     </div>;
 }
 
@@ -354,10 +354,10 @@ function Overview({ data, loading }) {
         count: count(statuses[key], statuses[label], data?.[`${key}_orders`], data?.[`${key}_count`]),
     }));
     const catalogRows = [
-        ["Products", "products", "#d17a08"],
-        ["Categories", "categories", "#337cb6"],
-        ["Subcategories", "subcategories", "#397c80"],
-        ["Offers", "offers", "#7956b5"],
+        ["Products", "products", "#ed1c24"],
+        ["Brands", "brands", "#252525"],
+        ["Offers", "offers", "#666666"],
+        ["Product variants", "product-variants", "#8a8a8a"],
     ].map(([label, key, color]) => ({ label, color, count: resourceCount(key) }));
     const cards = [
         ["Total products", resourceCount("products"), FiPackage, "orange"],

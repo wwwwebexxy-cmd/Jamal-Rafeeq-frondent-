@@ -12,17 +12,17 @@ import defaultHeroSideImage from "../../../assets/eehook_lifestyle_vibe.png";
 const DEFAULT_HERO_SLIDES = [
   {
     id: "default-tech-hero",
-    subtitle: "Technology, thoughtfully curated",
-    title: "Elevate your everyday",
-    description: "Discover premium electronics and modern lifestyle essentials selected for the way you live.",
-    button_text: "Shop now",
+    subtitle: "Automotive parts, sales, and service",
+    title: "Keep every journey moving",
+    description: "Find dependable spare parts, vehicle solutions, and automotive support for the road ahead.",
+    button_text: "Find products",
     image: defaultHeroImage,
   },
 ];
 
 const DEFAULT_SIDE_BANNER = {
   image: defaultHeroSideImage,
-  link: "/shop",
+  link: "/find-products",
 };
 
 const getHeroImageUrl = (image) => image === defaultHeroImage || image === defaultHeroSideImage
@@ -163,7 +163,7 @@ const Heropage = ({ heroBanners, promoBanners: providedPromoBanners, heroSideBan
                 </p>
 
                 <Link
-                  to="/shop"
+                  to="/find-products"
                   className="shop-btn-premium"
                 >
                   {slide.button_text} <span className="arrow">→</span>

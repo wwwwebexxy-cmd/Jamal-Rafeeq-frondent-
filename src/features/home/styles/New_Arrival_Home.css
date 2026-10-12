@@ -48,7 +48,7 @@
     --section-card: #fdfefe;
     --section-border: #d8e2e6;
     --section-shadow: rgba(38, 64, 71, 0.10);
-    --section-accent: #4b636d;
+    --section-accent: var(--brand-black-soft);
     --section-heading: #26363c;
 }
 
@@ -101,7 +101,7 @@
     font-family: Inter, Arial, Helvetica, sans-serif;
     font-size: 12px;
     font-weight: 700;
-    color: #FF9000;
+    color: var(--brand-red);
     /* Elegant deep maroon */
     text-decoration: none;
     letter-spacing: 1.5px;
@@ -172,7 +172,7 @@
     height: 220px;
     overflow: hidden;
     border-radius: 12px;
-    background: #F8F9F3;
+    background: var(--background);
 }
 
 
@@ -195,7 +195,7 @@
     position: absolute;
     top: 15px;
     left: 15px;
-    background: #4B636D;
+    background: var(--brand-black-soft);
     color: #FFFFFF;
     padding: 6px 14px;
     border-radius: 50px;
@@ -207,54 +207,6 @@
 
 .badge-offer + .badge-new {
     top: 49px;
-}
-
-
-
-/* Wishlist */
-
-.wishlist-btn {
-
-    position: absolute;
-
-    right: 15px;
-
-    top: 15px;
-
-    width: 35px;
-
-    height: 35px;
-
-    border-radius: 50%;
-
-    border: none;
-
-    background: #F8F9F3;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    cursor: pointer;
-    z-index: 6;
-
-}
-
-
-
-.heart-icon {
-
-    width: 18px;
-
-    color: #4B636D;
-
-}
-
-.wishlist-btn.is-wishlisted .heart-icon {
-    color: #d33333;
-    fill: currentColor;
 }
 
 
@@ -271,7 +223,7 @@
     padding: 14px 0;
     border: none;
     border-radius: 50px;
-    background: #4B636D;
+    background: var(--brand-black-soft);
     color: #fff;
     font-family: Inter, Arial, Helvetica, sans-serif;
     font-size: 0.72rem;
@@ -283,7 +235,7 @@
 }
 
 .quick-add-btn:hover {
-    background: #FF9000;
+    background: var(--brand-red);
 }
 
 
@@ -292,6 +244,36 @@
 
     opacity: 1;
 
+}
+
+.whatsapp-home-product-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    margin-top: 14px;
+    padding: 0 14px;
+    border-radius: 8px;
+    background: #168c4a;
+    color: #fff;
+    font-size: .72rem;
+    font-weight: 700;
+    text-align: center;
+    transition: background-color .2s ease, transform .2s ease;
+}
+
+.whatsapp-home-product-btn:hover,
+.whatsapp-home-product-btn:focus-visible {
+    background: #116f3a;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.whatsapp-home-product-disabled {
+    display: block;
+    margin-top: 14px;
+    color: #7c8589;
+    font-size: .72rem;
 }
 
 
@@ -368,7 +350,7 @@
 
 .star-icon {
 
-    color: #4B636D;
+    color: var(--brand-black-soft);
 
 }
 
@@ -429,7 +411,7 @@
     font-size: 15px;
     font-weight: 700;
     color: #FFFFFF;
-    background: linear-gradient(135deg, #4B636D 0%, #2A3B42 100%);
+    background: linear-gradient(135deg, var(--brand-black-soft) 0%, #2A3B42 100%);
     padding: 14px 32px;
     border-radius: 50px;
     text-decoration: none;
@@ -443,9 +425,9 @@
 }
 
 .view-all-btn:hover {
-    background: linear-gradient(135deg, #FF9000 0%, #E68200 100%);
+    background: linear-gradient(135deg, var(--brand-red) 0%, #E68200 100%);
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(255, 144, 0, 0.4);
+    box-shadow: 0 8px 20px rgba(237, 28, 36, 0.4);
     color: #FFFFFF;
 }
 
@@ -541,13 +523,6 @@
         top: 39px;
     }
 
-    .wishlist-btn {
-        top: 8px;
-        right: 8px;
-        width: 30px;
-        height: 30px;
-    }
-
     .quick-add-btn {
         bottom: 8px;
         padding: 10px 0;
@@ -568,7 +543,7 @@
     width:45px;
     height:45px;
     border:4px solid #FFE0B2;
-    border-top:4px solid #4B636D;
+    border-top:4px solid var(--brand-black-soft);
     border-radius:50%;
     animation:spin .8s linear infinite;
 }
@@ -577,7 +552,7 @@
     font-family: Inter, Arial, Helvetica, sans-serif;
     font-size:1rem;
     font-weight:600;
-    color:#4B636D;
+    color:var(--brand-black-soft);
 }
 
 .error-text{

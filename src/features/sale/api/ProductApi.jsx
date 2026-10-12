@@ -52,18 +52,8 @@ export const prodectGet = async (filter = {}) => {
         return normalizeProductPage(response.data?.products || response.data);
     }
 
-    const endpoint = filter.search
-        ? "search-products/"
-        : filter.subcategory
-            ? "products/"
-            : filter.category
-            ? `category-products/${filter.category}/`
-            : "products/";
-    const params = { ...filter };
-    // The category-products endpoint does not apply a subcategory query. Use
-    // products/ for combined filters and keep both values in the request.
-    if (!filter.subcategory) delete params.category;
-    response = await client.get(endpoint, { params });
+    const endpoint = filter.search ? "search-products/" : "products/";
+    response = await client.get(endpoint, { params: filter });
 
     return normalizeProductPage(response.data);
 };

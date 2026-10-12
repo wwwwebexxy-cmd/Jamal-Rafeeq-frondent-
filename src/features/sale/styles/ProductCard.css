@@ -53,7 +53,7 @@
 }
 
 .product_card:focus-visible {
-    outline: 3px solid #FF9000;
+    outline: 3px solid var(--brand-red);
     outline-offset: 3px;
 }
 
@@ -84,7 +84,7 @@
     position: absolute;
     top: 14px;
     left: 14px;
-    background-color: #4B636D;
+    background-color: var(--brand-black-soft);
     /* Elegant deep wine/maroon */
     color: #FFFFFF;
     padding: 4px 10px;
@@ -105,8 +105,8 @@
     height: 32px;
     border: none;
     border-radius: 50%;
-    background: #F8F9F3;
-    color: #4B636D;
+    background: var(--background);
+    color: var(--brand-black-soft);
     /* Deep maroon */
     display: flex;
     justify-content: center;
@@ -123,7 +123,7 @@
     height:40px;
     border:none;
     border-radius:50%;
-    background: #F8F9F3;
+    background: var(--background);
     color:#9e9e9e;
     cursor:pointer;
     transition:all .3s ease;
@@ -134,7 +134,7 @@
 }
 
 .favorite_btn.active{
-    color: #4B636D;
+    color: var(--brand-black-soft);
 }
 
 .favorite_btn:hover {
@@ -148,7 +148,7 @@
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
-    background-color: #4B636D;
+    background-color: var(--brand-black-soft);
     color: #FFFFFF;
     border: none;
     padding: 11px 0;
@@ -166,6 +166,45 @@
 /* Fade in the Quick Add bar on Hover */
 .product_card:hover .quick-add-bar {
     opacity: 1;
+}
+
+.whatsapp-product-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    margin-top: 14px;
+    padding: 0 14px;
+    border-radius: 8px;
+    background: #168c4a;
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+}
+
+.whatsapp-product-btn:hover,
+.whatsapp-product-btn:focus-visible {
+    background: #116f3a;
+    color: #fff;
+}
+
+.whatsapp-product-disabled {
+    display: block;
+    margin-top: 14px;
+    color: #7c8589;
+    font-size: .75rem;
+}
+
+.empty-state {
+    width: min(100% - 32px, 720px);
+    margin: 40px auto;
+    padding: 28px;
+    border: 1px solid #E2E6E0;
+    border-radius: 14px;
+    color: var(--brand-black-soft);
+    text-align: center;
 }
 
 
@@ -187,7 +226,7 @@
     font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 1.2px;
-    color: #4B636D;
+    color: var(--brand-black-soft);
 
     font-weight: 700;
     margin-bottom: 5px;
@@ -238,14 +277,14 @@
 }
 
 .star-icon {
-    color: #4B636D;
+    color: var(--brand-black-soft);
     font-size: 0.8rem;
 }
 
 .rating-val {
     font-family: Inter, Arial, Helvetica, sans-serif;
     font-size: 0.75rem;
-    color: #4B636D;
+    color: var(--brand-black-soft);
     font-weight: 600;
 }
 
@@ -279,13 +318,13 @@
     font-weight: 600;
     cursor: pointer;
     background: #f7f7f7;
-    color: #4B636D;
+    color: var(--brand-black-soft);
     border-radius: 4px;
     transition: all 0.2s ease;
 }
 
 .page-num.active {
-    background: #4B636D;
+    background: var(--brand-black-soft);
     color: #FFFFFF;
 }
 
@@ -297,7 +336,7 @@
     position: absolute;
     top: 12px;
     left: 12px;
-    background: #4B636D;
+    background: var(--brand-black-soft);
     color: #FFFFFF;
     padding: 6px 12px;
     border-radius: 20px;
@@ -324,7 +363,7 @@
 
 .new-price {
     font-family: Inter, Arial, Helvetica, sans-serif;
-    color: #4B636D;
+    color: var(--brand-black-soft);
     font-size: 17px;
     font-weight: 600;
     line-height: 1.2;
@@ -446,7 +485,7 @@
         position: absolute;
         top: 9px;
         left: 3px;
-        background: #4B636D;
+        background: var(--brand-black-soft);
         color: #FFFFFF;
         padding: 6px 12px;
         border-radius: 20px;
@@ -462,7 +501,7 @@
         left: 50%;
         transform: translateX(-50%);
         width: 82%;
-        background-color: #4B636D;
+        background-color: var(--brand-black-soft);
         color: #FFFFFF;
         border: none;
         padding: 7px 0;

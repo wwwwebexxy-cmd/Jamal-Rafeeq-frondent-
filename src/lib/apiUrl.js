@@ -1,17 +1,9 @@
-// VITE_API_BASE_URL is the supported configuration. Keep VITE_API_URL as a
-// migration fallback, and default to the same-origin proxy used by Vercel and
-// local Vite development when a deployment environment variable is omitted.
 const configuredApiUrl = String(
     import.meta.env.VITE_API_BASE_URL
-        || import.meta.env.VITE_API_URL
-        || "/backend",
+        || "/api",
 ).trim().replace(/\/+$/, "");
 
 const isRelativeApiUrl = configuredApiUrl.startsWith("/");
-const isVercelProxyApiUrl = configuredApiUrl === "/backend";
-if (isRelativeApiUrl && import.meta.env.PROD && !isVercelProxyApiUrl) {
-    throw new Error("Production builds must use VITE_API_BASE_URL=/backend or an absolute HTTPS API origin.");
-}
 
 const parsedApiUrl = isRelativeApiUrl ? null : new URL(configuredApiUrl);
 

@@ -4,12 +4,13 @@ import "./../Footer.css";
 import visa from './../assets/visa-payment.png'
 import master from './../assets/master-payment.png'
 import amc from './../assets/american-exp-payment.png'
-import footerlogo from './../assets/footer-logo.png'
+import footerlogo from './../assets/jamal-rafeeq-logo-transparent.png'
 import apple from './../assets/apple-payment.png'
 import { Link } from 'react-router-dom';
 import { FaFacebookF, FaInstagram, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, } from "react-icons/fa";
+import { getWhatsappUrl } from "../config/business";
 function Footer() {
-    const whatsappUrl = `https://wa.me/971501234567?text=${encodeURIComponent("Hello")}`;
+    const whatsappUrl = getWhatsappUrl("Hello, I would like to enquire about your automotive products.");
 
 
     return (
@@ -20,17 +21,18 @@ function Footer() {
                 <div className="footer-container">
 
                     <div className="footer-column brand">
-                        <img src={footerlogo} alt="Logo" className="footer-logo" />
+                        <img src={footerlogo} alt="Jamal Rafeeq Auto Parts Trading LLC" className="footer-logo" />
+                        <p className="footer-brand-name">Jamal Rafeeq Auto Parts Trading LLC</p>
                     </div>
 
                     <div className="footer-column social-column">
                         <h3>Follow Us</h3>
 
                         <div className="social-icons">
-                            <a href="https://www.instagram.com/eehookuae/" target="_blank" rel="noreferrer" aria-label="eehook UAE on Instagram">
+                            <a href="https://www.instagram.com/eehookuae/" target="_blank" rel="noreferrer" aria-label="Jamal Rafeeq on Instagram">
                                 <FaInstagram />
                             </a>
-                            <a href="https://www.facebook.com/eehookuae/" target="_blank" rel="noreferrer" aria-label="eehook UAE on Facebook">
+                            <a href="https://www.facebook.com/eehookuae/" target="_blank" rel="noreferrer" aria-label="Jamal Rafeeq on Facebook">
                                 <FaFacebookF />
                             </a>
                         </div>
@@ -41,9 +43,8 @@ function Footer() {
 
                         <ul>
                             <li><Link to="/">Home</Link></li>
-                            <li><Link to="/shop">Shop</Link></li>
-                            <li><Link to="/shop">Categories</Link></li>
-                            <li><Link to="/shop?offer=true">Offers</Link></li>
+                            <li><Link to="/find-products">Find Products</Link></li>
+                            <li><Link to="/find-products?offer=true">Offers</Link></li>
                             <li><Link to="/about">About Us</Link></li>
                             <li><Link to="/contact">Contact Us</Link></li>
                         </ul>
@@ -92,7 +93,7 @@ function Footer() {
             </footer>
 
             <div className="copyright">
-                © 2026 eehook. All Rights Reserved.
+                © 2026 Jamal Rafeeq Auto Parts Trading LLC. All Rights Reserved.
             </div>
 
         </div>
@@ -100,4 +101,3 @@ function Footer() {
 }
 
 export default Footer
-

@@ -151,7 +151,7 @@ function Signup() {
 
                         <h1>Create Account</h1>
 
-                        <p>Create your eehook account and start shopping.</p>
+                        <p>Create your Jamal Rafeeq account and start shopping.</p>
 
                     </div>
 

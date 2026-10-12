@@ -6,11 +6,11 @@
 }
 
 .admin-logout-button:focus-visible {
-    outline: 3px solid rgba(255, 144, 0, .25);
+    outline: 3px solid rgba(237, 28, 36, .25);
     outline-offset: 2px;
 }
 
 .logout:hover {
-    color: var(--admin-brand-dark, #d97700);
+    color: var(--admin-brand-dark, var(--brand-red-hover));
     background: #fff4e6;
 }
