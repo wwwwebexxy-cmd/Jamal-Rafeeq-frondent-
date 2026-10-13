@@ -47,7 +47,7 @@ export default function ProductView() {
     const navigate = useNavigate();
     const [product, setProduct] = useState(null);
     const [variants, setVariants] = useState([]);
-    const [references, setReferences] = useState({ categories: [], subcategories: [], offers: [], colors: [], unitTypes: [], units: [] });
+    const [references, setReferences] = useState({ offers: [], colors: [], unitTypes: [], units: [] });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
@@ -86,16 +86,12 @@ export default function ProductView() {
     useEffect(() => {
         let active = true;
         Promise.all([
-            listResource("categories", { page_size: 500 }),
-            listResource("subcategories", { page_size: 500 }),
             listResource("offers", { page_size: 500 }),
             listResource("colors", { page_size: 500 }),
             listResource("unit-types", { page_size: 500 }),
             listResource("units", { page_size: 500 }),
-        ]).then(([categories, subcategories, offers, colors, unitTypes, units]) => {
+        ]).then(([offers, colors, unitTypes, units]) => {
             if (active) setReferences({
-                categories: rows(categories.data),
-                subcategories: rows(subcategories.data),
                 offers: rows(offers.data),
                 colors: rows(colors.data),
                 unitTypes: rows(unitTypes.data),
@@ -139,8 +135,8 @@ export default function ProductView() {
                 </div>}
 
                 <div className="product-view-grid">
-                    <div><small>Category</small><p>{lookupLabel(product.category, references.categories)}</p></div>
-                    <div><small>Subcategory</small><p>{lookupLabel(product.subcategory, references.subcategories)}</p></div>
+                    <div><small>Vehicle</small><p>{product.vehicle || EMPTY_VALUE}</p></div>
+                    <div><small>Manufacturing years</small><p>{product.vehicle_year || EMPTY_VALUE}</p></div>
                     <div><small>Offer</small><p>{lookupLabel(product.offer, references.offers)}</p></div>
                     <div><small>Seller</small><p>{product.seller_name || EMPTY_VALUE}</p></div>
                     <div><small>Shipping fee</small><p>{money(product.shipping_fee)}</p></div>

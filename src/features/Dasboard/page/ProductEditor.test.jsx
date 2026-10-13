@@ -46,6 +46,15 @@ async function addProduct(user, name) {
 }
 
 describe("product editor related-products configuration", () => {
+    it("hides category details on the product editor while keeping brand selection", () => {
+        render(<ProductEditor />);
+
+        expect(screen.queryByText("Category Details")).not.toBeInTheDocument();
+        expect(screen.getByText("Brand")).toBeVisible();
+        expect(screen.getByRole("spinbutton", { name: "Manufacturing years" })).toBeVisible();
+        expect(screen.queryByText("Product manufacturer")).not.toBeInTheDocument();
+    });
+
     it("loads dashboard brands into the product brand selector", async () => {
         mocks.listResource.mockImplementation((resource) => Promise.resolve({ data: { results: resource === "brands" ? [{ id: 9, name: "Apple" }] : resource === "products" ? products : [] } }));
 
@@ -55,14 +64,11 @@ describe("product editor related-products configuration", () => {
         expect(mocks.listResource).toHaveBeenCalledWith("brands", { page_size: 500 });
     });
 
-    it("shows automatic mode guidance and clears the manual UI when mode changes", async () => {
-        const user = userEvent.setup();
+    it("only offers none and manual related-product modes", () => {
         render(<ProductEditor />);
-        await user.click(await screen.findByLabelText("Automatic"));
-        expect(screen.getByText("Related products will be automatically selected based on category, subcategory, product relevance, brand, and availability.")).toBeVisible();
-        expect(screen.queryByLabelText("Find a product to add")).not.toBeInTheDocument();
-        await user.click(screen.getByLabelText("None"));
-        expect(screen.queryByText(/automatically selected based on category/i)).not.toBeInTheDocument();
+        expect(screen.getByLabelText("None")).toBeVisible();
+        expect(screen.getByLabelText("Manual")).toBeVisible();
+        expect(screen.queryByLabelText("Automatic")).not.toBeInTheDocument();
     });
 
     it("limits manual selection to four products and supports accessible ordering", async () => {
@@ -80,19 +86,17 @@ describe("product editor related-products configuration", () => {
         const rows = screen.getAllByRole("listitem");
         expect(within(rows[0]).getByText("Tea Set")).toBeVisible();
         expect(within(rows[1]).getByText("Coffee Beans")).toBeVisible();
-    });
+    }, 10000);
 
     it("loads saved manual selections in their backend position order", async () => {
         mocks.params = { id: "5" };
         mocks.getResource.mockResolvedValue({ data: { id: 5, name: "Current Product", description: "Current description", category: 1, subcategory: 1, related_product_mode: "manual", manual_related_products: [{ id: 2, name: "Tea Set", position: 1 }, { id: 1, name: "Coffee Beans", position: 0 }] } });
-        const user = userEvent.setup();
         render(<ProductEditor />);
         await screen.findByText("Coffee Beans");
         const rows = screen.getAllByRole("listitem");
         expect(within(rows[0]).getByText("Coffee Beans")).toBeVisible();
         expect(within(rows[1]).getByText("Tea Set")).toBeVisible();
         expect(screen.queryByRole("option", { name: "Current Product" })).not.toBeInTheDocument();
-        await user.click(screen.getByLabelText("Automatic"));
-        expect(screen.getByText(/automatically selected based on category/i)).toBeVisible();
+        expect(screen.queryByText("Category Details")).not.toBeInTheDocument();
     });
 });

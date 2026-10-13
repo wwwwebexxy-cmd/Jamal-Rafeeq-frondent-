@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { FiArrowDown, FiArrowUp, FiChevronDown, FiImage, FiPlus, FiSave, FiTrash2, FiX } from "react-icons/fi";
@@ -8,7 +8,7 @@ import { getImageUrl } from "../../../utils/imageUrl";
 import "../styles/ProductEditor.css";
 
 const emptyProduct = {
-    name: "", description: "", key_features: "", category: "", subcategory: "", brand: "", vehicle: "", manufacturer: "", offer: "",
+    name: "", description: "", key_features: "", brand: "", vehicle: "", manufacturer: "", offer: "",
     seller_name: "", shipping_fee: "0", estimated_delivery_time: "", warranty_info: "",
     current_viewers_count: "0", promotional_banner_image: null, promotional_banner_link: "",
     is_active: true, related_product_mode: "none", related_product_ids: [], manual_related_products: [],
@@ -28,7 +28,7 @@ const relationId = (item) => item?.id ?? item?.pk ?? item?.uuid ?? item;
 function toOptions(payload, labelKeys = ["name", "title", "email", "code"]) {
     return rows(payload).map((item) => ({
         value: idOf(item), label: labelKeys.map((key) => item[key]).find(Boolean) || labelOf(item),
-        category: relationId(item.category || item.category_id), unitType: relationId(item.unit_type || item.unit_type_id),
+        unitType: relationId(item.unit_type || item.unit_type_id),
     }));
 }
 
@@ -40,20 +40,20 @@ export default function ProductEditor({ readOnly = false }) {
     const editing = Boolean(id);
     const [product, setProduct] = useState(emptyProduct);
     const [variants, setVariants] = useState([]);
-    const [dropdowns, setDropdowns] = useState({ categories: [], subcategories: [], brands: [], offers: [], colors: [], unitTypes: [], units: [], products: [] });
+    const [dropdowns, setDropdowns] = useState({ brands: [], offers: [], colors: [], unitTypes: [], units: [], products: [] });
     const [loading, setLoading] = useState(editing);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState("");
     const [fieldErrors, setFieldErrors] = useState({});
     const [deleteTarget, setDeleteTarget] = useState(null);
     const [initialSnapshot, setInitialSnapshot] = useState(() => editing ? "" : JSON.stringify({ product: emptyProduct, variants: [] }));
-    const [openSections, setOpenSections] = useState({ information: true, category: true, fitment: true, offer: true, sales: true, promotional: true, related: true, status: true, variants: true });
+    const [openSections, setOpenSections] = useState({ information: true, fitment: true, offer: true, sales: true, promotional: true, related: true, status: true, variants: true });
     const [relatedSearch, setRelatedSearch] = useState("");
 
     useEffect(() => {
         let active = true;
         const loadDropdowns = async () => {
-            const names = ["categories", "subcategories", "offers", "colors", "unit-types", "units", "products"];
+            const names = ["offers", "colors", "unit-types", "units", "products"];
             const [results, brands] = await Promise.all([
                 Promise.all(names.map((resource) => listResource(resource, { page_size: 500 }).then((response) => response.data).catch(() => ({ results: [] })))),
                 // Brands created in the dashboard are available through the
@@ -61,7 +61,7 @@ export default function ProductEditor({ readOnly = false }) {
                 listResource("brands", { page_size: 500 }).then((response) => response.data).catch(() => ({ results: [] }))
             ]);
             if (!active) return;
-            setDropdowns({ categories: toOptions(results[0]), subcategories: toOptions(results[1]), brands: toOptions(brands), offers: toOptions(results[2]), colors: toOptions(results[3]), unitTypes: toOptions(results[4]), units: toOptions(results[5]), products: toOptions(results[6]) });
+            setDropdowns({ brands: toOptions(brands), offers: toOptions(results[0]), colors: toOptions(results[1]), unitTypes: toOptions(results[2]), units: toOptions(results[3]), products: toOptions(results[4]) });
         };
         loadDropdowns().catch((requestError) => { if (active) setError(getErrorMessage(requestError, "Could not load product options.")); });
         if (!editing) return () => { active = false; };
@@ -72,7 +72,6 @@ export default function ProductEditor({ readOnly = false }) {
         return () => { active = false; };
     }, [editing, id]);
 
-    const filteredSubcategories = useMemo(() => dropdowns.subcategories.filter((item) => !product.category || String(item.category) === String(product.category)), [dropdowns.subcategories, product.category]);
     const currentSnapshot = JSON.stringify({ product, variants });
     const hasUnsavedChanges = Boolean(initialSnapshot && initialSnapshot !== currentSnapshot);
     useEffect(() => { const warn = (event) => { if (hasUnsavedChanges) { event.preventDefault(); event.returnValue = ""; } }; window.addEventListener("beforeunload", warn); return () => window.removeEventListener("beforeunload", warn); }, [hasUnsavedChanges]);
@@ -129,10 +128,6 @@ export default function ProductEditor({ readOnly = false }) {
         const errors = {};
         if (!String(product.name || "").trim()) errors.name = "Product name is required.";
         if (!String(product.description || "").trim()) errors.description = "Description is required.";
-        if (!product.category) errors.category = "Category is required.";
-        if (!product.subcategory) errors.subcategory = "Subcategory is required.";
-        const subcategory = dropdowns.subcategories.find((item) => String(item.value) === String(product.subcategory));
-        if (subcategory && String(subcategory.category) !== String(product.category)) errors.subcategory = "The subcategory must belong to the selected category.";
         if (product.related_product_mode === "manual" && selectedRelatedIds.length > 4) errors.related_product_ids = "Choose no more than four related products.";
         const colorlessIndexes = [];
         variants.forEach((variant, index) => {
@@ -187,9 +182,8 @@ export default function ProductEditor({ readOnly = false }) {
 
     if (loading) return <div className="admin-page"><LoadingState label="Loading product editor..." /></div>;
     return <div className="admin-page product-editor-page"><button className="admin-back-link" onClick={leaveEditor}>Back to Products</button><div className="admin-page-header"><div><p className="admin-eyebrow">PRODUCT MANAGEMENT</p><h2>{editing ? "Edit Product" : "Create Product"}</h2><p>Manage product details, variants, units, and images.</p></div><button className="admin-button primary" onClick={save} disabled={saving}><FiSave /> {saving ? "Saving..." : "Save Product"}</button></div>{error && <div className="admin-form-error product-editor-error">{error}</div>}<form onSubmit={save}>
-        <EditorSection title="Product Information" open={openSections.information} onToggle={() => toggle("information")}><div className="product-form-grid"><TextField label="Product name" required value={product.name} onChange={(value) => updateProduct("name", value)} error={fieldErrors.name} /><TextAreaField label="Description" required value={product.description} onChange={(value) => updateProduct("description", value)} error={fieldErrors.description} /><TextAreaField label="Key features" hint="Enter one feature per line" value={product.key_features} onChange={(value) => updateProduct("key_features", value)} /></div></EditorSection>
-        <EditorSection title="Category Details" open={openSections.category} onToggle={() => toggle("category")}><div className="product-form-grid two"><SelectField label="Category" required value={product.category} options={dropdowns.categories} onChange={(value) => { updateProduct("category", value); if (product.subcategory && !dropdowns.subcategories.some((item) => String(item.value) === String(product.subcategory) && String(item.category) === String(value))) updateProduct("subcategory", ""); }} error={fieldErrors.category} /><SelectField label="Subcategory" required value={product.subcategory} options={filteredSubcategories} onChange={(value) => updateProduct("subcategory", value)} error={fieldErrors.subcategory} /><SelectField label="Brand" value={product.brand} options={dropdowns.brands} emptyLabel="No brand" onChange={(value) => updateProduct("brand", value)} /></div></EditorSection>
-        <EditorSection title="Automotive Fitment" open={openSections.fitment} onToggle={() => toggle("fitment")}><div className="product-form-grid two"><TextField label="Vehicle compatibility" hint="For example Toyota Corolla 2018–2022" value={product.vehicle} onChange={(value) => updateProduct("vehicle", value)} /><TextField label="Product manufacturer" value={product.manufacturer} onChange={(value) => updateProduct("manufacturer", value)} /></div></EditorSection>
+        <EditorSection title="Product Information" open={openSections.information} onToggle={() => toggle("information")}><div className="product-form-grid"><TextField label="Product name" required value={product.name} onChange={(value) => updateProduct("name", value)} error={fieldErrors.name} /><TextAreaField label="Description" required value={product.description} onChange={(value) => updateProduct("description", value)} error={fieldErrors.description} /><TextAreaField label="Key features" hint="Enter one feature per line" value={product.key_features} onChange={(value) => updateProduct("key_features", value)} /><SelectField label="Brand" value={product.brand} options={dropdowns.brands} emptyLabel="No brand" onChange={(value) => updateProduct("brand", value)} /></div></EditorSection>
+        <EditorSection title="Automotive Fitment" open={openSections.fitment} onToggle={() => toggle("fitment")}><div className="product-form-grid two"><TextField label="Vehicle compatibility" hint="For example Toyota Corolla" value={product.vehicle} onChange={(value) => updateProduct("vehicle", value)} /><NumberField label="Manufacturing years" min="1900" max="2100" step="1" value={product.vehicle_year} onChange={(value) => updateProduct("vehicle_year", value)} /></div></EditorSection>
         <EditorSection title="Offer Details" open={openSections.offer} onToggle={() => toggle("offer")}><div className="product-form-grid two"><SelectField label="Offer" value={product.offer} options={dropdowns.offers} emptyLabel="No offer" onChange={(value) => updateProduct("offer", value)} /></div></EditorSection>
         <EditorSection title="Sales & Delivery" open={openSections.sales} onToggle={() => toggle("sales")}><div className="product-form-grid two"><TextField label="Seller name" value={product.seller_name} onChange={(value) => updateProduct("seller_name", value)} /><NumberField label="Shipping fee" min="0" step="0.01" value={product.shipping_fee} onChange={(value) => updateProduct("shipping_fee", value)} /><TextField label="Estimated delivery time" value={product.estimated_delivery_time} onChange={(value) => updateProduct("estimated_delivery_time", value)} /><TextField label="Warranty information" value={product.warranty_info} onChange={(value) => updateProduct("warranty_info", value)} /></div></EditorSection>
         <EditorSection title="Promotional & Social" open={openSections.promotional} onToggle={() => toggle("promotional")}><div className="product-form-grid two"><NumberField label="Current viewers count" min="0" step="1" value={product.current_viewers_count} onChange={(value) => updateProduct("current_viewers_count", value)} /><FileField label="Promotional banner image" value={product.promotional_banner_image} onChange={(value) => updateProduct("promotional_banner_image", value)} /><TextField label="Promotional banner link" value={product.promotional_banner_link} onChange={(value) => updateProduct("promotional_banner_link", value)} /></div></EditorSection>
@@ -206,20 +200,19 @@ async function loadProduct(id) {
     return { product, variants };
 }
 
-function normalizeProduct(data = {}) { const productData = { ...data }; delete productData.emi_available; delete productData.emi_starting_price; const manualRelated = rows(data.manual_related_products).sort((a, b) => Number(a.position ?? 0) - Number(b.position ?? 0)); const relatedIds = (Array.isArray(data.related_product_ids) && data.related_product_ids.length ? data.related_product_ids : manualRelated.map(relationId)).map(relationId); const relatedMode = ["none", "manual", "automatic"].includes(data.related_product_mode) ? data.related_product_mode : relatedIds.length ? "manual" : "none"; return { ...emptyProduct, ...productData, category: valueOf(data.category), subcategory: valueOf(data.subcategory), brand: valueOf(data.brand), offer: valueOf(data.offer), key_features: Array.isArray(data.key_features) ? data.key_features.join("\n") : data.key_features || "", promotional_banner_image: data.promotional_banner_image || null, related_product_mode: relatedMode, related_product_ids: relatedIds, manual_related_products: manualRelated.map((item, position) => ({ ...item, id: relationId(item), position })) }; }
+function normalizeProduct(data = {}) { const productData = { ...data }; delete productData.category; delete productData.subcategory; delete productData.emi_available; delete productData.emi_starting_price; const manualRelated = rows(data.manual_related_products).sort((a, b) => Number(a.position ?? 0) - Number(b.position ?? 0)); const relatedIds = (Array.isArray(data.related_product_ids) && data.related_product_ids.length ? data.related_product_ids : manualRelated.map(relationId)).map(relationId); const relatedMode = ["none", "manual"].includes(data.related_product_mode) ? data.related_product_mode : relatedIds.length ? "manual" : "none"; return { ...emptyProduct, ...productData, brand: valueOf(data.brand), offer: valueOf(data.offer), key_features: Array.isArray(data.key_features) ? data.key_features.join("\n") : data.key_features || "", promotional_banner_image: data.promotional_banner_image || null, related_product_mode: relatedMode, related_product_ids: relatedIds, manual_related_products: manualRelated.map((item, position) => ({ ...item, id: relationId(item), position })) }; }
 function normalizeUnit(unit) { return { ...unit, sku: unit.sku || "", unit_type: valueOf(unit.unit_type), unit: valueOf(unit.unit) }; }
-function makeProductPayload(product) { const values = { ...product, key_features: Array.isArray(product.key_features) ? product.key_features.join("\n") : String(product.key_features || ""), category: product.category || null, subcategory: product.subcategory || null, brand: product.brand || null, offer: product.offer || null, shipping_fee: product.shipping_fee === "" ? 0 : Number(product.shipping_fee), current_viewers_count: product.current_viewers_count === "" ? 0 : Number(product.current_viewers_count), related_product_mode: product.related_product_mode || "none", related_product_ids: product.related_product_mode === "manual" ? (product.related_product_ids || []).map(relationId) : [] }; delete values.product_type; delete values.has_variants; delete values.variants; delete values.units; delete values.images; delete values.regions; delete values.emi_available; delete values.emi_starting_price; delete values.manual_related_products; const file = values.promotional_banner_image instanceof File ? values.promotional_banner_image : null; if (!file) { delete values.promotional_banner_image; return values; } const form = new FormData(); Object.entries(values).forEach(([key, value]) => { if (value === null || value === undefined) return; if (Array.isArray(value)) value.forEach((item) => form.append(key, String(item))); else form.append(key, value); }); form.set("promotional_banner_image", file); return form; }
+function makeProductPayload(product) { const relatedMode = ["none", "manual"].includes(product.related_product_mode) ? product.related_product_mode : "none"; const values = { ...product, key_features: Array.isArray(product.key_features) ? product.key_features.join("\n") : String(product.key_features || ""), brand: product.brand || null, offer: product.offer || null, shipping_fee: product.shipping_fee === "" ? 0 : Number(product.shipping_fee), current_viewers_count: product.current_viewers_count === "" ? 0 : Number(product.current_viewers_count), related_product_mode: relatedMode, related_product_ids: relatedMode === "manual" ? (product.related_product_ids || []).map(relationId) : [] }; delete values.category; delete values.subcategory; delete values.product_type; delete values.has_variants; delete values.variants; delete values.units; delete values.images; delete values.regions; delete values.emi_available; delete values.emi_starting_price; delete values.manual_related_products; const file = values.promotional_banner_image instanceof File ? values.promotional_banner_image : null; if (!file) { delete values.promotional_banner_image; return values; } const form = new FormData(); Object.entries(values).forEach(([key, value]) => { if (value === null || value === undefined) return; if (Array.isArray(value)) value.forEach((item) => form.append(key, String(item))); else form.append(key, value); }); form.set("promotional_banner_image", file); return form; }
 async function saveVariantImages(variantId, variant) { for (const imageId of variant.deletedImages) await deleteResource("product-images", imageId); const images = variant.images || []; const primaryIndex = Math.max(0, images.findIndex((image) => image.is_primary)); for (let position = 0; position < images.length; position += 1) { const image = images[position]; const isPrimary = position === primaryIndex; if (image.file) { const form = new FormData(); form.append("variant", variantId); form.append("image", image.file); form.append("position", String(position)); form.append("is_primary", String(isPrimary)); await createResource("product-images", form); } else if (idOf(image)) await updateResource("product-images", idOf(image), { position, is_primary: isPrimary }); } }
 
 function RelatedProductsSection({ mode, onModeChange, relatedProducts, search, onSearchChange, availableProducts, onSelect, onRemove, onMove, error }) {
-    const normalizedMode = ["none", "manual", "automatic"].includes(mode) ? mode : "none";
+    const normalizedMode = ["none", "manual"].includes(mode) ? mode : "none";
     const query = String(search || "").trim().toLowerCase();
     const matches = availableProducts.filter((product) => !query || String(product.label || "").toLowerCase().includes(query)).slice(0, 8);
     const hasReachedLimit = relatedProducts.length >= 4;
     return <div className="related-products-editor">
         <p className="related-products-editor-copy">Choose how customers should be offered complementary products after adding this item to their cart.</p>
-        <fieldset className="related-mode-control"><legend>Mode</legend>{[["none", "None"], ["manual", "Manual"], ["automatic", "Automatic"]].map(([value, label]) => <label key={value}><input type="radio" name="related-product-mode" value={value} checked={normalizedMode === value} onChange={() => onModeChange(value)} /> {label}</label>)}</fieldset>
-        {normalizedMode === "automatic" && <p className="related-products-automatic">Related products will be automatically selected based on category, subcategory, product relevance, brand, and availability.</p>}
+        <fieldset className="related-mode-control"><legend>Mode</legend>{[["none", "None"], ["manual", "Manual"]].map(([value, label]) => <label key={value}><input type="radio" name="related-product-mode" value={value} checked={normalizedMode === value} onChange={() => onModeChange(value)} /> {label}</label>)}</fieldset>
         {normalizedMode === "manual" && <div className="related-products-manual">
             <div className="related-products-manual-heading"><div><strong>Manual selections</strong><span>Select up to four products. Their order is the order shown to customers.</span></div><span className="related-products-count">{relatedProducts.length}/4</span></div>
             {relatedProducts.length > 0 && <ol className="related-products-selected-list">{relatedProducts.map((product, index) => <li key={relationId(product)}><span className="related-products-position" aria-hidden="true">{index + 1}</span><strong>{product.name || product.title || `Product #${relationId(product)}`}</strong><div className="related-products-item-actions"><button type="button" className="table-icon" onClick={() => onMove(index, -1)} disabled={index === 0} aria-label={`Move ${product.name || "product"} up`}><FiArrowUp /></button><button type="button" className="table-icon" onClick={() => onMove(index, 1)} disabled={index === relatedProducts.length - 1} aria-label={`Move ${product.name || "product"} down`}><FiArrowDown /></button><button type="button" className="table-icon danger" onClick={() => onRemove(relationId(product))} aria-label={`Remove ${product.name || "product"}`}><FiX /></button></div></li>)}</ol>}
@@ -232,7 +225,7 @@ function RelatedProductsSection({ mode, onModeChange, relatedProducts, search, o
 
 function EditorSection({ title, open, onToggle, children }) { return <section className="product-editor-section"><button type="button" className="product-section-heading" onClick={onToggle}><strong>{title}</strong><FiChevronDown className={open ? "section-open" : ""} /></button>{open && <div className="product-section-content">{children}</div>}</section>; }
 function TextField({ label, value, onChange, error, required, hint }) { return <label className={`product-field ${error ? "has-error" : ""}`}><span>{label}{required && " *"}</span><input value={value || ""} onChange={(event) => onChange(event.target.value)} />{hint && <small className="field-hint">{hint}</small>}{error && <small>{error}</small>}</label>; }
-function NumberField({ label, value, onChange, min, step = "0.01", error }) { return <label className={`product-field ${error ? "has-error" : ""}`}><span>{label}</span><input type="number" min={min} step={step} value={value ?? ""} onChange={(event) => onChange(event.target.value)} />{error && <small>{error}</small>}</label>; }
+function NumberField({ label, value, onChange, min, max, step = "0.01", error }) { return <label className={`product-field ${error ? "has-error" : ""}`}><span>{label}</span><input type="number" min={min} max={max} step={step} value={value ?? ""} onChange={(event) => onChange(event.target.value)} />{error && <small>{error}</small>}</label>; }
 function TextAreaField({ label, value, onChange, error, required, hint }) { return <label className={`product-field full ${error ? "has-error" : ""}`}><span>{label}{required && " *"}</span><textarea rows="5" value={value || ""} onChange={(event) => onChange(event.target.value)} />{hint && <small className="field-hint">{hint}</small>}{error && <small>{error}</small>}</label>; }
 function SelectField({ label, value, options: optionRows, onChange, error, required, emptyLabel = "Select" }) { return <label className={`product-field ${error ? "has-error" : ""}`}><span>{label}{required && " *"}</span><select value={value || ""} onChange={(event) => onChange(event.target.value)}><option value="">{emptyLabel}</option>{optionRows.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select>{error && <small>{error}</small>}</label>; }
 function FileField({ label, value, onChange }) { const preview = value instanceof File ? URL.createObjectURL(value) : value; return <label className="product-field"><span>{label}</span><input type="file" accept="image/*" onChange={(event) => onChange(event.target.files?.[0] || null)} />{preview && <img className="editor-image-preview" src={preview} alt="Preview" />}</label>; }

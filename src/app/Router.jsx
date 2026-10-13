@@ -63,6 +63,8 @@ function Router() {
                 <Route path="automotive-dashboard/product-variants" element={<AdminRoute><Navigate to="/automotive-dashboard/products" replace /></AdminRoute>} />
                 <Route path="automotive-dashboard/product-variant-units" element={<AdminRoute><Navigate to="/automotive-dashboard/products" replace /></AdminRoute>} />
                 <Route path="automotive-dashboard/product-images" element={<AdminRoute><Navigate to="/automotive-dashboard/products" replace /></AdminRoute>} />
+                <Route path="automotive-dashboard/categories/*" element={<AdminRoute><Navigate to="/automotive-dashboard" replace /></AdminRoute>} />
+                <Route path="automotive-dashboard/subcategories/*" element={<AdminRoute><Navigate to="/automotive-dashboard" replace /></AdminRoute>} />
                 <Route path="automotive-dashboard/products/new" element={<AdminRoute><OrderDashboard /></AdminRoute>} />
                 <Route path="automotive-dashboard/products/:id" element={<AdminRoute><OrderDashboard /></AdminRoute>} />
                 <Route path="automotive-dashboard/products/:id/edit" element={<AdminRoute><OrderDashboard /></AdminRoute>} />

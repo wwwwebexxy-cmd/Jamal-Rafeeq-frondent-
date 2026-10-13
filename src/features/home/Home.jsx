@@ -106,10 +106,11 @@ function Home() {
     }
 
     const heroBanners = asArray(homepageData.hero_banners);
-    const hasHomepageNewArrivals = Array.isArray(homepageData.new_arrivals)
-        || Array.isArray(homepageData.new_arrivals?.results)
-        || Array.isArray(homepageData.new_arrivals?.items);
-    const newArrivals = hasHomepageNewArrivals ? asArray(homepageData.new_arrivals) : undefined;
+    const homepageNewArrivals = asArray(homepageData.new_arrivals);
+    // An empty embedded list should still allow New_Arrival_Home to use the
+    // dedicated new-arrivals endpoint, so the home section does not disappear
+    // when the homepage payload has no arrivals yet.
+    const newArrivals = homepageNewArrivals.length ? homepageNewArrivals : undefined;
     const topDeals = homepageData.top_deals;
     const bestSellers = homepageData.best_sellers;
     const shopByBrand = homepageBrands.length ? homepageBrands : brandsFromProducts(brandProducts);
@@ -117,7 +118,12 @@ function Home() {
         <main className="homepage-discovery">
             <Heropage heroBanners={heroBanners} />
 
-            <New_Arrival_Home products={newArrivals} totalCount={homepageData.new_arrivals?.count} showNewBadge tone="new" />
+            <New_Arrival_Home
+                products={newArrivals}
+                totalCount={newArrivals ? homepageData.new_arrivals?.count : undefined}
+                showNewBadge
+                tone="new"
+            />
             <Offer_poster />
             <HomepageProductSection title="Top deals" eyebrow="Best value" section={topDeals} tone="deals" />
             <HomepageProductSection title="Best sellers" eyebrow="Customer favourites" section={bestSellers} tone="bestsellers" />

@@ -34,9 +34,9 @@ const resources = {
     offers: { label: "Offers", group: "Catalog", fields: ["title", "description", "image", "discount_percentage", "start_date", "end_date", "is_active"], columns: ["title", "discount_percentage", "start_date", "end_date", "is_active"] },
     brands: { label: "Brands", itemLabel: "Brand", group: "Catalog", fields: ["name"], columns: ["name"] },
     colors: { label: "Colors", group: "Catalog", fields: ["name", "code"], columns: ["name", "code"] },
-    "unit-types": { label: "Unit Types", group: "Catalog", fields: ["name"], columns: ["name"] },
-    units: { label: "Units", group: "Catalog", fields: ["unit_type", "name"], columns: ["unit_type", "name"] },
-    products: { label: "Products", group: "Catalog", fields: ["name", "description", "key_features", "category", "subcategory", "offer", "seller_name", "shipping_fee", "estimated_delivery_time", "warranty_info", "current_viewers_count", "promotional_banner_image", "promotional_banner_link", "is_active"], columns: ["id", "name", "category", "subcategory", "product_image", "seller_name", "is_active"] },
+    "unit-types": { label: "Unit Types", group: "Catalog", fields: ["name", "description"], columns: ["name", "description"] },
+    units: { label: "Units", group: "Catalog", fields: ["unit_type", "name", "symbol", "description"], columns: ["name", "symbol", "unit_type", "description"] },
+    products: { label: "Products", group: "Catalog", fields: ["name", "description", "key_features", "brand", "vehicle", "vehicle_year", "offer", "seller_name", "shipping_fee", "estimated_delivery_time", "warranty_info", "current_viewers_count", "promotional_banner_image", "promotional_banner_link", "is_active"], columns: ["id", "name", "product_image", "seller_name", "is_active"] },
     "product-variants": { label: "Product Variants", group: "Catalog", fields: ["product", "color", "sku", "price_type", "price", "stock"], columns: ["product", "color", "sku", "price_type", "price", "stock"] },
     "product-variant-units": { label: "Variant Sizes / Units", group: "Catalog", fields: ["variant", "unit_type", "unit", "sku", "price", "stock"], columns: ["variant", "unit_type", "unit", "sku", "price", "stock"] },
     "product-images": { label: "Product Images", group: "Catalog", fields: ["variant", "image", "is_primary", "position"], columns: ["variant", "image", "is_primary", "position"] },
@@ -59,7 +59,7 @@ const resources = {
 
 const navGroups = [
     { title: "Workspace", items: [{ key: "overview", label: "Overview", icon: FiGrid }] },
-    { title: "Catalog", items: ["products", "categories", "subcategories", "brands", "offers"].map((key) => ({ key, label: key === "products" ? "Products & Variants" : resources[key].label, icon: key === "products" ? FiPackage : FiLayers })) },
+    { title: "Catalog", items: ["products", "brands", "offers", "colors", "unit-types", "units"].map((key) => ({ key, label: key === "products" ? "Products & Variants" : resources[key].label, icon: key === "products" ? FiPackage : FiLayers })) },
     { title: "Orders", items: [{ key: "orders", label: "Orders", icon: FiShoppingBag }] },
     { title: "Customers", items: ["users", "addresses"].map((key) => ({ key, label: resources[key].label, icon: key === "users" ? FiUsers : FiArchive })) },
     { title: "Marketing", items: ["hero-banners", "promo-banners", "hero-side-banners", "trust-benefits", "coupons", "welcome-bonuses"].map((key) => ({ key, label: resources[key].label, icon: key === "trust-benefits" ? FiShield : key.includes("banner") ? FiImage : FiTag })) },
@@ -78,7 +78,9 @@ const date = (value) => value ? new Date(value).toLocaleDateString("en-GB", { da
 const titleize = (value = "") => value.replaceAll("_", " ").replaceAll("-", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 const columnLabel = (resource, key) => ({
     subcategories: { id: "Subcategory ID", category: "Category Name", name: "Subcategory Name" },
-    products: { id: "Product ID", name: "Product Name", category: "Category Name", subcategory: "Subcategory Name", product_image: "Product Image" },
+    "unit-types": { name: "Unit Type Name", description: "Description" },
+    units: { name: "Unit Name", symbol: "Symbol", unit_type: "Unit Type", description: "Description" },
+    products: { id: "Product ID", name: "Product Name", product_image: "Product Image" },
     orders: { customer_name: "Customer" },
 }[resource]?.[key] || titleize(key));
 const fallbackFields = (resource, fieldNames) => fieldNames.map((name) => ({ name, type: name.includes("description") ? "textarea" : name.includes("active") ? "boolean" : resource === "offers" && ["start_date", "end_date"].includes(name) ? "date" : resource === "offers" && name === "discount" ? "number" : "text", label: resource === "offers" && name === "discount" ? "Discount (%)" : titleize(name), ...(resource === "offers" && name === "discount" ? { min: 0, max: 100, step: 0.01 } : {}) }));
@@ -126,8 +128,8 @@ function fieldsFromSchema(schema, resource) {
         if (resource === "users" && ["last_login", "date_joined", "groups", "user_permissions"].includes(name)) return false;
         if (resource === "categories" && !["name", "image", "is_active"].includes(name)) return false;
         if (resource === "subcategories" && !["category", "name", "image", "is_active"].includes(name)) return false;
-        if (resource === "unit-types" && name !== "name") return false;
-        if (resource === "units" && !["unit_type", "name"].includes(name)) return false;
+        if (resource === "unit-types" && !["name", "description"].includes(name)) return false;
+        if (resource === "units" && !["unit_type", "name", "symbol", "description"].includes(name)) return false;
         if (resource === "product-variants" && !["product", "color", "sku", "price_type", "price", "stock"].includes(name)) return false;
         if (resource === "product-variant-units" && !["variant", "unit_type", "unit", "sku", "price", "stock"].includes(name)) return false;
         if (resource === "product-images" && !["variant", "image", "is_primary", "position"].includes(name)) return false;
@@ -136,15 +138,28 @@ function fieldsFromSchema(schema, resource) {
     if (resource === "users" && !fields.some((field) => (field.name || field.key) === "password")) {
         fields.splice(1, 0, { name: "password", type: "password", label: "Password", password_policy: true });
     }
+    const fieldOverrides = {
+        "unit-types": {
+            name: { label: "Unit Type Name", required: true },
+            description: { label: "Description" },
+        },
+        units: {
+            unit_type: { label: "Unit Type", required: true },
+            name: { label: "Unit Name", required: true },
+            symbol: { label: "Unit Symbol", required: true },
+            description: { label: "Description" },
+        },
+    }[resource] || {};
+    const decoratedFields = fields.map((field) => ({ ...field, ...(fieldOverrides[field.name || field.key] || {}) }));
     if (resource === "trust-benefits") {
-        return fields.map((field) => {
+        return decoratedFields.map((field) => {
             const name = field.name || field.key;
             if (name === "icon_key") return { ...field, type: "choice", choices: TRUST_BENEFIT_ICON_OPTIONS, label: "Icon" };
             if (name === "display_order") return { ...field, type: "integer", label: "Display order", min: 0, step: 1 };
             return field;
         });
     }
-    return fields;
+    return decoratedFields;
 }
 
 function displayValue(row, key, references = []) {
@@ -394,7 +409,7 @@ function ResourcePage({ resource, schema }) {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [search, setSearch] = useState("");
-    const defaultOrdering = resource === "products" ? "-id" : resource === "trust-benefits" ? "display_order" : "";
+    const defaultOrdering = resource === "products" ? "-id" : resource === "trust-benefits" ? "display_order" : ["unit-types", "units"].includes(resource) ? "name" : "";
     const [ordering, setOrdering] = useState(defaultOrdering);
     const [status, setStatus] = useState("");
     const [paymentStatus, setPaymentStatus] = useState("");
@@ -409,9 +424,10 @@ function ResourcePage({ resource, schema }) {
     const [togglingId, setTogglingId] = useState(null);
     const [exporting, setExporting] = useState(false);
     const [unitTypeRows, setUnitTypeRows] = useState([]);
+    const [unitTypeFilter, setUnitTypeFilter] = useState("");
     const [usageReferences, setUsageReferences] = useState({ coupons: [], users: [], products: [] });
     const [tableReferences, setTableReferences] = useState({});
-    const params = useMemo(() => ({ page, page_size: pageSize, ...(search && { search }), ...(ordering && { ordering }), ...(resource === "orders" && status && { status }), ...(resource === "orders" && paymentStatus && { payment_status: paymentStatus }), ...(resource === "orders" && dateFrom && { date_from: dateFrom }), ...(resource === "orders" && dateTo && { date_to: dateTo }), ...(resource === "coupons" && couponProduct && { product: couponProduct }), ...(resource === "coupons" && couponCategory && { category: couponCategory }), ...(resource === "coupons" && couponDiscountType && { discount_type: couponDiscountType }), ...(resource === "coupons" && couponActive && { is_active: couponActive }) }), [page, pageSize, search, ordering, resource, status, paymentStatus, dateFrom, dateTo, couponProduct, couponCategory, couponDiscountType, couponActive]);
+    const params = useMemo(() => ({ page, page_size: pageSize, ...(search && { search }), ...(ordering && { ordering }), ...(resource === "units" && unitTypeFilter && { unit_type: unitTypeFilter }), ...(resource === "orders" && status && { status }), ...(resource === "orders" && paymentStatus && { payment_status: paymentStatus }), ...(resource === "orders" && dateFrom && { date_from: dateFrom }), ...(resource === "orders" && dateTo && { date_to: dateTo }), ...(resource === "coupons" && couponProduct && { product: couponProduct }), ...(resource === "coupons" && couponCategory && { category: couponCategory }), ...(resource === "coupons" && couponDiscountType && { discount_type: couponDiscountType }), ...(resource === "coupons" && couponActive && { is_active: couponActive }) }), [page, pageSize, search, ordering, resource, unitTypeFilter, status, paymentStatus, dateFrom, dateTo, couponProduct, couponCategory, couponDiscountType, couponActive]);
     const state = useAdminResource(resource, params);
     const relationshipParams = useMemo(() => ({ page_size: 500 }), []);
     const productVariantsState = useAdminResource("product-variants", relationshipParams, resource === "products");
@@ -468,7 +484,7 @@ function ResourcePage({ resource, schema }) {
         { key: "end_date", label: "Expiry Date", render: (row) => date(row?.end_date || row?.valid_until) },
         { key: "is_active", label: "Status", render: (row) => <StatusPill value={row?.is_active ? "Active" : "Inactive"} /> },
     ] : genericColumns;
-    const clearFilters = () => { setSearch(""); setOrdering(defaultOrdering); setStatus(""); setPaymentStatus(""); setDateFrom(""); setDateTo(""); setCouponProduct(""); setCouponCategory(""); setCouponDiscountType(""); setCouponActive(""); setPage(1); };
+    const clearFilters = () => { setSearch(""); setOrdering(defaultOrdering); setUnitTypeFilter(""); setStatus(""); setPaymentStatus(""); setDateFrom(""); setDateTo(""); setCouponProduct(""); setCouponCategory(""); setCouponDiscountType(""); setCouponActive(""); setPage(1); };
     const openView = (row) => navigate(`/automotive-dashboard/${resource}/${recordId(row)}/view`);
     const openEdit = (row) => navigate(`/automotive-dashboard/${resource}/${recordId(row)}/edit`);
     const addAction = resource === "products" ? () => navigate("/automotive-dashboard/products/new") : ["hero-banners", "promo-banners", "hero-side-banners", "coupons", "coupon-usages", "trust-benefits"].includes(resource) ? () => navigate(`/automotive-dashboard/${resource}/new`) : () => setModal({ mode: "create", initialValues: resource === "trust-benefits" ? { is_active: true, display_order: 1 } : {} });
@@ -505,7 +521,7 @@ function ResourcePage({ resource, schema }) {
     };
     const canExport = resource === "products" || resource === "orders" || resource === "order-items";
 
-    return <div className="admin-page"><PageHeader title={config.label} description={`Create, review, update, and remove ${config.label.toLowerCase()} records.`} action={<AdminHeaderActions>{canExport && <CsvButton onClick={downloadResourceCsv} loading={exporting} />}<button className="admin-button primary" onClick={addAction}><FiPlus /> Add {itemLabel(resource)}</button></AdminHeaderActions>} /><div className="admin-panel"><FilterBar onClear={clearFilters}><DebouncedSearch value={search} onChange={(value) => { setSearch(value); setPage(1); }} placeholder={`Search ${config.label.toLowerCase()}...`} /><label className="admin-select"><span>Order</span><select value={ordering} onChange={(event) => { setOrdering(event.target.value); setPage(1); }}><option value="">Default</option>{resource === "trust-benefits" && <><option value="display_order">Display order</option><option value="-display_order">Reverse display order</option></>}<option value="-created_at">Newest</option><option value="created_at">Oldest</option><option value="code">Code A-Z</option><option value="-code">Code Z-A</option><option value="name">Name A-Z</option><option value="-name">Name Z-A</option></select><FiChevronDown /></label>{resource === "orders" && <><label className="admin-select"><span>Status</span><select value={status} onChange={(event) => { setStatus(event.target.value); setPage(1); }}><option value="">All statuses</option>{["Pending", "Processing", "Shipped", "Delivered", "Cancelled"].map((item) => <option key={item}>{item}</option>)}</select></label><label className="admin-select"><span>Payment</span><select value={paymentStatus} onChange={(event) => { setPaymentStatus(event.target.value); setPage(1); }}><option value="">All payments</option>{["Pending", "Paid", "Failed", "Refunded"].map((item) => <option key={item}>{item}</option>)}</select></label><label className="admin-date"><span>From</span><input type="date" value={dateFrom} onChange={(event) => { setDateFrom(event.target.value); setPage(1); }} /></label><label className="admin-date"><span>To</span><input type="date" value={dateTo} onChange={(event) => { setDateTo(event.target.value); setPage(1); }} /></label></>}{resource === "coupons" && <><label className="admin-select"><span>Product</span><select value={couponProduct} onChange={(event) => { setCouponProduct(event.target.value); setPage(1); }}><option value="">All products</option>{(tableReferences.products || []).map((product) => <option key={recordId(product)} value={recordId(product)}>{recordLabel(product)}</option>)}</select></label><label className="admin-select"><span>Category</span><select value={couponCategory} onChange={(event) => { setCouponCategory(event.target.value); setPage(1); }}><option value="">All categories</option>{(tableReferences.categories || []).map((category) => <option key={recordId(category)} value={recordId(category)}>{recordLabel(category)}</option>)}</select></label><label className="admin-select"><span>Discount</span><select value={couponDiscountType} onChange={(event) => { setCouponDiscountType(event.target.value); setPage(1); }}><option value="">All types</option><option value="PERCENTAGE">Percentage</option><option value="FIXED">Fixed Amount</option></select></label><label className="admin-select"><span>Status</span><select value={couponActive} onChange={(event) => { setCouponActive(event.target.value); setPage(1); }}><option value="">All statuses</option><option value="true">Active</option><option value="false">Inactive</option></select></label></>}</FilterBar><DataTable columns={columns} rows={state.rows} loading={state.loading} error={state.error} onRetry={state.reload} actions={(row) => <><button className="table-icon" title="View details" aria-label={`View ${itemLabel(resource)}`} onClick={() => openView(row)}><FiEye /></button><button className="table-icon" title="Edit" aria-label={`Edit ${itemLabel(resource)}`} onClick={() => openEdit(row)}><FiEdit3 /></button>{resource === "coupons" && <button className="table-icon" title={row?.is_active ? "Deactivate" : "Activate"} aria-label={`${row?.is_active ? "Deactivate" : "Activate"} coupon`} onClick={() => toggleCoupon(row)} disabled={togglingId === recordId(row)}><FiPower /></button>}{resource === "trust-benefits" && <button className="table-icon" title={row.is_active ? "Deactivate" : "Activate"} aria-label={`${row.is_active ? "Deactivate" : "Activate"} ${itemLabel(resource)}`} onClick={() => toggleActive(row)}>{row.is_active ? <FiToggleRight /> : <FiToggleLeft />}</button>}<button className="table-icon danger" title="Delete" aria-label={`Delete ${itemLabel(resource)}`} onClick={() => setDeleteTarget(row)}><FiTrash2 /></button></>} /><Pagination page={page} pageSize={pageSize} count={state.count} next={state.next} previous={state.previous} onPageChange={setPage} onPageSizeChange={(size) => { setPageSize(size); setPage(1); }} /></div>{modal && <ResourceModal resource={resource} schema={schema} mode={modal.mode} initialValues={modal.initialValues} onClose={() => setModal(null)} onSaved={closeAndReload} />}{deleteTarget && <ConfirmDialog message={`Delete this ${itemLabel(resource).toLowerCase()} permanently?`} onCancel={() => setDeleteTarget(null)} onConfirm={remove} />}</div>;
+    return <div className="admin-page"><PageHeader title={config.label} description={`Create, review, update, and remove ${config.label.toLowerCase()} records.`} action={<AdminHeaderActions>{canExport && <CsvButton onClick={downloadResourceCsv} loading={exporting} />}<button className="admin-button primary" onClick={addAction}><FiPlus /> Add {itemLabel(resource)}</button></AdminHeaderActions>} /><div className="admin-panel"><FilterBar onClear={clearFilters}><DebouncedSearch value={search} onChange={(value) => { setSearch(value); setPage(1); }} placeholder={`Search ${config.label.toLowerCase()}...`} />{resource === "units" && <label className="admin-select"><span>Unit Type</span><select value={unitTypeFilter} onChange={(event) => { setUnitTypeFilter(event.target.value); setPage(1); }}><option value="">All unit types</option>{unitTypeRows.map((unitType) => <option key={recordId(unitType)} value={recordId(unitType)}>{recordLabel(unitType)}</option>)}</select><FiChevronDown /></label>}<label className="admin-select"><span>Order</span><select value={ordering} onChange={(event) => { setOrdering(event.target.value); setPage(1); }}><option value="">Default</option>{resource === "trust-benefits" && <><option value="display_order">Display order</option><option value="-display_order">Reverse display order</option></>}<option value="-created_at">Newest</option><option value="created_at">Oldest</option><option value="code">Code A-Z</option><option value="-code">Code Z-A</option><option value="name">Name A-Z</option><option value="-name">Name Z-A</option>{resource === "units" && <><option value="symbol">Symbol A-Z</option><option value="-symbol">Symbol Z-A</option></>}</select><FiChevronDown /></label>{resource === "orders" && <><label className="admin-select"><span>Status</span><select value={status} onChange={(event) => { setStatus(event.target.value); setPage(1); }}><option value="">All statuses</option>{["Pending", "Processing", "Shipped", "Delivered", "Cancelled"].map((item) => <option key={item}>{item}</option>)}</select></label><label className="admin-select"><span>Payment</span><select value={paymentStatus} onChange={(event) => { setPaymentStatus(event.target.value); setPage(1); }}><option value="">All payments</option>{["Pending", "Paid", "Failed", "Refunded"].map((item) => <option key={item}>{item}</option>)}</select></label><label className="admin-date"><span>From</span><input type="date" value={dateFrom} onChange={(event) => { setDateFrom(event.target.value); setPage(1); }} /></label><label className="admin-date"><span>To</span><input type="date" value={dateTo} onChange={(event) => { setDateTo(event.target.value); setPage(1); }} /></label></>}{resource === "coupons" && <><label className="admin-select"><span>Product</span><select value={couponProduct} onChange={(event) => { setCouponProduct(event.target.value); setPage(1); }}><option value="">All products</option>{(tableReferences.products || []).map((product) => <option key={recordId(product)} value={recordId(product)}>{recordLabel(product)}</option>)}</select></label><label className="admin-select"><span>Category</span><select value={couponCategory} onChange={(event) => { setCouponCategory(event.target.value); setPage(1); }}><option value="">All categories</option>{(tableReferences.categories || []).map((category) => <option key={recordId(category)} value={recordId(category)}>{recordLabel(category)}</option>)}</select></label><label className="admin-select"><span>Discount</span><select value={couponDiscountType} onChange={(event) => { setCouponDiscountType(event.target.value); setPage(1); }}><option value="">All types</option><option value="PERCENTAGE">Percentage</option><option value="FIXED">Fixed Amount</option></select></label><label className="admin-select"><span>Status</span><select value={couponActive} onChange={(event) => { setCouponActive(event.target.value); setPage(1); }}><option value="">All statuses</option><option value="true">Active</option><option value="false">Inactive</option></select></label></>}</FilterBar><DataTable columns={columns} rows={state.rows} loading={state.loading} error={state.error} onRetry={state.reload} actions={(row) => <><button className="table-icon" title="View details" aria-label={`View ${itemLabel(resource)}`} onClick={() => openView(row)}><FiEye /></button><button className="table-icon" title="Edit" aria-label={`Edit ${itemLabel(resource)}`} onClick={() => openEdit(row)}><FiEdit3 /></button>{resource === "coupons" && <button className="table-icon" title={row?.is_active ? "Deactivate" : "Activate"} aria-label={`${row?.is_active ? "Deactivate" : "Activate"} coupon`} onClick={() => toggleCoupon(row)} disabled={togglingId === recordId(row)}><FiPower /></button>}{resource === "trust-benefits" && <button className="table-icon" title={row.is_active ? "Deactivate" : "Activate"} aria-label={`${row.is_active ? "Deactivate" : "Activate"} ${itemLabel(resource)}`} onClick={() => toggleActive(row)}>{row.is_active ? <FiToggleRight /> : <FiToggleLeft />}</button>}<button className="table-icon danger" title="Delete" aria-label={`Delete ${itemLabel(resource)}`} onClick={() => setDeleteTarget(row)}><FiTrash2 /></button></>} /><Pagination page={page} pageSize={pageSize} count={state.count} next={state.next} previous={state.previous} onPageChange={setPage} onPageSizeChange={(size) => { setPageSize(size); setPage(1); }} /></div>{modal && <ResourceModal resource={resource} schema={schema} mode={modal.mode} initialValues={modal.initialValues} onClose={() => setModal(null)} onSaved={closeAndReload} />}{deleteTarget && <ConfirmDialog message={`Delete this ${itemLabel(resource).toLowerCase()} permanently?`} onCancel={() => setDeleteTarget(null)} onConfirm={remove} />}</div>;
 }
 
 function ReadOnlyResourcePage({ resource, id, schema }) {
@@ -722,20 +738,34 @@ function ResourceModal({ resource, schema, mode, row, initialValues = {}, onClos
 
 async function validateUniqueUnit(resource, values, row) {
     if (!['unit-types', 'units'].includes(resource)) return;
+    if (resource === 'units' && !String(values.unit_type || '').trim()) {
+        throw { response: { data: { unit_type: ['A Unit must belong to a Unit Type.'] } } };
+    }
     const name = String(values.name || '').trim().toLowerCase();
     if (!name) return;
     const response = await listResource(resource, { page_size: 500 });
     const existing = unwrapListForReference(response.data);
     const currentId = String(recordId(row) || '');
+    const selectedUnitType = String(recordId(values.unit_type) || values.unit_type || '');
     const duplicate = existing.some((item) => {
         if (String(recordId(item) || '') === currentId) return false;
         if (String(item.name || '').trim().toLowerCase() !== name) return false;
-        if (resource === 'units' && String(recordId(item.unit_type) || item.unit_type || '') !== String(recordId(values.unit_type) || values.unit_type || '')) return false;
+        if (resource === 'units' && String(recordId(item.unit_type) || item.unit_type || '') !== selectedUnitType) return false;
         return true;
     });
     if (duplicate) {
         const message = resource === 'units' ? 'A Unit with this name already exists for the selected Unit Type.' : 'A Unit Type with this name already exists.';
         throw { response: { data: { name: [message] } } };
+    }
+    if (resource === 'units') {
+        const symbol = String(values.symbol || '').trim().toLowerCase();
+        if (!symbol) return;
+        const duplicateSymbol = existing.some((item) => String(recordId(item) || '') !== currentId
+            && String(item.symbol || '').trim().toLowerCase() === symbol
+            && String(recordId(item.unit_type) || item.unit_type || '') === selectedUnitType);
+        if (duplicateSymbol) {
+            throw { response: { data: { symbol: ['A Unit with this symbol already exists for the selected Unit Type.'] } } };
+        }
     }
 }
 
