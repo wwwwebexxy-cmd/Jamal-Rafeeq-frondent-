@@ -9,11 +9,9 @@ import Homepage_Query from "./queries/Homepage_Query";
 import Product_Query from "../sale/queries/Product_Query";
 import Offer_poster from "../../hooks/offers/page/Offer_poster";
 import ContactUs from "../../components/Contact";
-import vedio1 from "../../assets/eehook-video-one.mp4";
-import vedio2 from "../../assets/eehook-video-two.mp4";
-import videoOnePoster from "../../assets/automotive-hero-workshop.png";
-import videoTwoPoster from "../../assets/dubai-our-promise-bg.png";
-import automotiveWorkshopPoster from "../../assets/automotive-parts-workshop.png";
+import brandShowcaseVideo from "../../assets/homepage-brand-showcase.mp4";
+import promisePortraitVideo from "../../assets/homepage-promise-portrait.mp4";
+import promiseLandscapeVideo from "../../assets/homepage-promise-landscape.mp4";
 
 const asArray = (value) => {
     if (Array.isArray(value)) return value;
@@ -130,7 +128,7 @@ function Home() {
 
             <HomepageBrandSection
                 brands={shopByBrand}
-                video={<DeferredHeritageVideo source={vedio1} poster={automotiveWorkshopPoster} label="Jamal Rafeeq automotive parts showcase" />}
+                video={<DeferredHeritageVideo source={brandShowcaseVideo} label="Jamal Rafeeq automotive parts showcase" />}
             />
 
             <HomepageTrustBenefits benefits={asArray(homepageData.trust_benefits)} />
@@ -144,8 +142,8 @@ function Home() {
                 </div>
 
                 <div className="section-heritage-gallery">
-                    <DeferredHeritageVideo source={vedio1} poster={videoOnePoster} label="Jamal Rafeeq automotive parts showcase" />
-                    <DeferredHeritageVideo source={vedio2} poster={videoTwoPoster} label="Lifestyle collection preview" />
+                    <DeferredHeritageVideo source={promisePortraitVideo} label="Jamal Rafeeq automotive parts promise" />
+                    <DeferredHeritageVideo source={promiseLandscapeVideo} label="Jamal Rafeeq automotive parts promise" />
                 </div>
             </section>
 

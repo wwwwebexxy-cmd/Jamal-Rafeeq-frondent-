@@ -12,9 +12,9 @@ import defaultHeroSideImage from "../../../assets/automotive-parts-workshop.png"
 const DEFAULT_HERO_SLIDES = [
   {
     id: "default-tech-hero",
-    subtitle: "Automotive parts, sales, and service",
+    subtitle: "Automotive spare parts and service",
     title: "Keep every journey moving",
-    description: "Find dependable spare parts, vehicle solutions, and automotive support for the road ahead.",
+    description: "Find dependable car spare parts and practical automotive support for the road ahead.",
     button_text: "Find products",
     image: defaultHeroImage,
   },

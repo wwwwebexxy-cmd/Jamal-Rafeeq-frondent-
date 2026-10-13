@@ -13,13 +13,20 @@
 .find-products-sidebar-heading h2 { margin: 0; color: var(--brand-black-soft); font-size: 1.05rem; }
 .find-products-sidebar-heading button { border: 0; background: none; color: var(--brand-red-hover); cursor: pointer; font: inherit; font-size: .78rem; font-weight: 700; }
 .find-products-filter { display: grid; gap: 7px; margin-top: 16px; color: var(--brand-black-soft); font-size: .78rem; font-weight: 700; }
+.find-products-filter--product { position: relative; }
 .find-products-filter input, .find-products-filter select, .find-products-toolbar select { width: 100%; min-height: 42px; padding: 0 10px; border: 1px solid #E2E6E0; border-radius: 8px; background: #fff; color: #26363c; font: inherit; }
+.find-products-product-search { position: relative; }
+.find-products-suggestions { position: absolute; z-index: 20; top: calc(100% + 6px); right: 0; left: 0; overflow: hidden; border: 1px solid #E2E6E0; border-radius: 10px; background: #fff; box-shadow: 0 12px 28px rgb(24 38 31 / 14%); }
+.find-products-suggestion { display: grid; width: 100%; gap: 3px; padding: 11px 12px; border: 0; border-bottom: 1px solid #eef1ed; background: #fff; color: var(--brand-black-soft); cursor: pointer; text-align: left; }
+.find-products-suggestion:last-child { border-bottom: 0; }
+.find-products-suggestion:hover, .find-products-suggestion:focus-visible { background: #f7faf6; outline: none; }
+.find-products-suggestion strong { font-size: .78rem; }
+.find-products-suggestion span, .find-products-suggestions-status { margin: 0; color: var(--text-secondary); font-size: .7rem; font-weight: 500; }
+.find-products-suggestions-status { padding: 12px; }
 .find-products-results { min-width: 0; }
 .find-products-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 4px; color: var(--brand-black-soft); }
 .find-products-toolbar-actions { display: flex; align-items: center; justify-content: flex-end; gap: 16px; }
 .find-products-toolbar label { display: inline-flex; align-items: center; gap: 8px; font-size: .8rem; font-weight: 700; }
-.find-products-inline-search { min-width: min(100%, 260px); }
-.find-products-inline-search input { width: min(260px, 100%); min-height: 42px; padding: 0 10px; border: 1px solid #E2E6E0; border-radius: 8px; background: #fff; color: #26363c; font: inherit; }
 .find-products-sort-note { color: var(--text-secondary); font-size: .78rem; font-weight: 700; white-space: nowrap; }
 .find-products-toolbar select { width: 170px; }
 .find-products-results .catalog-container { padding: 14px 0 0; }
@@ -37,5 +44,5 @@
     .page_header { align-items: start; }
     .title_description { font-size: .9rem; }
     .find-products-toolbar, .find-products-toolbar-actions { align-items: start; flex-direction: column; width: 100%; }
-    .find-products-toolbar label, .find-products-toolbar select, .find-products-inline-search, .find-products-inline-search input { width: 100%; }
+    .find-products-toolbar label, .find-products-toolbar select { width: 100%; }
 }
