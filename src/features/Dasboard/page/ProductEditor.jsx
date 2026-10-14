@@ -27,12 +27,14 @@ const emptyProduct = {
     related_product_mode: "none",
     related_product_ids: [],
     manual_related_products: [],
+    fitments: [],
 };
 
 const rows = (payload) => Array.isArray(payload) ? payload : Array.isArray(payload?.results) ? payload.results : [];
 const idOf = (item) => item?.id ?? item?.pk ?? item?.uuid;
 const valueOf = (item) => typeof item === "object" && item !== null ? item.id ?? item.pk : item ?? "";
 const labelOf = (item) => item?.name || item?.title || item?.email || item?.code || `#${idOf(item)}`;
+const emptyFitment = () => ({ vehicle_make: "", vehicle_model: "", year_from: "", year_to: "" });
 
 function toOptions(payload) {
     return rows(payload).map((item) => ({ value: idOf(item), label: labelOf(item) }));
@@ -55,6 +57,7 @@ export default function ProductEditor({ readOnly = false }) {
     const [fieldErrors, setFieldErrors] = useState({});
     const [initialSnapshot, setInitialSnapshot] = useState(() => editing ? "" : JSON.stringify({ product: emptyProduct, stock: "", price: "", images: [] }));
     const [open, setOpen] = useState(true);
+    const [fitmentsOpen, setFitmentsOpen] = useState(true);
 
     useEffect(() => {
         let active = true;
@@ -102,6 +105,18 @@ export default function ProductEditor({ readOnly = false }) {
 
     const updateProduct = (name, value) => setProduct((current) => ({ ...current, [name]: value }));
 
+    const addFitment = () => updateProduct("fitments", [...(product.fitments || []), emptyFitment()]);
+
+    const updateFitment = (index, name, value) => updateProduct(
+        "fitments",
+        (product.fitments || []).map((fitment, fitmentIndex) => fitmentIndex === index ? { ...fitment, [name]: value } : fitment),
+    );
+
+    const removeFitment = (index) => updateProduct(
+        "fitments",
+        (product.fitments || []).filter((_, fitmentIndex) => fitmentIndex !== index),
+    );
+
     const addImages = (fileList) => {
         const files = Array.from(fileList || []);
         if (!files.length) return;
@@ -119,6 +134,15 @@ export default function ProductEditor({ readOnly = false }) {
         if (!String(product.name || "").trim()) errors.name = "Product is required.";
         if (price === "" || !Number.isFinite(Number(price)) || Number(price) < 0) errors.price = "Price is required and cannot be negative.";
         if (stock === "" || !Number.isFinite(Number(stock)) || Number(stock) < 0) errors.stock = "Stock is required and cannot be negative.";
+        if ((product.fitments || []).some((fitment) => {
+            const hasAnyValue = [fitment.vehicle_make, fitment.vehicle_model, fitment.year_from, fitment.year_to].some((value) => String(value ?? "").trim());
+            if (!hasAnyValue) return false;
+            return !String(fitment.vehicle_make || "").trim()
+                || !String(fitment.vehicle_model || "").trim()
+                || !fitment.year_from
+                || !fitment.year_to
+                || Number(fitment.year_to) < Number(fitment.year_from);
+        })) errors.fitments = "Every vehicle fitment needs make, model, and a valid year range.";
         return errors;
     };
 
@@ -195,6 +219,24 @@ export default function ProductEditor({ readOnly = false }) {
                     <NumberField label="Price" min="0" step="0.01" value={price} onChange={setPrice} error={fieldErrors.price} />
                 </div></div>}
             </section>
+            <section className="product-editor-section">
+                <button type="button" className="product-section-heading" onClick={() => setFitmentsOpen((current) => !current)}>
+                    <span><strong>Vehicle compatibility</strong><small className="product-section-heading-hint">Add every compatible model and manufacturing-year range.</small></span>
+                    <FiChevronDown className={fitmentsOpen ? "section-open" : ""} />
+                </button>
+                {fitmentsOpen && <div className="product-section-content fitments-content">
+                    <div className="fitments-toolbar"><p className="field-hint">Example: Toyota Corolla · 2014–2019. Add multiple rows for multiple vehicles.</p><button type="button" className="admin-button secondary" onClick={addFitment}>Add vehicle fitment</button></div>
+                    {(product.fitments || []).length === 0 && <p className="fitments-empty">No vehicle compatibility rows yet.</p>}
+                    {(product.fitments || []).map((fitment, index) => <div className="fitment-row" key={fitment.id || index}>
+                        <TextField label={`Vehicle make ${index + 1}`} value={fitment.vehicle_make} onChange={(value) => updateFitment(index, "vehicle_make", value)} />
+                        <TextField label={`Vehicle model ${index + 1}`} value={fitment.vehicle_model} onChange={(value) => updateFitment(index, "vehicle_model", value)} />
+                        <NumberField label={`Year from ${index + 1}`} min="1900" max="2100" step="1" value={fitment.year_from} onChange={(value) => updateFitment(index, "year_from", value)} />
+                        <NumberField label={`Year to ${index + 1}`} min="1900" max="2100" step="1" value={fitment.year_to} onChange={(value) => updateFitment(index, "year_to", value)} />
+                        <button type="button" className="table-icon danger fitment-remove" onClick={() => removeFitment(index)} aria-label={`Remove vehicle fitment ${index + 1}`}><FiX /></button>
+                    </div>)}
+                    {fieldErrors.fitments && <small className="product-error">{fieldErrors.fitments}</small>}
+                </div>}
+            </section>
             <section className="product-editor-section product-images-section">
                 <div className="product-section-heading product-section-heading-static"><strong>Product Images</strong><label className="admin-button secondary product-image-upload"><FiImage /> Add Images<input hidden type="file" accept="image/*" multiple onChange={(event) => { addImages(event.target.files); event.target.value = ""; }} /></label></div>
                 <div className="product-section-content">
@@ -243,10 +285,24 @@ function normalizeProduct(data = {}) {
         brand: valueOf(data.brand),
         offer: valueOf(data.offer),
         vehicle_year: data.vehicle_year ?? "",
+        fitments: Array.isArray(data.fitments) ? data.fitments.map((fitment) => ({
+            ...fitment,
+            vehicle_make: fitment.vehicle_make || "",
+            vehicle_model: fitment.vehicle_model || "",
+            year_from: fitment.year_from ?? "",
+            year_to: fitment.year_to ?? "",
+        })) : [],
     };
 }
 
 function makeProductPayload(product) {
+    const fitments = (product.fitments || []).map((fitment) => ({
+        vehicle_make: String(fitment.vehicle_make || "").trim(),
+        vehicle_model: String(fitment.vehicle_model || "").trim(),
+        year_from: Number(fitment.year_from),
+        year_to: Number(fitment.year_to),
+    }));
+    const primaryFitment = fitments[0];
     const values = {
         ...product,
         name: String(product.name || "").trim(),
@@ -254,7 +310,9 @@ function makeProductPayload(product) {
         // exposed in the compact form.
         description: String(product.description || product.name || "Automotive product").trim(),
         brand: product.brand || null,
-        vehicle_year: product.vehicle_year === "" ? null : Number(product.vehicle_year),
+        vehicle: product.vehicle || (primaryFitment ? `${primaryFitment.vehicle_make} ${primaryFitment.vehicle_model}` : ""),
+        vehicle_year: product.vehicle_year === "" ? (primaryFitment?.year_from ?? null) : Number(product.vehicle_year),
+        fitments,
         offer: product.offer || null,
         shipping_fee: product.shipping_fee === "" ? 0 : Number(product.shipping_fee),
         current_viewers_count: product.current_viewers_count === "" ? 0 : Number(product.current_viewers_count),

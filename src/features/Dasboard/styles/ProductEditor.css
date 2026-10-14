@@ -40,6 +40,13 @@
 .product-view-images img { width: 82px; height: 64px; object-fit: cover; border-radius: 7px; border: 1px solid var(--admin-line); }
 .product-editor-page .admin-back-link { display: inline-flex; align-items: center; gap: 7px; padding: 10px 14px; margin: 0 0 18px; border: 1px solid var(--admin-line); border-radius: 8px; background: #fff; color: #62767d; font: 700 12px Inter, sans-serif; box-shadow: 0 2px 7px rgba(38, 64, 72, .05); transition: .2s ease; }
 .product-editor-page .admin-back-link:hover { border-color: #eaa34d; background: #fff7ec; color: var(--admin-brand-dark); transform: translateX(-2px); }
+.product-section-heading > span { display: grid; gap: 4px; text-align: left; }
+.product-section-heading-hint { color: var(--admin-muted); font: 500 11px Inter, sans-serif; }
+.fitments-content { display: grid; gap: 12px; }
+.fitments-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.fitments-toolbar .field-hint, .fitments-empty { margin: 0; color: var(--admin-muted); font-size: 12px; line-height: 1.5; }
+.fitment-row { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.5fr) minmax(100px, .8fr) minmax(100px, .8fr) 32px; gap: 10px; align-items: end; padding: 12px; border: 1px solid var(--admin-line); border-radius: 9px; background: #fbfcfb; }
+.fitment-remove { width: 32px; height: 38px; }
 @media (max-width: 760px) { .product-view-toolbar { flex-direction: column; } .product-view-grid { grid-template-columns: 1fr; } }
 
 .product-view-page { max-width: 1280px; }
@@ -57,6 +64,15 @@
 .product-view-grid > div { min-width: 0; }
 .product-view-grid p { overflow-wrap: anywhere; word-break: break-word; }
 .product-view-media { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--admin-line); }
+.product-view-fitments { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--admin-line); }
+.product-view-fitments-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.product-view-fitments-heading small { color: var(--admin-muted); font-size: 10px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; }
+.product-view-fitments-heading p { margin: 5px 0 0; color: var(--admin-muted); font-size: 12px; }
+.product-view-fitments-heading > span { flex: 0 0 auto; padding: 5px 9px; border-radius: 999px; background: #eef6f3; color: #47736b; font-size: 11px; font-weight: 700; }
+.product-view-fitment-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+.product-view-fitment-list > div { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 11px; border: 1px solid var(--admin-line); border-radius: 7px; background: #fbfcfb; }
+.product-view-fitment-list strong { min-width: 0; color: var(--admin-ink); font-size: 12px; overflow-wrap: anywhere; }
+.product-view-fitment-list span { flex: 0 0 auto; color: var(--admin-muted); font-size: 11px; white-space: nowrap; }
 .product-view-promo-image { display: block; width: min(100%, 520px); max-height: 220px; margin-top: 9px; border: 1px solid var(--admin-line); border-radius: 8px; object-fit: cover; }
 .product-view-variant-head > div { min-width: 0; }
 .product-view-variant-head strong { font-size: 14px; }
@@ -74,6 +90,7 @@
   .product-view-variant-head { align-items: flex-start; }
   .product-view-units > div:not(.product-view-units-heading) { align-items: flex-start; flex-direction: column; }
   .product-view-units > div > strong { white-space: normal; }
+  .product-view-fitment-list { grid-template-columns: 1fr; }
 }
 
 .related-products-editor { display: grid; gap: 16px; }
@@ -121,3 +138,4 @@
 .product-image-remove { position: absolute; top: 6px; right: 6px; display: grid; width: 24px; height: 24px; place-items: center; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .92); color: var(--admin-danger); cursor: pointer; }
 .product-image-remove:hover, .product-image-remove:focus-visible { background: #fff; outline: 2px solid var(--admin-brand); }
 @media (max-width: 520px) { .product-section-heading-static { align-items: flex-start; gap: 12px; flex-direction: column; } .product-image-upload { width: 100%; justify-content: center; } .product-image-item { width: calc(50% - 6px); height: 120px; } }
+@media (max-width: 760px) { .fitments-toolbar { align-items: stretch; flex-direction: column; } .fitment-row { grid-template-columns: 1fr 1fr; } .fitment-row .fitment-remove { justify-self: end; } }

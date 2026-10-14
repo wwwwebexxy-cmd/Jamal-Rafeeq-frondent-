@@ -109,6 +109,7 @@ export default function ProductView() {
 
     const descriptionText = textValue(product.description);
     const features = keyFeatures(product.key_features);
+    const fitments = Array.isArray(product.fitments) ? product.fitments : [];
 
     return (
         <div className="admin-page product-view-page">
@@ -146,6 +147,8 @@ export default function ProductView() {
                     <div><small>Status</small><p>{product.is_active ? "Active" : "Inactive"}</p></div>
                     <div><small>Promotional link</small><p>{product.promotional_banner_link || EMPTY_VALUE}</p></div>
                 </div>
+
+                {fitments.length > 0 && <div className="product-view-fitments"><div className="product-view-fitments-heading"><div><small>Vehicle compatibility</small><p>Compatible models and manufacturing-year ranges.</p></div><span>{fitments.length} {fitments.length === 1 ? "fitment" : "fitments"}</span></div><div className="product-view-fitment-list">{fitments.map((fitment, index) => <div key={fitment.id || index}><strong>{[fitment.vehicle_make, fitment.vehicle_model].filter(Boolean).join(" ") || EMPTY_VALUE}</strong><span>{fitment.year_from || EMPTY_VALUE}–{fitment.year_to || EMPTY_VALUE}</span></div>)}</div></div>}
 
                 {product.promotional_banner_image && <div className="product-view-media"><small>Promotional image</small><img className="product-view-promo-image" src={getImageUrl(product.promotional_banner_image)} alt={`${product.name} promotion`} /></div>}
             </section>
