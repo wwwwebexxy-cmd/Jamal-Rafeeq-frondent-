@@ -18,7 +18,7 @@ function HomepageTrustBenefits({ benefits }) {
         <section className="homepage-benefits" aria-labelledby="homepage-trust-benefits">
             <div className="homepage-section-heading homepage-benefits-heading">
                 <div>
-                    <h2 id="homepage-trust-benefits">Trust &amp; benefits</h2>
+                    <h2 id="homepage-trust-benefits">Why international partners choose us</h2>
                 </div>
             </div>
             <div className="homepage-benefits-grid">

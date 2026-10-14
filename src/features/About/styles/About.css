@@ -10,7 +10,7 @@
     position: relative;
     isolation: isolate;
     background-color: var(--background);
-    background-image: linear-gradient(rgba(250, 250, 250, .96), rgba(250, 250, 250, .96)), url("../../../assets/dubai-our-promise-bg.png");
+    background-image: linear-gradient(rgba(250, 250, 250, .98), rgba(250, 250, 250, .98));
     background-size: cover;
     background-position: center;
     background-attachment: fixed;

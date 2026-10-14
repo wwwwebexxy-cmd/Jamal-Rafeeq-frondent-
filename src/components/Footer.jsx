@@ -7,8 +7,8 @@ import amc from './../assets/american-exp-payment.png'
 import footerlogo from './../assets/jamal-rafeeq-logo-transparent.png'
 import apple from './../assets/apple-payment.png'
 import { Link } from 'react-router-dom';
-import { FaFacebookF, FaInstagram, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, } from "react-icons/fa";
-import { getWhatsappUrl } from "../config/business";
+import { FaFacebookF, FaInstagram, FaWhatsapp, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaGlobe, } from "react-icons/fa";
+import { BUSINESS_ADDRESS, BUSINESS_EMAIL, BUSINESS_PHONE_NUMBERS, BUSINESS_WEBSITE, getWhatsappUrl } from "../config/business";
 function Footer() {
     const whatsappUrl = getWhatsappUrl("Hello, I would like to enquire about your automotive products.");
 
@@ -29,12 +29,15 @@ function Footer() {
                         <h3>Follow Us</h3>
 
                         <div className="social-icons">
-                            <a href="https://www.instagram.com/eehookuae/" target="_blank" rel="noreferrer" aria-label="Jamal Rafeeq on Instagram">
-                                <FaInstagram />
-                            </a>
-                            <a href="https://www.facebook.com/eehookuae/" target="_blank" rel="noreferrer" aria-label="Jamal Rafeeq on Facebook">
+                            <a href="https://www.facebook.com/share/1JVhtNhpmk/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Jamal Rafeeq on Facebook">
                                 <FaFacebookF />
                             </a>
+                            <a href="https://www.instagram.com/jamal_rafeeq_auto_parts?stkn=ZDRkZDg2YTZmZG00" target="_blank" rel="noopener noreferrer" aria-label="Jamal Rafeeq on Instagram">
+                                <FaInstagram />
+                            </a>
+                            {whatsappUrl && <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Contact Jamal Rafeeq on WhatsApp">
+                                <FaWhatsapp />
+                            </a>}
                         </div>
                     </div>
 
@@ -66,14 +69,18 @@ function Footer() {
                         <h3>Contact Us</h3>
 
                         <ul className="contact">
-                            <li><a href={whatsappUrl} target="_blank" rel="noopener noreferrer"><FaPhoneAlt /> +971 50 123 4567</a></li>
+                            {BUSINESS_PHONE_NUMBERS.map((phone) => <li key={phone.href}><a href={phone.href}><FaPhoneAlt /> {phone.display}</a></li>)}
 
                             <li>
-                                <FaEnvelope />  <a href="mailto:info@eehook.com">info@eehook.com</a>
+                                <FaEnvelope />  <a href={`mailto:${BUSINESS_EMAIL}`}>{BUSINESS_EMAIL}</a>
                             </li>
 
                             <li>
-                                <FaMapMarkerAlt /> Dubai, United Arab Emirates
+                                <FaGlobe /> <a href={BUSINESS_WEBSITE} target="_blank" rel="noopener noreferrer">www.jrautospareparts.com</a>
+                            </li>
+
+                            <li>
+                                <FaMapMarkerAlt /> {BUSINESS_ADDRESS}
                             </li>
                         </ul>
                     </div>

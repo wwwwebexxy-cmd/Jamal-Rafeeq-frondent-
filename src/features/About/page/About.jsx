@@ -2,23 +2,23 @@ import { useNavigate } from "react-router-dom";
 import '../styles/About.css';
 
 import AboutFirstimage from "../../../assets/automotive-parts-workshop.png";
-import AboutSecondimage from "../../../assets/dubai-our-promise-bg.png";
+import AboutSecondimage from "../../../assets/automotive-hero-workshop.png";
 
 const About = () => {
     const navigate = useNavigate();
 
     const pillars = [
         {
-            title: "Fitment First",
-            text: "We focus on the parts that match the vehicle, the application, and the road ahead. Clear guidance matters as much as the product itself."
+            title: "International Reach",
+            text: "We serve importers, distributors, and market partners across the GCC, Africa, and other international markets."
         },
         {
-            title: "Dependable Supply",
-            text: "Our range is built around dependable brands and practical availability, helping drivers and workshops spend less time waiting."
+            title: "Trusted Sourcing",
+            text: "We connect customers with dependable automotive parts and brands selected for consistent quality and market needs."
         },
         {
-            title: "Local, Human Support",
-            text: "From a quick compatibility question to a larger workshop requirement, our team is close by and ready to help."
+            title: "Trade with Clarity",
+            text: "From product enquiry to shipment, we keep import and export communication responsive, practical, and straightforward."
         }
     ];
 
@@ -34,15 +34,15 @@ const About = () => {
                         <span className="hero-italic">The right fit. Every journey.</span>
                     </h1>
                     <p className="hero-subtext">
-                        We help drivers, workshops, and businesses across Dubai find dependable automotive parts with practical guidance and service that keeps moving.
+                        Jamal Rafeeq is an international automotive parts sourcing, import, and export business serving the GCC, Africa, and markets beyond the region.
                     </p>
-                    <button className="hero-modern-btn" onClick={() => navigate('/shop')}>
-                        Explore auto parts <span className="arrow">→</span>
+                    <button className="hero-modern-btn" onClick={() => navigate('/find-products')}>
+                        Explore our range <span className="arrow">→</span>
                     </button>
                 </div>
                 <div className="hero-image-content">
                     <div className="image-frame">
-                        <img src={AboutFirstimage} alt="Organized automotive parts showroom in Dubai" />
+                        <img src={AboutFirstimage} alt="Automotive parts prepared for cross-border supply" />
                     </div>
                 </div>
             </section>
@@ -51,29 +51,29 @@ const About = () => {
             <section className="about-modern-story about-fade">
                 <div className="story-left">
                     <div className="story-sticky">
-                        <h2>Built around the way <i>Dubai moves</i>.</h2>
+                        <h2>Built for markets <i>beyond borders</i>.</h2>
                         <p>
-                            Dubai roads demand parts that can handle heat, traffic, and long working days. Jamal Rafeeq was built to make finding those parts clearer, quicker, and more dependable.
+                            Our work connects reliable automotive parts with customers in Oman, Qatar, Bahrain, Saudi Arabia, other GCC markets, and Africa.
                         </p>
                         <p>
-                            We bring together trusted automotive brands, useful product information, and a responsive team so every enquiry starts with confidence.
+                            We manage sourcing, import, and export with a clear understanding that every market has different vehicle populations, regulations, and supply needs.
                         </p>
 
                         <div className="story-highlights">
                             <div className="highlight-box">
-                                <span className="highlight-title">Clearer choices</span>
-                                <span className="highlight-text">Search the range with a real team behind it, ready to help you narrow down the right option.</span>
+                                <span className="highlight-title">Global sourcing</span>
+                                <span className="highlight-text">We help partners identify dependable parts, brands, and supply routes for the markets they serve.</span>
                             </div>
                             <div className="highlight-box">
-                                <span className="highlight-title">Ready for the road</span>
-                                <span className="highlight-text">Our promise is simple: dependable products, honest support, and a smoother route from enquiry to fitment.</span>
+                                <span className="highlight-title">Trade made practical</span>
+                                <span className="highlight-text">Our promise is simple: clear communication, dependable products, and a smoother route from enquiry to shipment.</span>
                             </div>
                         </div>
 
                     </div>
                 </div>
                 <div className="story-right">
-                    <img src={AboutSecondimage} alt="Dubai skyline and road at sunset" className="story-vibe-img" />
+                    <img src={AboutSecondimage} alt="Automotive parts prepared for international supply" className="story-vibe-img" />
                 </div>
             </section>
 
@@ -96,7 +96,7 @@ const About = () => {
             {/* Editorial Quote */}
             <section className="about-modern-quote about-fade">
                 <blockquote>
-                    "A confident drive starts with the right part, the right advice, and a team that stays close."
+                    "Reliable parts, trusted trade, and stronger markets across borders."
                 </blockquote>
                 <div className="quote-author">— Jamal Rafeeq Auto Parts Trading LLC</div>
             </section>

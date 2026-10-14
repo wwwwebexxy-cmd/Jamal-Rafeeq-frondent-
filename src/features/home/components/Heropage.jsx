@@ -1,209 +1,115 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../Heropage.css";
 import { getImageUrl } from "../../../utils/imageUrl";
-
 import Hero_Query from "../queries/Hero_Query";
-import PromoBanners_Query from "../queries/PromoBanners_Query";
-import HeroSideBanner_Query from "../queries/HeroSideBanner_Query";
 import defaultHeroImage from "../../../assets/automotive-hero-workshop.png";
-import defaultHeroSideImage from "../../../assets/automotive-parts-workshop.png";
 
-const DEFAULT_HERO_SLIDES = [
-  {
-    id: "default-tech-hero",
-    subtitle: "Automotive spare parts and service",
-    title: "Keep every journey moving",
-    description: "Find dependable car spare parts and practical automotive support for the road ahead.",
-    button_text: "Find products",
-    image: defaultHeroImage,
-  },
-];
-
-const DEFAULT_SIDE_BANNER = {
-  image: defaultHeroSideImage,
-  link: "/find-products",
+const DEFAULT_HERO_SLIDE = {
+  id: "default-tech-hero",
+  subtitle: "International automotive parts trade",
+  title: "Source globally. Supply confidently.",
+  description: "We source, import, and export dependable automotive parts for partners across the GCC, Africa, and international markets.",
+  button_text: "Find products",
+  image: defaultHeroImage,
 };
 
-const getHeroImageUrl = (image) => image === defaultHeroImage || image === defaultHeroSideImage
-  ? image
-  : getImageUrl(image);
+const getHeroImageUrl = (image) => image === defaultHeroImage ? image : getImageUrl(image);
 
-const Heropage = ({ heroBanners, promoBanners: providedPromoBanners, heroSideBanner: providedSideBanner }) => {
+const asArray = (value) => {
+  if (Array.isArray(value)) return value;
+  if (Array.isArray(value?.results)) return value.results;
+  if (Array.isArray(value?.items)) return value.items;
+  return [];
+};
 
-  // An empty homepage response is not an intentional override. Keep the
-  // dedicated hero endpoint available, then fall back to the bundled hero
-  // image when the API has no active banners configured.
-  const hasHeroBanners = Array.isArray(heroBanners) && heroBanners.length > 0;
-  const { data: rawHeroSlides } = Hero_Query({ enabled: !hasHeroBanners });
-  const queriedHeroSlides = Array.isArray(rawHeroSlides) ? rawHeroSlides : [];
-  const heroSlides = (hasHeroBanners ? heroBanners : queriedHeroSlides).length > 0
-    ? (hasHeroBanners ? heroBanners : queriedHeroSlides)
-    : DEFAULT_HERO_SLIDES;
+const hasUsableCopy = (value) => {
+  const normalized = String(value || "").trim();
+  return normalized && normalized !== "." && normalized !== "-";
+};
 
-  const hasPromoBanners = Array.isArray(providedPromoBanners);
-  const { data: rawPromoBanners } = PromoBanners_Query({ enabled: !hasPromoBanners });
-  const promoBanners = hasPromoBanners
-    ? providedPromoBanners
-    : (Array.isArray(rawPromoBanners) ? rawPromoBanners : []);
+const normalizeHeroSlide = (slide) => ({
+  ...slide,
+  subtitle: hasUsableCopy(slide?.subtitle) ? slide.subtitle : DEFAULT_HERO_SLIDE.subtitle,
+  title: hasUsableCopy(slide?.title || slide?.heading) ? (slide.title || slide.heading) : DEFAULT_HERO_SLIDE.title,
+  description: hasUsableCopy(slide?.description || slide?.text) ? (slide.description || slide.text) : DEFAULT_HERO_SLIDE.description,
+  button_text: hasUsableCopy(slide?.button_text) ? slide.button_text : DEFAULT_HERO_SLIDE.button_text,
+});
 
-  const hasSideBanner = providedSideBanner !== undefined;
-  const { data: queriedSideBanner } = HeroSideBanner_Query({ enabled: !hasSideBanner });
-  const heroSideBanner = hasSideBanner
-    ? providedSideBanner
-    : (queriedSideBanner?.image ? queriedSideBanner : DEFAULT_SIDE_BANNER);
-
+const Heropage = ({ heroBanners }) => {
+  const providedHeroBanners = asArray(heroBanners);
+  const hasHeroBanners = providedHeroBanners.length > 0;
+  const { data: rawHeroBanners } = Hero_Query({ enabled: !hasHeroBanners });
+  const queriedHeroBanners = asArray(rawHeroBanners);
+  const sourceHeroBanners = hasHeroBanners ? providedHeroBanners : queriedHeroBanners;
+  const heroSlides = sourceHeroBanners.length > 0
+    ? sourceHeroBanners.map(normalizeHeroSlide)
+    : [DEFAULT_HERO_SLIDE];
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [currentPromo, setCurrentPromo] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const activeSlide = Math.min(currentSlide, heroSlides.length - 1);
 
-  // Auto Slide
   useEffect(() => {
+    if (heroSlides.length < 2 || isPaused) return undefined;
 
-    if (heroSlides.length === 0) return;
-
-    const timer = setInterval(() => {
-
-      setCurrentSlide((prev) =>
-        prev === heroSlides.length - 1 ? 0 : prev + 1
-      );
-
+    const timer = window.setInterval(() => {
+      setCurrentSlide((slideIndex) => (slideIndex + 1) % heroSlides.length);
     }, 5000);
 
-    return () => clearInterval(timer);
+    return () => window.clearInterval(timer);
+  }, [heroSlides.length, isPaused]);
 
-  }, [heroSlides.length]);
-
-  useEffect(() => {
-    if (promoBanners.length === 0) return undefined;
-
-    const promoTimer = setInterval(() => {
-      setCurrentPromo((prev) => (prev === promoBanners.length - 1 ? 0 : prev + 1));
-    }, 4000);
-
-    return () => clearInterval(promoTimer);
-  }, [promoBanners.length]);
-
-  const nextPromo = () => setCurrentPromo((prev) => (prev === promoBanners.length - 1 ? 0 : prev + 1));
-  const prevPromo = () => setCurrentPromo((prev) => (prev === 0 ? promoBanners.length - 1 : prev - 1));
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1));
-  };
+  const nextSlide = () => setCurrentSlide((slideIndex) => (slideIndex + 1) % heroSlides.length);
+  const previousSlide = () => setCurrentSlide((slideIndex) => (slideIndex - 1 + heroSlides.length) % heroSlides.length);
 
   return (
     <div className="hero-page-wrapper">
-
-      {promoBanners.length > 0 && <div className="top-promo-carousel" aria-label="Promotions">
-        <button className="promo-nav-btn left" onClick={prevPromo} aria-label="Previous promotion">‹</button>
-
-        <div className="promo-slides">
-          {promoBanners.map((promo, index) => (
+      <section className="hero-split-layout single">
+        <div
+          className="hero-carousel-section"
+          aria-roledescription="carousel"
+          aria-label="Featured automotive banners"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onFocus={() => setIsPaused(true)}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) setIsPaused(false);
+          }}
+        >
+          {heroSlides.map((heroSlide, index) => (
             <div
-              key={promo.id || `promo-${index}`}
-              className={`promo-slide ${currentPromo === index ? "active" : ""}`}
+              key={heroSlide.id || `hero-slide-${index}`}
+              className={`hero-slide ${activeSlide === index ? "active" : ""}`}
+              aria-hidden={activeSlide !== index}
             >
-              {promo.link ? (
-                <a href={promo.link} target="_blank" rel="noopener noreferrer" style={{ display: "block", width: "100%", height: "100%" }}>
-                  <img src={getImageUrl(promo.image)} alt={promo.title || "Promotional banner"} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                </a>
-              ) : (
-                <img src={getImageUrl(promo.image)} alt={promo.title || "Promotional banner"} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-              )}
-            </div>
-          ))}
-        </div>
-
-        <button className="promo-nav-btn right" onClick={nextPromo} aria-label="Next promotion">›</button>
-      </div>}
-
-      <section className={`hero-split-layout ${heroSideBanner?.image ? "" : "single"}`}>
-        
-        {/* Main Carousel (Left) */}
-        <div className="hero-carousel-section">
-          {heroSlides.map((slide, index) => (
-            <div
-              key={slide.id}
-              className={`hero-slide ${
-                currentSlide === index ? "active" : ""
-              }`}
-            >
-
-              <img
-                src={getHeroImageUrl(slide.image || slide.banner_image || slide.image_url)}
-                alt={slide.title || slide.heading || "Featured collection"}
-                className="hero-image"
-              />
-
+              <img src={getHeroImageUrl(heroSlide.image || heroSlide.banner_image || heroSlide.image_url)} alt={heroSlide.title || heroSlide.heading || "Featured collection"} className="hero-image" />
               <div className="hero-overlay"></div>
-
               <div className="hero-content">
-
-                <span className="hero-subtitle">
-                  {slide.subtitle || slide.eyebrow}
-                </span>
-
-                <h1>
-                  {slide.title || slide.heading}
-                </h1>
-
-                <p>
-                  {slide.description || slide.text}
-                </p>
-
-                <Link
-                  to="/find-products"
-                  className="shop-btn-premium"
-                >
-                  {slide.button_text} <span className="arrow">→</span>
-                </Link>
-
+                <span className="hero-subtitle">{heroSlide.subtitle || heroSlide.eyebrow}</span>
+                <h1>{heroSlide.title || heroSlide.heading}</h1>
+                <p>{heroSlide.description || heroSlide.text}</p>
+                <Link to="/find-products" className="shop-btn-premium">{heroSlide.button_text || "Find products"} <span className="arrow">→</span></Link>
               </div>
-
             </div>
           ))}
-          
-          {/* Navigation Arrows */}
-          <button className="carousel-nav-btn prev-btn" onClick={prevSlide} aria-label="Previous hero slide">
-            ‹
-          </button>
-          <button className="carousel-nav-btn next-btn" onClick={nextSlide} aria-label="Next hero slide">
-            ›
-          </button>
 
-          <div className="hero-dots">
-
-            {heroSlides.map((_, index) => (
-              <button
-                key={index}
-                className={`modern-dot ${
-                  currentSlide === index ? "active-modern-dot" : ""
-                }`}
-                onClick={() => setCurrentSlide(index)}
-                aria-label={`Go to slide ${index + 1}`}
-              >
-              </button>
-            ))}
-
-          </div>
+          {heroSlides.length > 1 && <>
+            <button type="button" className="carousel-nav-btn prev-btn" onClick={previousSlide} aria-label="Previous hero slide">‹</button>
+            <button type="button" className="carousel-nav-btn next-btn" onClick={nextSlide} aria-label="Next hero slide">›</button>
+            <div className="hero-dots" aria-label="Choose hero slide">
+              {heroSlides.map((heroSlide, index) => (
+                <button
+                  type="button"
+                  key={heroSlide.id || `hero-dot-${index}`}
+                  className={`modern-dot ${activeSlide === index ? "active-modern-dot" : ""}`}
+                  onClick={() => setCurrentSlide(index)}
+                  aria-label={`Go to slide ${index + 1}`}
+                  aria-current={activeSlide === index ? "true" : undefined}
+                />
+              ))}
+            </div>
+          </>}
         </div>
-
-        {/* Fixed Side Banner (Right) */}
-        {heroSideBanner?.image && <div className="hero-fixed-banner-section">
-          <div className="fixed-banner-content">
-             {heroSideBanner?.link ? (
-               <a href={heroSideBanner.link} target="_blank" rel="noopener noreferrer">
-                 <img src={getHeroImageUrl(heroSideBanner.image)} alt="Promotional Banner" className="fixed-banner-image" />
-               </a>
-             ) : (
-                 <img src={getHeroImageUrl(heroSideBanner?.image)} alt="Promotional Banner" className="fixed-banner-image" />
-             )}
-          </div>
-        </div>}
-
       </section>
     </div>
   );

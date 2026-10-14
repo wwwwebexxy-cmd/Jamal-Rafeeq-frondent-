@@ -2,11 +2,12 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import "./../Contact.css"
 import { getAuthValue } from "../features/auth/authUtils";
+import { getWhatsappUrl } from "../config/business";
 
 const ContactUs = () => {
     const [searchParams] = useSearchParams();
     const topic = searchParams.get("topic");
-    const initialSubject = topic === "car-sales" ? "Car Sales" : topic === "services" ? "Service Enquiry" : "";
+    const initialSubject = topic === "import-export" ? "Import & Export Enquiry" : topic === "bulk-supply" ? "Bulk Supply Enquiry" : "";
     const [formData, setFormData] = useState(() => ({
         name: getAuthValue("first_name"),
         email: getAuthValue("email"),
@@ -32,8 +33,6 @@ const ContactUs = () => {
             return;
         }
 
-        const whatsappNumber = "971501234567";
-
         const text = `Hello Jamal Rafeeq Team,
 
 Name: ${name}
@@ -49,11 +48,13 @@ ${message}
 
 Thank you.`;
 
-        const messageWindow = window.open(
-            `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`,
-            "_blank",
-            "noopener,noreferrer"
-        );
+        const whatsappUrl = getWhatsappUrl(text);
+        if (!whatsappUrl) {
+            alert("WhatsApp contact is not configured.");
+            return;
+        }
+
+        const messageWindow = window.open(whatsappUrl, "_blank", "noopener,noreferrer");
         if (messageWindow) messageWindow.opener = null;
     };
 
@@ -71,8 +72,8 @@ Thank you.`;
                 </h1>
 
                 <p>
-                    Have a question about our collections,
-                    an order, or need assistance?
+                    Have a question about our automotive range,
+                    an import or export requirement, or a shipment?
                     Fill out the form below and send us
                     a message directly on WhatsApp.
                 </p>
@@ -199,11 +200,11 @@ Thank you.`;
                             </option>
 
                             <option>
-                                Car Sales
+                                Import &amp; Export Enquiry
                             </option>
 
                             <option>
-                                Service Enquiry
+                                Bulk Supply Enquiry
                             </option>
 
                             <option>

@@ -3,6 +3,13 @@ const configuredWhatsappNumber = String(import.meta.env.VITE_WHATSAPP_NUMBER || 
 
 export const WHATSAPP_NUMBER = configuredWhatsappNumber;
 export const ORDER_CURRENCY = String(import.meta.env.VITE_ORDER_CURRENCY || "AED").trim().toUpperCase();
+export const BUSINESS_PHONE_NUMBERS = [
+    { display: "050 873 6155", href: "tel:+971508736155" },
+    { display: "058 895 9179", href: "tel:+971588959179" },
+];
+export const BUSINESS_EMAIL = "jrautopartsdubai@gmail.com";
+export const BUSINESS_WEBSITE = "https://www.jrautospareparts.com";
+export const BUSINESS_ADDRESS = "Bin Thani Building, Shop No: 21, Deira, Dubai - UAE";
 
 export function getWhatsappUrl(message) {
     if (!WHATSAPP_NUMBER) return "";

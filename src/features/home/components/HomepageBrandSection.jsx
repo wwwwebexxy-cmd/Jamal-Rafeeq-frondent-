@@ -8,7 +8,7 @@ function HomepageBrandSection({ brands, video = null }) {
     return (
         <section className="brand-showcase" aria-labelledby="homepage-shop-by-brand">
             <header className="brand-showcase-header">
-                <h2 id="homepage-shop-by-brand">Shop by Brand</h2>
+                <h2 id="homepage-shop-by-brand">Brands across our supply network</h2>
             </header>
 
             <HomepageBrandCarousel brands={visibleBrands} />
