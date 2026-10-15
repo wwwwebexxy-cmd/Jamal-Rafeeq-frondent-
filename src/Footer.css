@@ -105,21 +105,6 @@
     transform: scale(1.15);
 }
 
-.payment-icons {
-    display: flex;
-    gap: 7px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.payment {
-    text-align: center;
-}
-
-.payment-icons img {
-    width: 55px;
-}
-
 .copyright {
     background: var(--brand-black);
     color: rgba(255,255,255,0.85);
@@ -193,10 +178,6 @@
         justify-content: center;
     }
 
-    .payment-icons img {
-        width: 48px;
-    }
-
     .copyright {
         font-size: 13px;
     }
@@ -214,10 +195,6 @@
         overflow-wrap: anywhere;
     }
 
-    .payment-icons {
-        display: flex;
-        gap: 12px;
-    }
 }
 
 @media(max-width:320px) {

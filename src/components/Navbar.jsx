@@ -3,7 +3,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { IoClose, IoMenu, IoSearch } from "react-icons/io5";
 
 import navbarlogo from "../assets/jamal-rafeeq-logo-transparent.png";
-import Offer_Query from "../hooks/offers/queries/Offer_Query";
 import Product_Query from "../features/sale/queries/Product_Query";
 import "../Navbar.css";
 
@@ -22,8 +21,6 @@ function Navbar() {
     const [searchText, setSearchText] = useState("");
     const [debouncedSearch, setDebouncedSearch] = useState("");
     const lastScrollY = useRef(0);
-    const { data: offers = [] } = Offer_Query();
-    const offerActive = Array.isArray(offers) && offers.some((offer) => offer && offer.is_active !== false);
     const { data: suggestionData, isFetching: suggestionsLoading } = Product_Query(
         { search: debouncedSearch, page_size: 5 },
         { enabled: debouncedSearch.length >= 2 },
@@ -61,7 +58,7 @@ function Navbar() {
                 <button type="button" className={`nav_toggle ${menuOpen ? "is-open" : ""}`} onClick={() => setMenuOpen(true)} aria-label="Open navigation menu" aria-expanded={menuOpen}><IoMenu size={26} /></button>
                 <div className="nav_main2">
                     <NavLink to="/" className="logo-link topbar-logo-link"><img src={navbarlogo} alt="Jamal Rafeeq Auto Parts Trading LLC" className="navbar-logo topbar-logo" /></NavLink>
-                    <ul className="navLinks">{links.map((link) => <li key={link.name}><NavLink to={link.path} className="nav_link">{link.name}</NavLink></li>)}{offerActive && <li><NavLink to="/find-products?offer=true" className="nav_link">Offers</NavLink></li>}</ul>
+                    <ul className="navLinks">{links.map((link) => <li key={link.name}><NavLink to={link.path} className="nav_link">{link.name}</NavLink></li>)}</ul>
                     <div className="search_main">
                         <div className="search_wrapper">
                             <input className={`nav_search_input ${searchOpen ? "open" : ""}`} value={searchText} onChange={(event) => { setSearchText(event.target.value); setSearchOpen(true); }} onKeyDown={(event) => { if (event.key === "Enter") goToSearch(); if (event.key === "Escape") closeSearch(); }} placeholder="Search products" aria-label="Search products" />
@@ -72,7 +69,7 @@ function Navbar() {
                 </div>
             </div>
         </div>
-        <div className={`mobile_menu ${menuOpen ? "show" : ""}`} id="mobile-navigation"><div className="mobile_header"><NavLink to="/" onClick={closeMenu}><img src={navbarlogo} alt="Jamal Rafeeq Auto Parts Trading LLC" className="navbar-logo" /></NavLink><button type="button" className="mobile-close-button" onClick={closeMenu} aria-label="Close navigation"><IoClose size={25} /></button></div><ul>{links.map((link) => <li key={link.name}><NavLink to={link.path} onClick={closeMenu}>{link.name}</NavLink></li>)}{offerActive && <li><NavLink to="/find-products?offer=true" onClick={closeMenu}>Offers</NavLink></li>}<li><NavLink to="/contact" onClick={closeMenu}>Contact</NavLink></li></ul></div>
+        <div className={`mobile_menu ${menuOpen ? "show" : ""}`} id="mobile-navigation"><div className="mobile_header"><NavLink to="/" onClick={closeMenu}><img src={navbarlogo} alt="Jamal Rafeeq Auto Parts Trading LLC" className="navbar-logo" /></NavLink><button type="button" className="mobile-close-button" onClick={closeMenu} aria-label="Close navigation"><IoClose size={25} /></button></div><ul>{links.map((link) => <li key={link.name}><NavLink to={link.path} onClick={closeMenu}>{link.name}</NavLink></li>)}<li><NavLink to="/contact" onClick={closeMenu}>Contact</NavLink></li></ul></div>
         {menuOpen && <button type="button" className="mobile-menu-backdrop" onClick={closeMenu} aria-label="Close navigation overlay" />}
     </>;
 }

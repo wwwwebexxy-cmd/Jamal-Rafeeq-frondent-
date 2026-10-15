@@ -3,7 +3,6 @@ import Home from '../features/home/Home'
 import Sale from '../features/sale/page/Sale'
 import NewArrivals from '../features/sale/page/NewArrivals'
 import Single_product from '../features/single product/page/Single_product'
-import Offer_poster from '../hooks/offers/page/Offer_poster'
 import OrderDashboard from '../features/Dasboard/page/OrderDashboard'
 import About from '../features/About/page/About'
 import ContactUs from '../components/Contact'
@@ -43,7 +42,7 @@ function Router() {
 
                 <Route path="/single/:id" element={<Single_product />} />
 
-                <Route path="/offers" element={<Offer_poster />} />
+                <Route path="/offers" element={<Navigate to="/" replace />} />
 
                 <Route path='myorders' element={<Navigate to="/" replace />} />
 

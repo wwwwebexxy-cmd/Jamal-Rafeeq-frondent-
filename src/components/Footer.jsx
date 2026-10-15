@@ -1,11 +1,6 @@
 import "./../Footer.css";
 
-// import eehook from './../assets/eehook.jpeg'
-import visa from './../assets/visa-payment.png'
-import master from './../assets/master-payment.png'
-import amc from './../assets/american-exp-payment.png'
 import footerlogo from './../assets/jamal-rafeeq-logo-transparent.png'
-import apple from './../assets/apple-payment.png'
 import { Link } from 'react-router-dom';
 import { FaFacebookF, FaInstagram, FaWhatsapp, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaGlobe, } from "react-icons/fa";
 import { BUSINESS_ADDRESS, BUSINESS_EMAIL, BUSINESS_PHONE_NUMBERS, BUSINESS_WEBSITE, getWhatsappUrl } from "../config/business";
@@ -48,7 +43,6 @@ function Footer() {
                             <li><Link to="/">Home</Link></li>
                             <li><Link to="/find-products">Find Products</Link></li>
                             <li><Link to="/new-arrivals">New Arrivals</Link></li>
-                            <li><Link to="/find-products?offer=true">Offers</Link></li>
                             <li><Link to="/about">About Us</Link></li>
                             <li><Link to="/contact">Contact Us</Link></li>
                         </ul>
@@ -83,17 +77,6 @@ function Footer() {
                                 <FaMapMarkerAlt /> {BUSINESS_ADDRESS}
                             </li>
                         </ul>
-                    </div>
-
-                    <div className="footer-column payment">
-                        <h3>We Accept</h3>
-
-                        <div className="payment-icons">
-                            <img src={visa} alt="payments" />
-                            <img src={master} alt="" />
-                            <img src={amc} alt="" />
-                            <img src={apple} alt="" />
-                        </div>
                     </div>
 
                 </div>
