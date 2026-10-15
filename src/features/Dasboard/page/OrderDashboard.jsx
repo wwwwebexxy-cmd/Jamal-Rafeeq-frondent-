@@ -33,7 +33,7 @@ const resources = {
     categories: { label: "Categories", group: "Catalog", fields: ["name", "image", "is_active"], columns: ["name", "image", "is_active"] },
     subcategories: { label: "Subcategories", group: "Catalog", fields: ["category", "name", "image", "is_active"], columns: ["id", "category", "name", "image", "is_active"] },
     offers: { label: "Offers", group: "Catalog", fields: ["title", "description", "image", "discount_percentage", "start_date", "end_date", "is_active"], columns: ["title", "discount_percentage", "start_date", "end_date", "is_active"] },
-    brands: { label: "Brands", itemLabel: "Brand", group: "Catalog", fields: ["name"], columns: ["name"] },
+    brands: { label: "Brands", itemLabel: "Brand", group: "Catalog", fields: ["name", "logo"], columns: ["name", "logo"] },
     colors: { label: "Colors", group: "Catalog", fields: ["name", "code"], columns: ["name", "code"] },
     "unit-types": { label: "Unit Types", group: "Catalog", fields: ["name", "description"], columns: ["name", "description"] },
     units: { label: "Units", group: "Catalog", fields: ["unit_type", "name", "symbol", "description"], columns: ["name", "symbol", "unit_type", "description"] },
@@ -187,7 +187,7 @@ function displayValue(row, key, references = []) {
         const reference = references.find((item) => String(recordId(item)) === String(value?.id ?? value));
         return reference ? recordLabel(reference) : recordLabel(value);
     }
-    if (key.includes("image")) return typeof value === "string" ? <img className="table-image-thumb" src={getImageUrl(value)} alt="" /> : recordLabel(value);
+    if (key.includes("image") || key.includes("logo")) return typeof value === "string" ? <img className="table-image-thumb" src={getImageUrl(value)} alt="" /> : recordLabel(value);
     if (key === "discount_value") return String(row?.discount_type || "").toUpperCase() === "FIXED" ? <DirhamAmount value={value} /> : `${value}%`;
     if (key.includes("percentage")) return `${value}%`;
     if (key.includes("amount") || key.includes("price") || key.includes("discount_value") || key.includes("shipping_fee") || key.includes("shipping_charge")) return money(value);

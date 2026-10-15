@@ -15,9 +15,9 @@ import promiseLandscapeVideo from "../../assets/homepage-promise-landscape.mp4";
 import { getImageUrl } from "../../utils/imageUrl";
 
 const DEFAULT_HOMEPAGE_VIDEO_SOURCES = {
-    brandShowcase: "https://videos.pexels.com/video-files/12399566/12399566-uhd_2560_1440_30fps.mp4",
-    globalReachPortrait: "https://videos.pexels.com/video-files/36010284/15270205_2160_3840_30fps.mp4",
-    globalReachLandscape: "https://videos.pexels.com/video-files/6595373/6595373-uhd_3840_2160_24fps.mp4",
+    brandShowcase: "https://videos.pexels.com/video-files/7018666/7018666-uhd_4096_2160_25fps.mp4",
+    globalReachPortrait: "https://videos.pexels.com/video-files/11801945/11801945-hd_1080_1920_30fps.mp4",
+    globalReachLandscape: "https://videos.pexels.com/video-files/5371527/5371527-hd_1920_1080_30fps.mp4",
 };
 
 const asArray = (value) => {

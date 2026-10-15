@@ -750,6 +750,28 @@
 .homepage-brand-carousel-logo--audi { color: #2f3436; }
 .homepage-brand-carousel-logo--nissan { color: #69757b; }
 
+.homepage-brand-carousel-wordmark {
+    display: inline-flex;
+    width: 78px;
+    min-width: 78px;
+    align-items: center;
+    justify-content: center;
+    color: var(--brand-black-soft);
+    font-size: .62rem;
+    font-weight: 900;
+    letter-spacing: -.03em;
+    line-height: 1;
+    text-align: center;
+}
+
+.homepage-brand-carousel-wordmark--denso { color: #d71920; }
+.homepage-brand-carousel-wordmark--gates { color: #e31b23; }
+.homepage-brand-carousel-wordmark--kyb { color: #12529a; }
+.homepage-brand-carousel-wordmark--mahle { color: #1e2a63; }
+.homepage-brand-carousel-wordmark--mannfilter { color: #00854a; font-size: .54rem; }
+.homepage-brand-carousel-wordmark--valeo { color: #0074bd; }
+.homepage-brand-carousel-wordmark--varta { color: #005baa; }
+
 .homepage-brand-carousel-mark {
     display: grid;
     width: 30px;
