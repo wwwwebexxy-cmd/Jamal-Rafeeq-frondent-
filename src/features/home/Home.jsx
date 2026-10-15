@@ -12,6 +12,7 @@ import ContactUs from "../../components/Contact";
 import brandShowcaseVideo from "../../assets/homepage-brand-showcase.mp4";
 import promisePortraitVideo from "../../assets/homepage-promise-portrait.mp4";
 import promiseLandscapeVideo from "../../assets/homepage-promise-landscape.mp4";
+import { getImageUrl } from "../../utils/imageUrl";
 
 const asArray = (value) => {
     if (Array.isArray(value)) return value;
@@ -112,6 +113,10 @@ function Home() {
     const topDeals = homepageData.top_deals;
     const bestSellers = homepageData.best_sellers;
     const shopByBrand = homepageBrands.length ? homepageBrands : brandsFromProducts(brandProducts);
+    const homepageMedia = homepageData.homepage_media || {};
+    const brandShowcaseSource = getImageUrl(homepageMedia.brand_showcase_video) || brandShowcaseVideo;
+    const globalReachPortraitSource = getImageUrl(homepageMedia.global_reach_portrait_video) || promisePortraitVideo;
+    const globalReachLandscapeSource = getImageUrl(homepageMedia.global_reach_landscape_video) || promiseLandscapeVideo;
     return (
         <main className="homepage-discovery">
             <Heropage heroBanners={heroBanners} />
@@ -128,7 +133,7 @@ function Home() {
 
             <HomepageBrandSection
                 brands={shopByBrand}
-                video={<DeferredHeritageVideo source={brandShowcaseVideo} label="Jamal Rafeeq automotive parts showcase" />}
+                video={<DeferredHeritageVideo source={brandShowcaseSource} label="Jamal Rafeeq automotive parts showcase" />}
             />
 
             <HomepageTrustBenefits benefits={asArray(homepageData.trust_benefits)} />
@@ -142,8 +147,8 @@ function Home() {
                 </div>
 
                 <div className="section-heritage-gallery">
-                    <DeferredHeritageVideo source={promisePortraitVideo} label="Jamal Rafeeq automotive parts promise" />
-                    <DeferredHeritageVideo source={promiseLandscapeVideo} label="Jamal Rafeeq automotive parts promise" />
+                    <DeferredHeritageVideo source={globalReachPortraitSource} label="Jamal Rafeeq automotive parts promise" />
+                    <DeferredHeritageVideo source={globalReachLandscapeSource} label="Jamal Rafeeq automotive parts promise" />
                 </div>
             </section>
 

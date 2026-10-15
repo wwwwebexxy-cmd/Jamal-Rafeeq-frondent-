@@ -23,6 +23,12 @@ export const deleteResource = (resource, id) =>
 export const toggleWelcomeBonusActive = (id) =>
     client.post(`${resourceUrl("welcome-bonuses", id)}toggle-active/`);
 
+export const listHomepageMedia = () => listResource("homepage-media", { page_size: 10 });
+
+export const createHomepageMedia = (data) => createResource("homepage-media", data);
+
+export const updateHomepageMedia = (id, data) => updateResource("homepage-media", id, data);
+
 // Token blacklist requests deliberately use the Super Admin JSON API. These
 // helpers only deal with refresh-token metadata; a raw refresh token must
 // never be requested, retained, or rendered by the dashboard.
