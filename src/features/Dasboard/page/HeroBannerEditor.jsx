@@ -7,6 +7,7 @@ import { LoadingState } from "../components/AdminPrimitives";
 import "../styles/HeroBannerEditor.css";
 
 const emptyBanner = { subtitle: "", title: "", description: "", image: null, button_text: "Explore Collection", display_order: 1, is_active: true };
+const optionalCopyFields = new Set(["subtitle", "title", "description", "button_text"]);
 const fields = [
     { name: "subtitle", label: "Subtitle" },
     { name: "title", label: "Title" },
@@ -47,7 +48,7 @@ export default function HeroBannerEditor({ schema = {} }) {
         Object.entries(values).forEach(([key, value]) => {
             if (["id", "pk", "created_at", "updated_at"].includes(key)) return;
             if (key === "image") { if (value instanceof File) form.append(key, value); return; }
-            if (value !== undefined && value !== null && value !== "") form.append(key, value);
+            if (value !== undefined && value !== null && (value !== "" || optionalCopyFields.has(key))) form.append(key, value);
         });
         return form;
     };

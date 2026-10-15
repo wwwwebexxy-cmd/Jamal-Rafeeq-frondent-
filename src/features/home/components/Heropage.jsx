@@ -28,12 +28,14 @@ const hasUsableCopy = (value) => {
   return normalized && normalized !== "." && normalized !== "-";
 };
 
+const copyValue = (value) => String(value ?? "").trim();
+
 const normalizeHeroSlide = (slide) => ({
   ...slide,
-  subtitle: hasUsableCopy(slide?.subtitle) ? slide.subtitle : DEFAULT_HERO_SLIDE.subtitle,
-  title: hasUsableCopy(slide?.title || slide?.heading) ? (slide.title || slide.heading) : DEFAULT_HERO_SLIDE.title,
-  description: hasUsableCopy(slide?.description || slide?.text) ? (slide.description || slide.text) : DEFAULT_HERO_SLIDE.description,
-  button_text: hasUsableCopy(slide?.button_text) ? slide.button_text : DEFAULT_HERO_SLIDE.button_text,
+  subtitle: copyValue(slide?.subtitle),
+  title: copyValue(slide?.title || slide?.heading),
+  description: copyValue(slide?.description || slide?.text),
+  button_text: copyValue(slide?.button_text),
 });
 
 const Heropage = ({ heroBanners }) => {
@@ -85,10 +87,10 @@ const Heropage = ({ heroBanners }) => {
               <img src={getHeroImageUrl(heroSlide.image || heroSlide.banner_image || heroSlide.image_url)} alt={heroSlide.title || heroSlide.heading || "Featured collection"} className="hero-image" />
               <div className="hero-overlay"></div>
               <div className="hero-content">
-                <span className="hero-subtitle">{heroSlide.subtitle || heroSlide.eyebrow}</span>
-                <h1>{heroSlide.title || heroSlide.heading}</h1>
-                <p>{heroSlide.description || heroSlide.text}</p>
-                <Link to="/find-products" className="shop-btn-premium">{heroSlide.button_text || "Find products"} <span className="arrow">→</span></Link>
+                {hasUsableCopy(heroSlide.subtitle || heroSlide.eyebrow) && <span className="hero-subtitle">{heroSlide.subtitle || heroSlide.eyebrow}</span>}
+                {hasUsableCopy(heroSlide.title || heroSlide.heading) && <h1>{heroSlide.title || heroSlide.heading}</h1>}
+                {hasUsableCopy(heroSlide.description || heroSlide.text) && <p>{heroSlide.description || heroSlide.text}</p>}
+                {hasUsableCopy(heroSlide.button_text) && <Link to="/find-products" className="shop-btn-premium">{heroSlide.button_text} <span className="arrow">→</span></Link>}
               </div>
             </div>
           ))}
