@@ -3,6 +3,7 @@ import Newarrival_Query from "../../newArrivals/queries/Newarrival_Query";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getImageUrl } from "../../../utils/imageUrl";
+import defaultImage from "../../../assets/image_not_available.png";
 import Product_Query from "../../sale/queries/Product_Query";
 import DirhamAmount from "../../../components/DirhamAmount";
 import { getHomepageProductPricing } from "../utils/productPricing";
@@ -104,15 +105,20 @@ function New_Arrival_Home({
                             return (
                                 <article key={item.id} className="new-product-card">
                                     <div className="image-container" onClick={() => navigate(`/single/${item.id}`)} role="button" tabIndex={0} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") navigate(`/single/${item.id}`); }}>
-                                        <img src={image ? getImageUrl(image) : undefined} alt={item.name} className="product-img" />
+                                        <img
+                                            src={image ? getImageUrl(image) : defaultImage}
+                                            alt={`${item.name || "Product"} product image`}
+                                            className="product-img"
+                                            onError={(event) => { if (event.currentTarget.src !== defaultImage) event.currentTarget.src = defaultImage; }}
+                                        />
                                         {hasOffer && <span className="badge-offer">{discountPercentage}% OFF</span>}
                                         {showNewBadge && item.is_active && <span className="badge-new">NEW</span>}
                                         <button type="button" className="quick-add-btn" onClick={(event) => { event.stopPropagation(); navigate(`/single/${item.id}`); }}>VIEW PRODUCT</button>
                                     </div>
 
                                     <div className="product-details">
-                                        <span className="product-tag">{item.brand?.name || "AUTOMOTIVE PRODUCT"}</span>
-                                        <h3 className="newHome-product-title">{item.description || item.name}</h3>
+                                        <span className="product-tag">{item.brand?.name || item.brand_name || "AUTOMOTIVE PRODUCT"}</span>
+                                        <h3 className="newHome-product-title">{item.name || item.description || "Automotive product"}</h3>
                                         <div className="product-meta">
                                             <div className="price-area">
                                                 {originalPrice !== null && <span className="old-price"><DirhamAmount value={originalPrice} fallback="Price unavailable" /></span>}

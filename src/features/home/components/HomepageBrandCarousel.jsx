@@ -1,13 +1,15 @@
 import { useNavigate } from "react-router-dom";
+import { SiAudi, SiBmw, SiNissan, SiToyota, SiVolkswagen } from "react-icons/si";
+import { TbBrandMercedes } from "react-icons/tb";
 import { getImageUrl } from "../../../utils/imageUrl";
 
 const FEATURED_BRANDS = [
-    { id: "mercedes-benz", slug: "mercedes-benz", name: "Mercedes-Benz", mark: "✦", markClass: "benz" },
-    { id: "volkswagen", slug: "volkswagen", name: "Volkswagen", mark: "VW", markClass: "volkswagen" },
-    { id: "toyota", slug: "toyota", name: "Toyota", mark: "T", markClass: "toyota" },
-    { id: "bmw", slug: "bmw", name: "BMW", mark: "BMW", markClass: "bmw" },
-    { id: "audi", slug: "audi", name: "Audi", mark: "••••", markClass: "audi" },
-    { id: "nissan", slug: "nissan", name: "Nissan", mark: "N", markClass: "nissan" },
+    { id: "mercedes-benz", slug: "mercedes-benz", name: "Mercedes-Benz", logoIcon: TbBrandMercedes, markClass: "benz" },
+    { id: "volkswagen", slug: "volkswagen", name: "Volkswagen", logoIcon: SiVolkswagen, markClass: "volkswagen" },
+    { id: "toyota", slug: "toyota", name: "Toyota", logoIcon: SiToyota, markClass: "toyota" },
+    { id: "bmw", slug: "bmw", name: "BMW", logoIcon: SiBmw, markClass: "bmw" },
+    { id: "audi", slug: "audi", name: "Audi", logoIcon: SiAudi, markClass: "audi" },
+    { id: "nissan", slug: "nissan", name: "Nissan", logoIcon: SiNissan, markClass: "nissan" },
 ];
 
 function mergeBrands(brands) {
@@ -40,6 +42,7 @@ function HomepageBrandCarousel({ brands = [] }) {
                         const brandName = brand.name || "Brand";
                         const brandKey = `${brand.id}-${index}`;
                         const logoUrl = getImageUrl(brand.logo);
+                        const BrandLogo = brand.logoIcon;
 
                         return (
                             <button
@@ -51,6 +54,8 @@ function HomepageBrandCarousel({ brands = [] }) {
                             >
                                 {logoUrl ? (
                                     <img src={logoUrl} alt="" />
+                                ) : BrandLogo ? (
+                                    <BrandLogo className={`homepage-brand-carousel-logo homepage-brand-carousel-logo--${brand.markClass || "generic"}`} aria-hidden="true" />
                                 ) : (
                                     <span className={`homepage-brand-carousel-mark homepage-brand-carousel-mark--${brand.markClass || "generic"}`} aria-hidden="true">{brand.mark || brandName.slice(0, 3).toUpperCase()}</span>
                                 )}

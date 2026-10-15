@@ -15,7 +15,8 @@
 }
 
 .new-arrivals {
-    max-width: 1200px;
+    width: min(100%, 1440px);
+    max-width: 1440px;
     margin: 0 auto;
     padding: 30px;
     background: var(--section-card);
@@ -31,11 +32,11 @@
 }
 
 .new-arrivals-wrapper--new .new-arrivals {
-    padding: 40px;
+    padding: 36px;
 }
 
 .new-arrivals-wrapper--new .image-container {
-    height: 250px;
+    height: clamp(190px, 15vw, 250px);
 }
 
 /* Each product rail gets a calm, retail-ready surface while retaining the same layout and type. */
@@ -183,7 +184,7 @@
 .image-container {
     position: relative;
     width: 100%;
-    height: 220px;
+    height: clamp(180px, 15vw, 230px);
     overflow: hidden;
     border-radius: 12px;
     background: var(--background);
@@ -197,7 +198,11 @@
 
     height: 100%;
 
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
+    padding: clamp(8px, 1.25vw, 18px);
+    box-sizing: border-box;
+    background: #f7fafb;
 
 }
 
@@ -270,7 +275,7 @@
     border-radius: 8px;
     background: #168c4a;
     color: #fff;
-    font-size: .72rem;
+    font-size: .68rem;
     font-weight: 700;
     text-align: center;
     transition: background-color .2s ease, transform .2s ease;
@@ -305,30 +310,34 @@
 
 
 .product-tag {
+    display: block;
+    min-height: 2.4em;
     color: var(--section-accent);
-    font-size: 0.7rem;
+    font-size: clamp(0.58rem, 0.62vw, 0.7rem);
     font-family: Inter, Arial, Helvetica, sans-serif;
     font-weight: 600;
-    letter-spacing: 1.5px;
+    letter-spacing: .09em;
     text-transform: uppercase;
     overflow-wrap: anywhere;
+    line-height: 1.2;
 }
 
 
 
 .newHome-product-title {
     font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.25;
-    font-size: 16px;
-    font-weight: 400;
+    line-height: 1.3;
+    font-size: clamp(.8rem, .95vw, 1rem);
+    font-weight: 600;
     color: #000000;
-    margin: 10px 0;
-
-    height: 20px;
-    display: block;
-    white-space: nowrap;
+    margin: 8px 0 10px;
+    min-height: 2.6em;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
     overflow: hidden;
     text-overflow: ellipsis;
+    overflow-wrap: anywhere;
 }
 
 
@@ -407,9 +416,9 @@
 /* Grid and View All Styles */
 .new-arrivals-grid {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-auto-rows: 1fr;
-    gap: 12px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 18px;
+    align-items: stretch;
 }
 
 .view-all-bottom-container {
@@ -456,12 +465,7 @@
 }
 
 /* Responsive */
-@media(max-width:1400px) {
-    .new-arrivals-grid {
-        grid-template-columns: repeat(6, 1fr);
-    }
-}
-@media(max-width:1100px) {
+@media(max-width:1200px) {
     .new-arrivals-grid {
         grid-template-columns: repeat(4, 1fr);
     }
@@ -469,6 +473,11 @@
 @media(max-width:768px) {
     .new-arrivals-grid {
         grid-template-columns: repeat(3, 1fr);
+    }
+
+    .quick-add-btn {
+        opacity: 1;
+        padding: 11px 0;
     }
 }
 @media(max-width:576px) {
@@ -491,7 +500,7 @@
     }
 
     .new-arrivals-wrapper--new .new-arrivals {
-        padding: 30px 14px;
+        padding: 28px 12px;
     }
 
     .heading-container {
@@ -500,7 +509,7 @@
     }
 
     .heading-text h2 {
-        font-size: clamp(2rem, 10vw, 3rem);
+        font-size: clamp(1.8rem, 10vw, 2.7rem);
     }
 
     .heading-sub {
@@ -512,20 +521,20 @@
     }
 
     .new-arrivals-wrapper--new .image-container {
-        height: clamp(180px, 52vw, 240px);
+        height: clamp(150px, 52vw, 210px);
     }
 
     .product-details {
-        padding: 14px 6px 10px;
+        padding: 12px 4px 10px;
     }
 
     .newHome-product-title {
-        font-size: 15px;
-        height: 19px;
+        font-size: .78rem;
+        min-height: 2.7em;
     }
 
     .price-area .product-price {
-        font-size: 16px;
+        font-size: 15px;
     }
 }
 
@@ -535,7 +544,11 @@
     }
 
     .image-container {
-        height: 140px;
+        height: clamp(132px, 43vw, 172px);
+    }
+
+    .new-arrivals-wrapper--new .image-container {
+        height: clamp(132px, 43vw, 172px);
     }
 
     .badge-new,
@@ -554,6 +567,20 @@
         bottom: 8px;
         padding: 10px 0;
         font-size: 0.7rem;
+    }
+
+    .product-tag {
+        font-size: .55rem;
+        letter-spacing: .06em;
+    }
+
+    .newHome-product-title {
+        font-size: .73rem;
+    }
+
+    .whatsapp-home-product-btn,
+    .whatsapp-home-product-disabled {
+        font-size: .62rem;
     }
 }
 .loading-container{

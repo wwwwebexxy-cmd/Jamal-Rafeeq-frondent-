@@ -14,6 +14,12 @@ import promisePortraitVideo from "../../assets/homepage-promise-portrait.mp4";
 import promiseLandscapeVideo from "../../assets/homepage-promise-landscape.mp4";
 import { getImageUrl } from "../../utils/imageUrl";
 
+const DEFAULT_HOMEPAGE_VIDEO_SOURCES = {
+    brandShowcase: "https://videos.pexels.com/video-files/12399566/12399566-uhd_2560_1440_30fps.mp4",
+    globalReachPortrait: "https://videos.pexels.com/video-files/36010284/15270205_2160_3840_30fps.mp4",
+    globalReachLandscape: "https://videos.pexels.com/video-files/6595373/6595373-uhd_3840_2160_24fps.mp4",
+};
+
 const asArray = (value) => {
     if (Array.isArray(value)) return value;
     if (Array.isArray(value?.results)) return value.results;
@@ -52,7 +58,7 @@ function HomeLoading() {
     );
 }
 
-function DeferredHeritageVideo({ source, poster, label }) {
+function DeferredHeritageVideo({ source, fallbackSource, poster, label }) {
     const videoRef = useRef(null);
     const [shouldLoad, setShouldLoad] = useState(false);
 
@@ -81,7 +87,10 @@ function DeferredHeritageVideo({ source, poster, label }) {
     }, [shouldLoad]);
 
     return <video ref={videoRef} className="heritage-video" autoPlay muted loop playsInline preload="metadata" poster={poster} aria-label={label}>
-        {shouldLoad && <source src={source} type="video/mp4" />}
+        {shouldLoad && <>
+            <source src={source} type="video/mp4" />
+            {fallbackSource && fallbackSource !== source && <source src={fallbackSource} type="video/mp4" />}
+        </>}
     </video>;
 }
 
@@ -114,9 +123,9 @@ function Home() {
     const bestSellers = homepageData.best_sellers;
     const shopByBrand = homepageBrands.length ? homepageBrands : brandsFromProducts(brandProducts);
     const homepageMedia = homepageData.homepage_media || {};
-    const brandShowcaseSource = getImageUrl(homepageMedia.brand_showcase_video) || brandShowcaseVideo;
-    const globalReachPortraitSource = getImageUrl(homepageMedia.global_reach_portrait_video) || promisePortraitVideo;
-    const globalReachLandscapeSource = getImageUrl(homepageMedia.global_reach_landscape_video) || promiseLandscapeVideo;
+    const brandShowcaseSource = getImageUrl(homepageMedia.brand_showcase_video) || DEFAULT_HOMEPAGE_VIDEO_SOURCES.brandShowcase;
+    const globalReachPortraitSource = getImageUrl(homepageMedia.global_reach_portrait_video) || DEFAULT_HOMEPAGE_VIDEO_SOURCES.globalReachPortrait;
+    const globalReachLandscapeSource = getImageUrl(homepageMedia.global_reach_landscape_video) || DEFAULT_HOMEPAGE_VIDEO_SOURCES.globalReachLandscape;
     return (
         <main className="homepage-discovery">
             <Heropage heroBanners={heroBanners} />
@@ -133,7 +142,7 @@ function Home() {
 
             <HomepageBrandSection
                 brands={shopByBrand}
-                video={<DeferredHeritageVideo source={brandShowcaseSource} label="Jamal Rafeeq automotive parts showcase" />}
+                video={<DeferredHeritageVideo source={brandShowcaseSource} fallbackSource={brandShowcaseVideo} label="Jamal Rafeeq automotive parts showcase" />}
             />
 
             <HomepageTrustBenefits benefits={asArray(homepageData.trust_benefits)} />
@@ -147,8 +156,8 @@ function Home() {
                 </div>
 
                 <div className="section-heritage-gallery">
-                    <DeferredHeritageVideo source={globalReachPortraitSource} label="Jamal Rafeeq automotive parts promise" />
-                    <DeferredHeritageVideo source={globalReachLandscapeSource} label="Jamal Rafeeq automotive parts promise" />
+                    <DeferredHeritageVideo source={globalReachPortraitSource} fallbackSource={promisePortraitVideo} label="Jamal Rafeeq automotive parts promise" />
+                    <DeferredHeritageVideo source={globalReachLandscapeSource} fallbackSource={promiseLandscapeVideo} label="Jamal Rafeeq automotive parts promise" />
                 </div>
             </section>
 

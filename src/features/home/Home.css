@@ -732,6 +732,24 @@
     object-fit: contain;
 }
 
+.homepage-brand-carousel-logo {
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    padding: 5px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--brand-black-soft);
+    box-sizing: border-box;
+}
+
+.homepage-brand-carousel-logo--benz { color: #111b1f; }
+.homepage-brand-carousel-logo--volkswagen { color: #1b4c74; }
+.homepage-brand-carousel-logo--toyota { color: #c51f2b; }
+.homepage-brand-carousel-logo--bmw { color: #1592d0; }
+.homepage-brand-carousel-logo--audi { color: #2f3436; }
+.homepage-brand-carousel-logo--nissan { color: #69757b; }
+
 .homepage-brand-carousel-mark {
     display: grid;
     width: 30px;
