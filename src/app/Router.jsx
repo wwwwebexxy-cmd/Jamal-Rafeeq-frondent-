@@ -10,7 +10,6 @@ import ContactUs from '../components/Contact'
 
 import AdminLogin from '../features/auth/page/AdminLogin'
 import AdminRoute from '../features/Dasboard/page/AdminRoute'
-import Invoice from '../features/Dasboard/page/InvoicePrint'
 import Unauthorized from '../features/auth/page/Unauthorized'
 function LegacyOrderDetailsRedirect() {
     const { id } = useParams();
@@ -97,14 +96,6 @@ function Router() {
                     element={
                         <AdminRoute>
                             <LegacyOrderDetailsRedirect />
-                        </AdminRoute>
-                    }
-                />
-                <Route
-                    path="/automotive-dashboard/invoice/:id"
-                    element={
-                        <AdminRoute>
-                            <Invoice />
                         </AdminRoute>
                     }
                 />

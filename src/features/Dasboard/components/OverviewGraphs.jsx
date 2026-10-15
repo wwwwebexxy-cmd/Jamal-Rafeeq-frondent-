@@ -28,7 +28,7 @@ function CountGraph({ title, description, rows, loading, emptyMessage, icon }) {
 
 export default function OverviewGraphs({ statusRows, catalogRows, loading }) {
     return <section className="overview-graphs" aria-label="Store summary graphs">
-        <CountGraph title="Orders by status" description="See which orders need attention." rows={statusRows} loading={loading} emptyMessage="No orders yet. Your order activity will appear here." icon={<FiBarChart2 aria-hidden="true" />} />
+        {statusRows?.length > 0 && <CountGraph title="Orders by status" description="See which orders need attention." rows={statusRows} loading={loading} emptyMessage="No orders yet. Your order activity will appear here." icon={<FiBarChart2 aria-hidden="true" />} />}
         <CountGraph title="Catalog at a glance" description="A quick view of what is in your store." rows={catalogRows} loading={loading} emptyMessage="Your catalog is empty. Add products to get started." icon={<FiLayers aria-hidden="true" />} />
     </section>;
 }

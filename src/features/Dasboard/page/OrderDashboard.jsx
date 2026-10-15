@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
-import { FiActivity, FiArchive, FiBox, FiChevronDown, FiCopy, FiCreditCard, FiDownload, FiEdit3, FiEye, FiGrid, FiImage, FiLayers, FiLogOut, FiMenu, FiPackage, FiPlus, FiPower, FiRefreshCw, FiSettings, FiShield, FiShoppingBag, FiTag, FiToggleLeft, FiToggleRight, FiTrash2, FiTruck, FiUsers, FiX } from "react-icons/fi";
+import { FiActivity, FiArchive, FiBox, FiChevronDown, FiCopy, FiCreditCard, FiDownload, FiEdit3, FiEye, FiGrid, FiImage, FiLayers, FiLogOut, FiMenu, FiPackage, FiPlus, FiPower, FiRefreshCw, FiSettings, FiToggleLeft, FiToggleRight, FiTrash2, FiTruck, FiUsers, FiX } from "react-icons/fi";
 import { ConfirmDialog, DataTable, DebouncedSearch, EmptyState, ErrorState, FilterBar, FormField, LoadingState, Modal, PageHeader, Pagination, Skeleton, StatusPill } from "../components/AdminPrimitives";
 import useAdminResource from "../hooks/useAdminResource";
 import OverviewGraphs from "../components/OverviewGraphs";
@@ -59,12 +59,28 @@ const resources = {
 
 const navGroups = [
     { title: "Workspace", items: [{ key: "overview", label: "Overview", icon: FiGrid }] },
-    { title: "Catalog", items: ["products", "brands", "offers", "colors", "unit-types", "units"].map((key) => ({ key, label: key === "products" ? "Products & Variants" : resources[key].label, icon: key === "products" ? FiPackage : FiLayers })) },
-    { title: "Orders", items: [{ key: "orders", label: "Orders", icon: FiShoppingBag }] },
+    { title: "Catalog", items: ["products", "brands"].map((key) => ({ key, label: key === "products" ? "Products & Variants" : resources[key].label, icon: key === "products" ? FiPackage : FiLayers })) },
     { title: "Customers", items: ["users", "addresses"].map((key) => ({ key, label: resources[key].label, icon: key === "users" ? FiUsers : FiArchive })) },
-    { title: "Marketing", items: ["hero-banners", "promo-banners", "hero-side-banners", "trust-benefits", "coupons", "welcome-bonuses"].map((key) => ({ key, label: resources[key].label, icon: key === "trust-benefits" ? FiShield : key.includes("banner") ? FiImage : FiTag })) },
-    { title: "Security", items: [{ key: "token-blacklist/outstanding-tokens", label: "Outstanding Tokens", icon: FiShield }, { key: "token-blacklist/blacklisted-tokens", label: "Blacklisted Tokens", icon: FiArchive }] },
+    { title: "Marketing", items: [{ key: "hero-banners", label: resources["hero-banners"].label, icon: FiImage }] },
 ];
+
+const HIDDEN_DASHBOARD_SECTIONS = new Set([
+    "offers",
+    "colors",
+    "unit-types",
+    "units",
+    "orders",
+    "order-items",
+    "promo-banners",
+    "hero-side-banners",
+    "trust-benefits",
+    "coupons",
+    "welcome-bonuses",
+    "coupon-usages",
+    "token-blacklist",
+    "token-blacklist/outstanding-tokens",
+    "token-blacklist/blacklisted-tokens",
+]);
 
 const TRUST_BENEFIT_ICON_OPTIONS = [
     ["secure-payment", "Secure payment"],
@@ -301,6 +317,7 @@ export default function OrderDashboard() {
     const isWelcomeBonusView = pathKey === "welcome-bonuses" && Boolean(detailId) && location.pathname.endsWith("/view");
     const isTrustBenefitEditor = pathKey === "trust-benefits" && (location.pathname.endsWith("/new") || isEditRoute);
     const isOrderEditor = pathKey === "orders" && Boolean(detailId) && isEditRoute;
+    const isHiddenDashboardSection = HIDDEN_DASHBOARD_SECTIONS.has(pathKey);
     const isGenericEditPage = Boolean(detailId) && isEditRoute && Boolean(resources[pathKey]) && !["products", "orders", "hero-banners", "promo-banners", "hero-side-banners", "coupons", "coupon-usages", "welcome-bonuses", "trust-benefits"].includes(pathKey);
     const isReadOnlyResourceView = Boolean(detailId) && !isEditRoute && pathKey !== "products" && pathKey !== "orders" && pathKey !== "welcome-bonuses" && Boolean(resources[pathKey]);
 
@@ -324,6 +341,12 @@ export default function OrderDashboard() {
         return () => window.clearTimeout(timer);
     }, [loadDashboard]);
 
+    useEffect(() => {
+        if (isHiddenDashboardSection) navigate("/automotive-dashboard", { replace: true });
+    }, [isHiddenDashboardSection, navigate]);
+
+    if (isHiddenDashboardSection) return null;
+
     const go = (key) => { setSidebarOpen(false); navigate(key === "overview" ? "/automotive-dashboard" : `/automotive-dashboard/${key}`); };
     const logout = async () => { await logoutSession(); navigate("/automotive-dashboard/admin-login", { replace: true }); };
     const refreshDashboard = () => { if (refreshing) return; setRefreshing(true); window.setTimeout(() => window.location.reload(), 220); };
@@ -343,7 +366,7 @@ export default function OrderDashboard() {
 function Overview({ data, loading }) {
     const error = data?.__error;
     if (error && !loading) {
-        return <div className="admin-page"><PageHeader eyebrow="OVERVIEW" title="Store overview" description="Your store at a glance â€” products, customers, and order progress." /><ErrorState message={error} onRetry={() => window.location.reload()} /></div>;
+        return <div className="admin-page"><PageHeader eyebrow="OVERVIEW" title="Store overview" description="Your store at a glance â€” products, customers, and catalog progress." /><ErrorState message={error} onRetry={() => window.location.reload()} /></div>;
     }
     const count = (...candidates) => {
         for (const candidate of candidates) {
@@ -356,28 +379,14 @@ function Overview({ data, loading }) {
         return null;
     };
     const resourceCount = (key) => count(data?.resources?.[key], data?.[`total_${key}`], data?.[`${key}_count`], data?.[key]);
-    const statuses = data?.orders_by_status || data?.order_status_counts || data?.orders || {};
-    const statusRows = [
-        ["Pending", "pending", "#b87813"],
-        ["Processing", "processing", "#7956b5"],
-        ["Shipped", "shipped", "#337cb6"],
-        ["Delivered", "delivered", "#25845a"],
-        ["Cancelled", "cancelled", "#bb4350"],
-    ].map(([label, key, color]) => ({
-        label, color,
-        count: count(statuses[key], statuses[label], data?.[`${key}_orders`], data?.[`${key}_count`]),
-    }));
     const catalogRows = [
         ["Products", "products", "#ed1c24"],
         ["Brands", "brands", "#252525"],
-        ["Offers", "offers", "#666666"],
         ["Product variants", "product-variants", "#8a8a8a"],
     ].map(([label, key, color]) => ({ label, color, count: resourceCount(key) }));
     const cards = [
         ["Total products", resourceCount("products"), FiPackage, "orange"],
         ["Total users", resourceCount("users"), FiUsers, "blue"],
-        ["Total orders", resourceCount("orders"), FiShoppingBag, "purple"],
-        ["Total coupons", resourceCount("coupons"), FiTag, "green"],
     ];
     const lowStock = count(data?.low_stock_count, data?.low_stock, data?.products_low_stock);
     const downloadOverview = () => {
@@ -390,7 +399,7 @@ function Overview({ data, loading }) {
         toast.success("Overview CSV downloaded");
     };
     return <div className="admin-page">
-        <PageHeader eyebrow="OVERVIEW" title="Store overview" description="Your store at a glance — products, customers, and order progress." />
+        <PageHeader eyebrow="OVERVIEW" title="Store overview" description="Your store at a glance — products, customers, and catalog progress." />
         <div className="admin-overview-export"><CsvButton onClick={downloadOverview} disabled={loading || !Object.keys(data || {}).length} /></div>
         <section className="admin-stat-grid" aria-label="Store totals" aria-busy={loading}>
             {cards.map(([label, number, Icon, tone]) => <article className="admin-stat-card" key={label}>
@@ -398,7 +407,7 @@ function Overview({ data, loading }) {
                 <div><small>{label}</small><strong>{loading ? <Skeleton className="overview-skeleton-value" /> : number === null ? "Unavailable" : number.toLocaleString()}</strong></div>
             </article>)}
         </section>
-        <OverviewGraphs statusRows={statusRows} catalogRows={catalogRows} loading={loading} />
+        <OverviewGraphs statusRows={[]} catalogRows={catalogRows} loading={loading} />
         {lowStock !== null && !loading && <p className="admin-muted">Low stock: <strong>{lowStock.toLocaleString()}</strong> items need attention.</p>}
     </div>;
 }
