@@ -212,10 +212,6 @@ Thank you.`;
                             </option>
 
                             <option>
-                                Shipping & Delivery
-                            </option>
-
-                            <option>
                                 Returns & Exchanges
                             </option>
 
