@@ -74,7 +74,6 @@ function Sale({ newArrivalsOnly = false }) {
         <nav className="find-products-shortcuts" aria-label="Find products shortcuts">
             <Link to="/find-products">All products</Link>
             <Link to="/new-arrivals">New products</Link>
-            <Link to="/find-products?search=spare">Spare parts</Link>
             <Link to="/contact">Services &amp; support</Link>
         </nav>
         <div className="find-products-layout">
