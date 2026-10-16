@@ -165,12 +165,12 @@ export default function ProductView() {
                         <div className="product-view-variant-head">
                             <div>
                                 <strong>{colorLabel !== EMPTY_VALUE ? colorLabel : `Variant ${index + 1}`}</strong>
-                                <span>{variant.price_type === "multiple" ? "Multiple price" : <>Single price · {money(variant.price)} · {Number(variant.stock ?? 0) > 0 ? "In stock" : "Out of stock"}</>}</span>
+                                <span>{variant.price_type === "multiple" ? "Multiple price" : <>Single price · {money(variant.price)} · Stock {variant.stock ?? 0}</>}</span>
                                 {variant.sku && <small>SKU: {variant.sku}</small>}
                             </div>
                             {primary?.image && <img src={getImageUrl(primary.image)} alt={colorLabel} onError={(event) => { event.currentTarget.src = defaultImage; }} />}
                         </div>
-                        {variant.price_type === "multiple" && <div className="product-view-units"><div className="product-view-units-heading"><span>Unit</span><span>Price / Availability</span></div>{variant.units.map((unit, unitIndex) => <div key={idOf(unit) || unitIndex}><span>{lookupLabel(unit.unit_type, references.unitTypes)} / {lookupLabel(unit.unit, references.units)}{unit.sku && <small>SKU: {unit.sku}</small>}</span><strong>{money(unit.price)} · {Number(unit.stock ?? 0) > 0 ? "In stock" : "Out of stock"}</strong></div>)}</div>}
+                        {variant.price_type === "multiple" && <div className="product-view-units"><div className="product-view-units-heading"><span>Unit</span><span>Price / Stock</span></div>{variant.units.map((unit, unitIndex) => <div key={idOf(unit) || unitIndex}><span>{lookupLabel(unit.unit_type, references.unitTypes)} / {lookupLabel(unit.unit, references.units)}{unit.sku && <small>SKU: {unit.sku}</small>}</span><strong>{money(unit.price)} · Stock {unit.stock ?? 0}</strong></div>)}</div>}
                         <div className="product-view-images">{variant.images.length ? variant.images.map((image, imageIndex) => <img key={idOf(image) || imageIndex} src={getImageUrl(image.image)} alt={`${product.name} ${colorLabel} image ${imageIndex + 1}`} onError={(event) => { event.currentTarget.src = defaultImage; }} />) : <img src={defaultImage} alt="Default product" />}</div>
                     </article>;
                 }) : <EmptyState title="No variants" description="This product has no variants yet." />}
