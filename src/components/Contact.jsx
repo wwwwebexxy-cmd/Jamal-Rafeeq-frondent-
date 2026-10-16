@@ -92,13 +92,22 @@ Thank you.`;
 
                         <h4>Business Hours</h4>
 
-                        <p>
-                            Monday - Friday
-                        </p>
+                        <div className="business-hours">
+                            <p>
+                                <span>Monday - Friday</span>
+                                <strong>9:00 AM - 8:00 PM</strong>
+                            </p>
 
-                        <p>
-                            9:00 AM - 6:00 PM
-                        </p>
+                            <p>
+                                <span>Saturday</span>
+                                <strong>9:00 AM - 6:00 PM</strong>
+                            </p>
+
+                            <p>
+                                <span>Sunday</span>
+                                <strong>Closed</strong>
+                            </p>
+                        </div>
 
                     </div>
 

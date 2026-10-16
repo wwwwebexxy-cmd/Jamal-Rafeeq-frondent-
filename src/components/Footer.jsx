@@ -1,6 +1,7 @@
 import "./../Footer.css";
 
 import footerlogo from './../assets/jamal-rafeeq-logo-transparent.png'
+import jrcBrandLogo from './../assets/jrc-auto-parts-logo-transparent.png'
 import { Link } from 'react-router-dom';
 import { FaFacebookF, FaInstagram, FaWhatsapp, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaGlobe, } from "react-icons/fa";
 import { BUSINESS_ADDRESS, BUSINESS_EMAIL, BUSINESS_PHONE_NUMBERS, BUSINESS_WEBSITE, getWhatsappUrl } from "../config/business";
@@ -18,6 +19,13 @@ function Footer() {
                     <div className="footer-column brand">
                         <img src={footerlogo} alt="Jamal Rafeeq Auto Parts Trading LLC" className="footer-logo" />
                         <p className="footer-brand-name">Jamal Rafeeq Auto Parts Trading LLC</p>
+                    </div>
+
+                    <div className="footer-column associated-brand-column">
+                        <h3>Our Brand</h3>
+                        <div className="associated-brand-card">
+                            <img src={jrcBrandLogo} alt="JRC Auto Parts" className="associated-brand-logo" />
+                        </div>
                     </div>
 
                     <div className="footer-column social-column">

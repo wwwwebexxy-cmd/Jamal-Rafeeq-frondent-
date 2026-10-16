@@ -79,6 +79,24 @@
     font-size: 15px;
 }
 
+.business-hours p {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 0 8px;
+}
+
+.business-hours p:last-child {
+    margin-bottom: 0;
+}
+
+.business-hours strong {
+    color: var(--brand-black-soft);
+    font-weight: 600;
+    text-align: right;
+    white-space: nowrap;
+}
+
 /* RIGHT */
 
 .contact-form {
