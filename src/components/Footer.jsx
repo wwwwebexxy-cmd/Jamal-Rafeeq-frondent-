@@ -17,14 +17,9 @@ function Footer() {
                 <div className="footer-container">
 
                     <div className="footer-column brand">
-                        <img src={footerlogo} alt="Jamal Rafeeq Auto Parts Trading LLC" className="footer-logo" />
-                        <p className="footer-brand-name">Jamal Rafeeq Auto Parts Trading LLC</p>
-                    </div>
-
-                    <div className="footer-column associated-brand-column">
-                        <h3>Our Brand</h3>
-                        <div className="associated-brand-card">
-                            <img src={jrcBrandLogo} alt="JRC Auto Parts" className="associated-brand-logo" />
+                        <div className="footer-brand-logos" aria-label="Jamal Rafeeq and JRC Auto Parts">
+                            <img src={footerlogo} alt="Jamal Rafeeq logo" className="footer-logo" />
+                            <img src={jrcBrandLogo} alt="JRC Auto Parts logo" className="footer-partner-logo" />
                         </div>
                     </div>
 
@@ -92,7 +87,7 @@ function Footer() {
             </footer>
 
             <div className="copyright">
-                © 2026 Jamal Rafeeq Auto Parts Trading LLC. All Rights Reserved.
+                © 2026 Jamal Rafeeq. All Rights Reserved.
             </div>
 
         </div>
