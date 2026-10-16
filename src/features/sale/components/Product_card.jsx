@@ -26,14 +26,22 @@ function getProductImage(product, variant) {
 }
 
 function getAvailability(product, variant, unit) {
-    if (hasValue(product?.availability)) return String(product.availability);
-    if (hasValue(product?.stock_status)) return String(product.stock_status);
+    const stock = product?.stock ?? unit?.stock ?? variant?.stock;
+    if (hasValue(stock) && Number.isFinite(Number(stock))) return Number(stock) > 0 ? "In stock" : "Out of stock";
     if (product?.in_stock === true) return "In stock";
     if (product?.in_stock === false) return "Out of stock";
-
-    const stock = product?.stock ?? unit?.stock ?? variant?.stock;
-    if (hasValue(stock)) return Number(stock) > 0 ? "In stock" : "Out of stock";
     if (product?.is_available === false) return "Out of stock";
+
+    const reportedStatus = product?.availability ?? product?.stock_status ?? stock;
+    if (hasValue(reportedStatus)) {
+        const normalizedStatus = String(reportedStatus).trim().toLowerCase();
+        if (/\b(out of stock|sold out|unavailable|not available|no stock|not in stock)\b/.test(normalizedStatus)) return "Out of stock";
+        if (/\b(in stock|available|stock)\b/.test(normalizedStatus)) return "In stock";
+
+        const numericStatus = Number(normalizedStatus.match(/^-?\d+(?:\.\d+)?/)?.[0]);
+        if (Number.isFinite(numericStatus)) return numericStatus > 0 ? "In stock" : "Out of stock";
+    }
+
     return "Availability varies";
 }
 

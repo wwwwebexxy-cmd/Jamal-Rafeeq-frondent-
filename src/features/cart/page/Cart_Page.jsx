@@ -139,7 +139,7 @@ function Cart_page() {
         if (item.quantity >= item.stock) {
 
             showToast.error(
-                `Only ${item.stock} item${item.stock > 1 ? "s" : ""} available in stock`
+                "Only limited stock is available for this product"
             );
 
             return;

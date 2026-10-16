@@ -132,9 +132,9 @@ const newContent = `
 
                     <div className="stock-status">
                         {selectedSizeVariant?.stock <= 0 ? (
-                            <span className="stock-out">Out of Stock</span>
+                            <span className="stock-out">Out of stock</span>
                         ) : (
-                            <span className="stock">In Stock : {selectedSizeVariant?.stock}</span>
+                            <span className="stock">In stock</span>
                         )}
                     </div>
                     

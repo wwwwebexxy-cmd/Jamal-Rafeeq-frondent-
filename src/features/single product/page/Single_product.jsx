@@ -25,7 +25,8 @@ function Single_product() {
     const features = toFeatures(data.key_features);
     const fitments = Array.isArray(data.fitments) ? data.fitments : [];
     const whatsappUrl = getProductWhatsappUrl(data, id);
-    const stock = Number(selectedVariant?.stock ?? 0);
+    const stockValue = selectedVariant?.stock ?? selectedVariant?.units?.[0]?.stock ?? selectedVariant?.sizes?.[0]?.stock ?? data.stock ?? 0;
+    const stock = Number(String(stockValue).match(/^-?\d+(?:\.\d+)?/)?.[0] ?? 0);
     const availability = stock > 0 ? "In stock" : "Available on request";
     const productMeta = [
         data.brand?.name && { label: "Brand", value: data.brand.name },
