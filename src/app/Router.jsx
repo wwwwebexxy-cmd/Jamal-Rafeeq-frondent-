@@ -38,13 +38,7 @@ function Router() {
                 <Route path='products' element={<LegacyFindProductsRedirect />} />
                 <Route path='/about' element={<About />} />
 
-                <Route path='profile' element={<Navigate to="/" replace />} />
-
                 <Route path="/single/:id" element={<Single_product />} />
-
-                <Route path="/offers" element={<Navigate to="/" replace />} />
-
-                <Route path='myorders' element={<Navigate to="/" replace />} />
 
                 <Route path='admin-login' element={<AdminLogin />} />
                 <Route path='automotive-dashboard/admin-login' element={<AdminLogin />} />

@@ -2,7 +2,6 @@ const configuredWhatsappNumber = String(import.meta.env.VITE_WHATSAPP_NUMBER || 
     .replace(/[^0-9]/g, "");
 
 export const WHATSAPP_NUMBER = configuredWhatsappNumber;
-export const ORDER_CURRENCY = String(import.meta.env.VITE_ORDER_CURRENCY || "AED").trim().toUpperCase();
 export const BUSINESS_PHONE_NUMBERS = [
     { display: "+971 50 873 6155", href: "tel:+971508736155" },
     { display: "+971 58 895 9179", href: "tel:+971588959179" },

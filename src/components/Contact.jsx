@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import "./../Contact.css"
-import { getAuthValue } from "../features/auth/authUtils";
 import { getWhatsappUrl } from "../config/business";
 
 const ContactUs = () => {
@@ -9,8 +8,8 @@ const ContactUs = () => {
     const topic = searchParams.get("topic");
     const initialSubject = topic === "import-export" ? "Import & Export Enquiry" : topic === "bulk-supply" ? "Bulk Supply Enquiry" : "";
     const [formData, setFormData] = useState(() => ({
-        name: getAuthValue("first_name"),
-        email: getAuthValue("email"),
+        name: "",
+        email: "",
         phone: "",
         subject: initialSubject,
         message: "",

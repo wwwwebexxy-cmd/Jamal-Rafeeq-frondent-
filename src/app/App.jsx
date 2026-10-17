@@ -12,13 +12,16 @@ import ScrollToTop from '../components/ScrollToTop';
 function App() {
 
     const location = useLocation();
-    const [authReady, setAuthReady] = useState(false);
+    const normalizedPath = location.pathname.toLowerCase();
+    const isAdminPage = normalizedPath.startsWith("/automotive-dashboard") || normalizedPath.startsWith("/eehook-dashboard") || normalizedPath.startsWith("/orderdashboard") || normalizedPath.startsWith("/order-dashboard");
+    const [authReady, setAuthReady] = useState(() => !isAdminPage);
 
     useEffect(() => {
+        if (!isAdminPage) return undefined;
+
         let active = true;
-        // Session restoration must never make the public storefront depend on
-        // an available API connection. A cold EC2/proxy or a CORS outage
-        // should show the public app after a short bounded wait.
+        // Only the protected admin workspace needs session restoration. The
+        // public catalogue must render without an auth API dependency.
         client.get("auth/session/", {
             skipAuthRefresh: true,
             skipAuthRedirect: true,
@@ -34,12 +37,9 @@ function App() {
                 if (active) setAuthReady(true);
             });
         return () => { active = false; };
-    }, []);
+    }, [isAdminPage]);
 
-    if (!authReady) return <div aria-live="polite" className="app-loading">Loading...</div>;
-
-    const normalizedPath = location.pathname.toLowerCase();
-    const isAdminPage = normalizedPath.startsWith("/automotive-dashboard") || normalizedPath.startsWith("/eehook-dashboard") || normalizedPath.startsWith("/orderdashboard") || normalizedPath.startsWith("/order-dashboard");
+    if (isAdminPage && !authReady) return <div aria-live="polite" className="app-loading">Loading...</div>;
 
     return (
         <>
