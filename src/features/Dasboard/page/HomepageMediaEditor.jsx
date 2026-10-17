@@ -5,19 +5,10 @@ import { FiExternalLink, FiFilm, FiSave } from "react-icons/fi";
 import { LoadingState, PageHeader } from "../components/AdminPrimitives";
 import { createHomepageMedia, getErrorMessage, listHomepageMedia, unwrapList, updateHomepageMedia } from "../services/adminApi";
 import { getImageUrl } from "../../../utils/imageUrl";
+import { DEFAULT_HOMEPAGE_VIDEO_SOURCES, getVideoMimeType, HOMEPAGE_MEDIA_FIELDS } from "../../home/homepageMedia";
 import "../styles/HomepageMediaEditor.css";
 
-const mediaFields = [
-    { name: "brand_showcase_video", label: "Brands across our supply network", help: "Video displayed beneath the brand showcase section." },
-    { name: "global_reach_portrait_video", label: "Our Global Reach — portrait video", help: "The first video in the Our Global Reach section." },
-    { name: "global_reach_landscape_video", label: "Our Global Reach — landscape video", help: "The second video in the Our Global Reach section." },
-];
-
-const DEFAULT_MEDIA_PREVIEWS = {
-    brand_showcase_video: "https://videos.pexels.com/video-files/7018666/7018666-uhd_4096_2160_25fps.mp4",
-    global_reach_portrait_video: "https://videos.pexels.com/video-files/11801945/11801945-hd_1080_1920_30fps.mp4",
-    global_reach_landscape_video: "https://videos.pexels.com/video-files/5371527/5371527-hd_1920_1080_30fps.mp4",
-};
+const mediaFields = HOMEPAGE_MEDIA_FIELDS;
 
 const emptyValues = Object.fromEntries(mediaFields.map(({ name }) => [name, null]));
 const idOf = (row) => row?.id ?? row?.pk;
@@ -38,9 +29,9 @@ export default function HomepageMediaEditor() {
     const [requestError, setRequestError] = useState("");
     const [errors, setErrors] = useState({});
 
-    const previews = useMemo(() => Object.fromEntries(mediaFields.map(({ name }) => {
+    const previews = useMemo(() => Object.fromEntries(mediaFields.map(({ name, sourceKey }) => {
         const value = values[name];
-        return [name, value instanceof File ? URL.createObjectURL(value) : getImageUrl(value) || DEFAULT_MEDIA_PREVIEWS[name]];
+        return [name, value instanceof File ? URL.createObjectURL(value) : getImageUrl(value) || DEFAULT_HOMEPAGE_VIDEO_SOURCES[sourceKey]];
     })), [values]);
 
     useEffect(() => () => {
@@ -102,12 +93,15 @@ export default function HomepageMediaEditor() {
             <div className="homepage-media-grid">
                 {mediaFields.map(({ name, label, help }) => {
                     const preview = previews[name];
+                    const selectedFile = values[name] instanceof File ? values[name] : null;
                     return <label className={`homepage-media-field ${errors[name] ? "has-error" : ""}`} key={name}>
                         <span>{label}</span>
                         <small>{help}</small>
                         {preview ? <>
                             <small className="homepage-media-source">{values[name] ? "Current uploaded video" : "Default spare-parts stock video"}</small>
-                            <video className="homepage-media-preview" src={preview} controls muted playsInline preload="metadata" aria-label={`${label} preview`} />
+                            <video className="homepage-media-preview" controls muted playsInline preload="metadata" aria-label={`${label} preview`}>
+                                <source src={preview} type={selectedFile?.type || getVideoMimeType(preview)} />
+                            </video>
                             <a className="homepage-media-open" href={preview} target="_blank" rel="noreferrer"><FiExternalLink aria-hidden="true" /> Open video in new tab</a>
                         </> : <p className="homepage-media-empty">No uploaded video yet. The storefront will use the default spare-parts video.</p>}
                         <input type="file" accept="video/mp4,video/webm,video/ogg" onChange={(event) => setValue(name, event.target.files?.[0] || null)} />

@@ -9,16 +9,13 @@ import Homepage_Query from "./queries/Homepage_Query";
 import Product_Query from "../sale/queries/Product_Query";
 import Offer_poster from "../../hooks/offers/page/Offer_poster";
 import ContactUs from "../../components/Contact";
-import brandShowcaseVideo from "../../assets/homepage-brand-showcase.mp4";
-import promisePortraitVideo from "../../assets/homepage-promise-portrait.mp4";
-import promiseLandscapeVideo from "../../assets/homepage-promise-landscape.mp4";
-import { getImageUrl } from "../../utils/imageUrl";
-
-const DEFAULT_HOMEPAGE_VIDEO_SOURCES = {
-    brandShowcase: "https://videos.pexels.com/video-files/7018666/7018666-uhd_4096_2160_25fps.mp4",
-    globalReachPortrait: "https://videos.pexels.com/video-files/11801945/11801945-hd_1080_1920_30fps.mp4",
-    globalReachLandscape: "https://videos.pexels.com/video-files/5371527/5371527-hd_1920_1080_30fps.mp4",
-};
+import sparePartsEngineVideo from "../../assets/homepage-spare-parts-engine.mp4";
+import sparePartsInventoryVideo from "../../assets/homepage-spare-parts-inventory.mp4";
+import sparePartsShippingVideo from "../../assets/homepage-spare-parts-shipping.mp4";
+import videoOnePoster from "../../assets/automotive-hero-workshop.png";
+import videoTwoPoster from "../../assets/dubai-our-promise-bg.png";
+import automotiveWorkshopPoster from "../../assets/automotive-parts-workshop.png";
+import { getVideoMimeType } from "./homepageMedia";
 
 const asArray = (value) => {
     if (Array.isArray(value)) return value;
@@ -86,10 +83,10 @@ function DeferredHeritageVideo({ source, fallbackSource, poster, label }) {
         });
     }, [shouldLoad]);
 
-    return <video ref={videoRef} className="heritage-video" autoPlay muted loop playsInline preload="metadata" poster={poster} aria-label={label}>
+    return <video key={`${source}|${fallbackSource || ""}`} ref={videoRef} className="heritage-video" autoPlay muted loop playsInline preload="metadata" poster={poster} aria-label={label}>
         {shouldLoad && <>
-            <source src={source} type="video/mp4" />
-            {fallbackSource && fallbackSource !== source && <source src={fallbackSource} type="video/mp4" />}
+            <source src={source} type={getVideoMimeType(source)} />
+            {fallbackSource && fallbackSource !== source && <source src={fallbackSource} type={getVideoMimeType(fallbackSource)} />}
         </>}
     </video>;
 }
@@ -122,10 +119,9 @@ function Home() {
     const topDeals = homepageData.top_deals;
     const bestSellers = homepageData.best_sellers;
     const shopByBrand = homepageBrands.length ? homepageBrands : brandsFromProducts(brandProducts);
-    const homepageMedia = homepageData.homepage_media || {};
-    const brandShowcaseSource = getImageUrl(homepageMedia.brand_showcase_video) || DEFAULT_HOMEPAGE_VIDEO_SOURCES.brandShowcase;
-    const globalReachPortraitSource = getImageUrl(homepageMedia.global_reach_portrait_video) || DEFAULT_HOMEPAGE_VIDEO_SOURCES.globalReachPortrait;
-    const globalReachLandscapeSource = getImageUrl(homepageMedia.global_reach_landscape_video) || DEFAULT_HOMEPAGE_VIDEO_SOURCES.globalReachLandscape;
+    const brandShowcaseSource = sparePartsEngineVideo;
+    const globalReachPortraitSource = sparePartsInventoryVideo;
+    const globalReachLandscapeSource = sparePartsShippingVideo;
     return (
         <main className="homepage-discovery">
             <Heropage heroBanners={heroBanners} />
@@ -142,7 +138,7 @@ function Home() {
 
             <HomepageBrandSection
                 brands={shopByBrand}
-                video={<DeferredHeritageVideo source={brandShowcaseSource} fallbackSource={brandShowcaseVideo} label="Jamal Rafeeq automotive parts showcase" />}
+                video={<DeferredHeritageVideo source={brandShowcaseSource} fallbackSource={sparePartsEngineVideo} poster={automotiveWorkshopPoster} label="Jamal Rafeeq automotive spare parts showcase" />}
             />
 
             <HomepageTrustBenefits benefits={asArray(homepageData.trust_benefits)} />
@@ -156,8 +152,8 @@ function Home() {
                 </div>
 
                 <div className="section-heritage-gallery">
-                    <DeferredHeritageVideo source={globalReachPortraitSource} fallbackSource={promisePortraitVideo} label="Jamal Rafeeq automotive parts promise" />
-                    <DeferredHeritageVideo source={globalReachLandscapeSource} fallbackSource={promiseLandscapeVideo} label="Jamal Rafeeq automotive parts promise" />
+                    <DeferredHeritageVideo source={globalReachPortraitSource} fallbackSource={sparePartsInventoryVideo} poster={videoOnePoster} label="Jamal Rafeeq spare parts inventory" />
+                    <DeferredHeritageVideo source={globalReachLandscapeSource} fallbackSource={sparePartsShippingVideo} poster={videoTwoPoster} label="Jamal Rafeeq spare parts shipping" />
                 </div>
             </section>
 
